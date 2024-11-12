@@ -14,6 +14,8 @@ import ErrorPage from "./layouts/error.page.tsx";
 import { ConfigProvider } from "antd";
 import CustomAppLayout from "./components/seconday/CustomAppLayout.tsx";
 import DashboardPage from "./layouts/Dashboard.page.tsx";
+import ForgotPasswordPage from "./layouts/Authentication/forgotPassword.page.tsx";
+import './index.css'
 
 
 
@@ -52,6 +54,12 @@ const router = createBrowserRouter([
         loader: loginLoader,
         errorElement: <ErrorPage />,
         element: <LoginPage />,
+    },
+    {
+        path: "/forgot-password",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <ForgotPasswordPage/>,
     },
 ]);
 
