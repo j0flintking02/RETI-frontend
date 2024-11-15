@@ -14,6 +14,7 @@ import ErrorPage from "./layouts/error.page.tsx";
 import { ConfigProvider } from "antd";
 import CustomAppLayout from "./components/seconday/CustomAppLayout.tsx";
 import DashboardPage from "./layouts/Dashboard.page.tsx";
+import SignPage from "./layouts/Authentication/Sign.page.tsx";
 
 
 
@@ -52,6 +53,12 @@ const router = createBrowserRouter([
         loader: loginLoader,
         errorElement: <ErrorPage />,
         element: <LoginPage />,
+    },
+    {
+        path: "/sign",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <SignPage />,
     },
 ]);
 
