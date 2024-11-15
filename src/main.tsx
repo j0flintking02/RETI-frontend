@@ -20,6 +20,7 @@ import ResetPasswordPage from "./layouts/Authentication/resetPassword.page.tsx";
 import ResetPasswordLinkPage from "./layouts/Authentication/resetPasswordLink.page.tsx";
 import RegisterPage from "./layouts/Authentication/register.page.tsx";
 import MessagesPage from "./layouts/DashboardPages/Messages.page.tsx";
+import SignPage from "./layouts/Authentication/Sign.page.tsx";
 
 
 
@@ -93,6 +94,12 @@ const router = createBrowserRouter([
         loader: loginLoader,
         errorElement: <ErrorPage />,
         element: <RegisterPage/>,
+    },
+    {
+        path: "/sign",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <SignPage />,
     },
 ]);
 
