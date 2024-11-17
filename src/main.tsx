@@ -16,6 +16,9 @@ import CustomAppLayout from "./components/seconday/CustomAppLayout.tsx";
 import DashboardPage from "./layouts/Dashboard.page.tsx";
 import ForgotPasswordPage from "./layouts/Authentication/forgotPassword.page.tsx";
 import './index.css'
+import ResetPasswordPage from "./layouts/Authentication/resetPassword.page.tsx";
+import ResetPasswordLinkPage from "./layouts/Authentication/resetPasswordLink.page.tsx";
+import RegisterPage from "./layouts/Authentication/register.page.tsx";
 
 
 
@@ -60,6 +63,24 @@ const router = createBrowserRouter([
         loader: loginLoader,
         errorElement: <ErrorPage />,
         element: <ForgotPasswordPage/>,
+    },
+    {
+        path: "/reset-password",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <ResetPasswordPage/>,
+    },
+    {
+        path: "/reset-password-link",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <ResetPasswordLinkPage/>,
+    },
+    {
+        path: "/register",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <RegisterPage/>,
     },
 ]);
 

@@ -46,7 +46,7 @@ const ForgotPasswordForm = () => {
                     </div>
 
                     <div>
-                        <Button type="primary" className="flex w-full justify-center px-3 py-4 text-sm/6 font-semibold text-white shadow-sm">Change password</Button>
+                        <Button type="primary" className="flex w-full justify-center px-3 py-4 text-sm/6 font-semibold text-white">Change password</Button>
                     </div>
                 </form>
             </div>
