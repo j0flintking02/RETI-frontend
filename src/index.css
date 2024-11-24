@@ -12,15 +12,15 @@
   /*color: rgba(255, 255, 255, 0.87);*/
   /*background-color: #242424;*/
   /* Define primary and secondary colors */
-  /* --primary-color: #213547;
-  --secondary-color: #0aed69; */
+  --primary-color: #213547;
+  --secondary-color: #0aed69;
 
   /*font-synthesis: none;*/
   /*text-rendering: optimizeLegibility;*/
   /*-webkit-font-smoothing: antialiased;*/
   /*-moz-osx-font-smoothing: grayscale;*/
   /*-webkit-text-size-adjust: 100%;*/
-/* }
+}
 
 body {
   margin: 0;
@@ -39,7 +39,4 @@ body {
   button {
     background-color: #f9f9f9;
   }
-} */
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+}
