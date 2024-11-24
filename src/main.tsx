@@ -9,7 +9,6 @@ import {
 import { Provider } from "react-redux";
 import { store } from "../store.ts";
 import "./index.css";
-import LoginPage from "./layouts/Authentication/Login.page.tsx";
 import ErrorPage from "./layouts/error.page.tsx";
 import { ConfigProvider } from "antd";
 import CustomAppLayout from "./components/seconday/CustomAppLayout.tsx";
@@ -20,6 +19,7 @@ import ResetPasswordPage from "./layouts/Authentication/resetPassword.page.tsx";
 import ResetPasswordLinkPage from "./layouts/Authentication/resetPasswordLink.page.tsx";
 import RegisterPage from "./layouts/Authentication/register.page.tsx";
 import MessagesPage from "./layouts/DashboardPages/Messages.page.tsx";
+import LoginPage from "./layouts/Authentication/Login.page.tsx";
 
 
 
@@ -65,12 +65,6 @@ const router = createBrowserRouter([
         // children: [],
     },
     {
-        path: "/login",
-        loader: loginLoader,
-        errorElement: <ErrorPage />,
-        element: <LoginPage />,
-    },
-    {
         path: "/forgot-password",
         loader: loginLoader,
         errorElement: <ErrorPage />,
@@ -93,6 +87,12 @@ const router = createBrowserRouter([
         loader: loginLoader,
         errorElement: <ErrorPage />,
         element: <RegisterPage/>,
+    },
+    {
+        path: "/login",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <LoginPage />,
     },
 ]);
 
