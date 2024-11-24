@@ -19,6 +19,11 @@ const getMenuItems = (): MenuItem[] => {
       icon: <HomeOutlined/>,
       label: <Link to="/">Home</Link>,
     },
+    {
+      key: "messages",
+      icon: <HomeOutlined/>,
+      label: <Link to="/messages">messages</Link>,
+    },
   ];
 };
 

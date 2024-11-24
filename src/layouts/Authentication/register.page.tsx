@@ -14,10 +14,10 @@ const RegisterPage = () => {
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                         <img className=" w-auto" src={viteLogo} alt="Your Company" />
                         <h2 className="mt-10 text-2xl font-bold tracking-tight text-gray-900">
-                            Reset your password
+                            Register
                         </h2>
                         <p className="mt-2 text-sm text-gray-900">
-                            We will send a link to your email to reset the password to your account
+                            Start your journey with our product
                         </p>
                     </div>
                    <RegisterForm/>
