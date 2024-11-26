@@ -9,12 +9,22 @@ import {
 import { Provider } from "react-redux";
 import { store } from "../store.ts";
 import "./index.css";
-import LoginPage from "./layouts/Authentication/Login.page.tsx";
 import ErrorPage from "./layouts/error.page.tsx";
 import { ConfigProvider } from "antd";
 import CustomAppLayout from "./components/seconday/CustomAppLayout.tsx";
+<<<<<<< HEAD
 import DashboardPage from "./layouts/Dashboard.page.tsx";
 import SignPage from "./layouts/Authentication/Sign.page.tsx";
+=======
+import DashboardPage from "./layouts/DashboardPages/Dashboard.page.tsx";
+import ForgotPasswordPage from "./layouts/Authentication/forgotPassword.page.tsx";
+import './index.css'
+import ResetPasswordPage from "./layouts/Authentication/resetPassword.page.tsx";
+import ResetPasswordLinkPage from "./layouts/Authentication/resetPasswordLink.page.tsx";
+import RegisterPage from "./layouts/Authentication/register.page.tsx";
+import MessagesPage from "./layouts/DashboardPages/Messages.page.tsx";
+import LoginPage from "./layouts/Authentication/Login.page.tsx";
+>>>>>>> 7fc904067191ec6e964820ba606833c9daed258f
 
 
 
@@ -47,6 +57,41 @@ const router = createBrowserRouter([
         ),
         errorElement: <ErrorPage />,
         children: [],
+    },
+    {
+        path: "/messages",
+        // loader: protectedLoader,
+        element: (
+            <CustomAppLayout>
+                <MessagesPage />
+            </CustomAppLayout>
+        ),
+        errorElement: <ErrorPage />,
+        // children: [],
+    },
+    {
+        path: "/forgot-password",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <ForgotPasswordPage/>,
+    },
+    {
+        path: "/reset-password",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <ResetPasswordPage/>,
+    },
+    {
+        path: "/reset-password-link",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <ResetPasswordLinkPage/>,
+    },
+    {
+        path: "/register",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <RegisterPage/>,
     },
     {
         path: "/login",

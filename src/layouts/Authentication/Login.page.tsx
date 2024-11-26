@@ -1,42 +1,67 @@
-import {Layout} from "antd";
-import LoginForm from "../../components/seconday/LoginForm.tsx";
-import viteLogo from '/vite.svg'
+import { Layout, Row, Col, Image } from "antd";
+import Sign from "../../components/seconday/LoginForm";
+import "tailwindcss/tailwind.css";
+import viteLogo from "/vite.svg";
 
-const LoginPage = ()=> {
-    return (
-        <Layout>
-            <div style={{
-                width: '100%',
-                height: '100vh',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: '16px 0'
-            }}>
-                <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column', marginBottom: '16px'}}>
-                    <img src={viteLogo} alt="logo" style={{width:'200px'}}/>
-                    <h2>RETI PROJECT</h2>
-                </div>
-                <div style={{
-                    backgroundColor: '#fff',
-                    display: 'flex',
-                    width: '400px',
-                    flexDirection: 'column',
-                    borderRadius: '0 0 10px 10px'
-                }}>
-                    <h2 style={{
-                        textAlign: 'center',
-                        backgroundColor: '#012f5B',
-                        color: "#fff",
-                        padding: '16px',
-                        marginTop: '0',
-                        borderRadius: '10px 10px 0 0'}}>
-                        LOGIN</h2>
-                    <LoginForm/>
-                </div>
-            </div></Layout>
-    )
+const LoginPage = () => {
+  return (
+    <Layout className="min-h-screen,  bg-white">
+      <Row
+        justify="center"
+        align="middle"
+        style={{ minHeight: "100vh", overflow: "hidden", padding: "20px" }}
+      >
+        <Col
+          xs={24}
+          sm={24}
+          md={12}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              width: "80%",
+              maxWidth: "500px",
+              marginBottom: "20px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "16px",
+
+              }}
+            >
+              <img
+                src={viteLogo}
+                alt="logo"
+                style={{ width: "40px", marginRight: "8px" }}
+              />
+              <h2 className="text-black, font-bold">RETI PROJECT</h2>
+            </div>
+
+            <Sign />
+          </div>
+        </Col>
+
+        <Col xs={24} sm={24} md={12}>
+          <Image
+            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+            preview={false}
+            className="w-full object-cover md:rounded-tl-[20px] md:rounded-bl-[20px] rounded-tl-bl-[20px]"
+            style={{
+              width: "100%",
+              height: "auto",
+            }}
+          />
+        </Col>
+      </Row>
+    </Layout>
+  );
 };
 
-export default LoginPage
+export default LoginPage;
