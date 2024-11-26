@@ -12,10 +12,7 @@ import "./index.css";
 import ErrorPage from "./layouts/error.page.tsx";
 import { ConfigProvider } from "antd";
 import CustomAppLayout from "./components/seconday/CustomAppLayout.tsx";
-<<<<<<< HEAD
-import DashboardPage from "./layouts/Dashboard.page.tsx";
 import SignPage from "./layouts/Authentication/Sign.page.tsx";
-=======
 import DashboardPage from "./layouts/DashboardPages/Dashboard.page.tsx";
 import ForgotPasswordPage from "./layouts/Authentication/forgotPassword.page.tsx";
 import './index.css'
@@ -24,7 +21,6 @@ import ResetPasswordLinkPage from "./layouts/Authentication/resetPasswordLink.pa
 import RegisterPage from "./layouts/Authentication/register.page.tsx";
 import MessagesPage from "./layouts/DashboardPages/Messages.page.tsx";
 import LoginPage from "./layouts/Authentication/Login.page.tsx";
->>>>>>> 7fc904067191ec6e964820ba606833c9daed258f
 
 
 

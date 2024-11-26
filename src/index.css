@@ -39,4 +39,8 @@ body {
   button {
     background-color: #f9f9f9;
   }
+} */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 }
