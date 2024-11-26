@@ -20,6 +20,8 @@ import ResetPasswordLinkPage from "./layouts/Authentication/resetPasswordLink.pa
 import RegisterPage from "./layouts/Authentication/register.page.tsx";
 import MessagesPage from "./layouts/DashboardPages/Messages.page.tsx";
 import LoginPage from "./layouts/Authentication/Login.page.tsx";
+import Onboarding from "./layouts/OnboardingPages/Onboarding.tsx";
+import SuccessOnboardPage from "./layouts/OnboardingPages/OnboardSuccessPage.tsx";
 
 
 
@@ -93,6 +95,19 @@ const router = createBrowserRouter([
         loader: loginLoader,
         errorElement: <ErrorPage />,
         element: <LoginPage />,
+    },
+    {
+        path: "/onboarding",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <Onboarding />,
+    },
+
+    {
+        path: "/onboard-success",
+        loader: loginLoader,
+        errorElement: <ErrorPage />,
+        element: <SuccessOnboardPage />,
     },
 ]);
 
