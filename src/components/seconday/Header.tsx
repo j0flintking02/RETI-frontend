@@ -13,7 +13,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
     return (
         <div className="h-16 bg-white flex justify-between items-center px-4 border-b border-gray-300 shadow-sm">
             {/* search / logo */}
-            <div className="hidden lg:block"> 
+            <div className="hidden lg:block px-4"> 
             <Input size="large" placeholder="Search" style={{ width: 400 }}  prefix={<SearchOutlined/>}/>
             {/* <Search  size="large"placeholder="input search text" style={{ width: 200 }} /> */}
             </div>
