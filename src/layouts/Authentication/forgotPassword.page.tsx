@@ -1,7 +1,7 @@
 
 import { Layout } from "antd";
 import viteLogo from '/vite.svg'
-import ForgotPasswordForm from "../../components/seconday/ForgotPassword";
+import ForgotPasswordForm from "../../components/secondary/ForgotPassword";
 
 const ForgotPasswordPage = () => {
 

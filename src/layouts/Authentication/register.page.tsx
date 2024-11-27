@@ -1,6 +1,6 @@
 import { Layout } from "antd";
 import viteLogo from '/vite.svg'
-import RegisterForm from "../../components/seconday/registerForm";
+import RegisterForm from "../../components/secondary/registerForm";
 
 
 const RegisterPage = () => {

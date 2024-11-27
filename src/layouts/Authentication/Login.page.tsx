@@ -1,9 +1,16 @@
-import { Layout, Row, Col, Image } from "antd";
-import Sign from "../../components/seconday/LoginForm";
+import { Layout, Row, Col, Image, ConfigProvider} from "antd";
+import { useState } from "react";
+import LoginForm from "../../components/secondary/LoginForm";
 import "tailwindcss/tailwind.css";
 import viteLogo from "/vite.svg";
 
 const LoginPage = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode((prevMode) => !prevMode);
+  };
+
   return (
     <Layout className="min-h-screen,  bg-white">
       <Row
@@ -41,10 +48,10 @@ const LoginPage = () => {
                 alt="logo"
                 style={{ width: "40px", marginRight: "8px" }}
               />
-              <h2 className="text-black, font-bold">RETI PROJECT</h2>
+              <h2 className={`text-${isDarkMode ? 'white' : 'black'} font-bold`}>RETI PROJECT</h2>
             </div>
 
-            <Sign />
+            <LoginForm isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
           </div>
         </Col>
 

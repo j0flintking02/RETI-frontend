@@ -11,7 +11,7 @@ import { store } from "../store.ts";
 import "./index.css";
 import ErrorPage from "./layouts/error.page.tsx";
 import { ConfigProvider } from "antd";
-import CustomAppLayout from "./components/seconday/CustomAppLayout.tsx";
+import CustomAppLayout from "./components/secondary/CustomAppLayout.tsx";
 import DashboardPage from "./layouts/DashboardPages/Dashboard.page.tsx";
 import ForgotPasswordPage from "./layouts/Authentication/forgotPassword.page.tsx";
 import './index.css'

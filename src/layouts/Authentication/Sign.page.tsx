@@ -1,6 +1,6 @@
 import { Layout, Row, Col, Image, ConfigProvider} from "antd";
 import { useState } from "react";
-import Sign from "../../components/seconday/Sign";
+import Sign from "../../components/secondary/Sign";
 import viteLogo from "/vite.svg";
 
 const SignPage = () => {
