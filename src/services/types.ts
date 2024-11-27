@@ -20,3 +20,16 @@ export interface LoginResponseType {
     user?: User;
     access_token?: string;
 }
+
+
+// Define TabItem interface
+export interface TabItem {
+    key: string;
+    label: React.ReactNode;
+    children: React.ReactNode;
+}
+
+// Define TabsProps type
+export type TabsProps = {
+    items: TabItem[];
+};

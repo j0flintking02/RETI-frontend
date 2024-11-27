@@ -22,6 +22,7 @@ import MessagesPage from "./layouts/DashboardPages/Messages.page.tsx";
 import LoginPage from "./layouts/Authentication/Login.page.tsx";
 import Onboarding from "./layouts/OnboardingPages/Onboarding.tsx";
 import SuccessOnboardPage from "./layouts/OnboardingPages/OnboardSuccessPage.tsx";
+import SettingsPage from "./layouts/DashboardPages/Settings/Settings.page.tsx";
 
 
 
@@ -64,8 +65,20 @@ const router = createBrowserRouter([
             </CustomAppLayout>
         ),
         errorElement: <ErrorPage />,
-        // children: [],
+        children: [],
     },
+    {
+        path: "/settings",
+        // loader: protectedLoader,
+        element: (
+            <CustomAppLayout>
+                <SettingsPage />
+            </CustomAppLayout>
+        ),
+        errorElement: <ErrorPage />,
+        children: [],
+    },
+
     {
         path: "/forgot-password",
         loader: loginLoader,
