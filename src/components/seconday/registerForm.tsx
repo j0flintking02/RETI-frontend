@@ -1,78 +1,118 @@
-import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Input } from "antd";
-import { useState } from "react";
+import {EyeInvisibleOutlined, EyeOutlined} from "@ant-design/icons";
+import {Button, Checkbox, Input, notification, Form, Typography} from "antd";
+import {useEffect, useState} from "react";
+import {useGoogleAuthMutation, useRegisterMutation} from "../../services/users.ts";
+import {useNavigate} from "react-router-dom";
 
 
 const RegisterForm = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+    const [registerUser, {isLoading, isSuccess, data}] = useRegisterMutation()
+    const [googleAuth, {isLoading:isLoadingGoogleAuth}] = useGoogleAuthMutation()
+    const [form] = Form.useForm();
+
+    const navigate = useNavigate();
+
+    const onFinish = async (values: never) => {
+        try {
+            await registerUser(values).unwrap()
+        } catch (e) {
+            notification.error({
+                message: e,
+                description: "Something went wrong"
+            })
+        }
+    }
+    const onFinishFailed = (errorInfo: never) => {
+        notification.error({
+            message: errorInfo,
+            description: "Something went wrong"
+        })
+    };
+    const handleGoogleAuth = async ()=>{
+        await googleAuth().unwrap()
+    }
+    useEffect(() => {
+        if (isSuccess) {
+            const results = JSON.stringify(data)
+            localStorage.setItem('loginDetails', results)
+
+            notification["success"]({
+                message: `Welcome Back, ${data?.user.first_name}`,
+            })
+            navigate("/");
+        }
+    }, [isSuccess, data]);
 
     return (
         <>
             <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="space-y-2">
-                    <div>
-                        <label className="block text-sm/6 font-medium text-gray-900">Full name</label>
-                        <div className="mt-2">
-                            <Input
-                                placeholder="Enter your full name"
-                                type="text"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label className="block text-sm/6 font-medium text-gray-900">Email</label>
-                        <div className="mt-2">
-                            <Input
-                                placeholder="Enter your email"
-                                type="Email"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label className="block text-sm/6 font-medium text-gray-900">Password</label>
-                        <div className="mt-2">
+                <Form
+                    layout="vertical"
+                    className="space-y-2"
+                    form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
+                    <Form.Item label="Full name" name="full_name">
+                        <Input
+                            placeholder="Enter your full name"
+                            type="text"
+                        />
+                    </Form.Item>
+                    <Form.Item label="Email" name="email">
+                        <Input
+                            placeholder="Enter your email"
+                            type="Email"
+                        />
+                    </Form.Item>
+                    <Form.Item label="Password" name="password">
                             <Input
                                 placeholder="Enter password"
                                 type={passwordVisible ? "text" : "password"}
                                 suffix={
                                     passwordVisible ? (
-                                        <EyeOutlined className='text-gray-400' onClick={() => setPasswordVisible(false)} />
+                                        <EyeOutlined className='text-gray-400'
+                                                     onClick={() => setPasswordVisible(false)}/>
                                     ) : (
-                                        <EyeInvisibleOutlined className='text-gray-400' onClick={() => setPasswordVisible(true)} />
+                                        <EyeInvisibleOutlined className='text-gray-400'
+                                                              onClick={() => setPasswordVisible(true)}/>
                                     )
                                 }
                             />
-                        </div>
-                    </div>
-                    <div>
-                        <label className="block text-sm/6 font-medium text-gray-900">Confirm password</label>
-                        <div className="mt-2">
+                    </Form.Item>
+                    <Form.Item label="Confirm password">
                             <Input
                                 placeholder="Confirm password"
                                 type={confirmPasswordVisible ? "text" : "password"}
                                 suffix={
                                     confirmPasswordVisible ? (
                                         <EyeOutlined className='text-gray-400'
-                                            onClick={() => setConfirmPasswordVisible(false)} />
+                                                     onClick={() => setConfirmPasswordVisible(false)}/>
                                     ) : (
-                                        <EyeInvisibleOutlined className='text-gray-400' onClick={() => setConfirmPasswordVisible(true)} />
+                                        <EyeInvisibleOutlined className='text-gray-400'
+                                                              onClick={() => setConfirmPasswordVisible(true)}/>
                                     )
                                 }
                             />
-                        </div>
-                    </div>
+                    </Form.Item>
 
                     <div className="text-sm py-4">
-                        <Checkbox >Remember me</Checkbox>
+                        <Checkbox>Remember me</Checkbox>
 
                     </div>
 
                     <div>
-                        <Button type="primary" className="flex w-full justify-center px-3 py-4 text-sm/6 font-semibold text-white">Sign up</Button>
+                        <Button
+                            block
+                            htmlType="submit"
+                            type="primary"
+                            loading={isLoading}>
+                            Sign up
+                        </Button>
                     </div>
                     <div>
-                        <Button className="flex items-center w-full justify-center px-3 py-4 text-sm font-semibold  text-gray-700 hover:bg-gray-100">
+                        <Button
+                            onClick={handleGoogleAuth}
+                            className="flex items-center w-full justify-center px-3 py-4 text-sm font-semibold  text-gray-700 hover:bg-gray-100">
                             <svg
                                 className="w-4 h-4 mr-2"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -99,11 +139,11 @@ const RegisterForm = () => {
                         </Button>
                     </div>
 
-                </form>
+                </Form>
 
                 <p className="mt-6 text-center text-sm text-gray-500">
-                    Already have an account? {''}
-                    <a href="#" className="text-[#5B9BD5] hover:text-[#5B9BD5] hover:underline">Sign in</a>
+                    Already have an account? {' '}
+                    <Typography.Link href="/login">Sign in</Typography.Link>
                 </p>
             </div>
         </>
