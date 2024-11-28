@@ -72,7 +72,7 @@ const InformationPage = () => {
                         <div className="mt-2">
                             <Space.Compact>
                                 <Input size="large" className="w-20" defaultValue="+256" readOnly />
-                                <Input size="large" defaultValue="786123456" />
+                                <Input size="large" className="w-50" defaultValue="786123456" />
                             </Space.Compact>
                         </div>
                     </div>
