@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import {
     createBrowserRouter,
     RouterProvider,
-    LoaderFunctionArgs,
     redirect
 } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -26,15 +25,15 @@ import SettingsPage from "./layouts/DashboardPages/Settings/Settings.page.tsx";
 
 
 
-function protectedLoader({ request }: LoaderFunctionArgs) {
-    const loginDetails = localStorage.getItem("loginDetails");
-    if (!loginDetails) {
-        const params = new URLSearchParams();
-        params.set("from", new URL(request.url).pathname);
-        return redirect("/login?" + params.toString());
-    }
-    return null;
-}
+// function protectedLoader({ request }: LoaderFunctionArgs) {
+//     const loginDetails = localStorage.getItem("loginDetails");
+//     if (!loginDetails) {
+//         const params = new URLSearchParams();
+//         params.set("from", new URL(request.url).pathname);
+//         return redirect("/login?" + params.toString());
+//     }
+//     return null;
+// }
 
 async function loginLoader() {
     const loginDetails = localStorage.getItem("loginDetails");
