@@ -9,7 +9,7 @@ const RegisterForm = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const [registerUser, {isLoading, isSuccess, data}] = useRegisterMutation()
-    const [googleAuth, {isLoading:isLoadingGoogleAuth}] = useGoogleAuthMutation()
+    const [googleAuth] = useGoogleAuthMutation()
     const [form] = Form.useForm();
 
     const navigate = useNavigate();
