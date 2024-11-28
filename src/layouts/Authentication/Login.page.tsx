@@ -12,11 +12,20 @@ const LoginPage = () => {
   };
 
   return (
-    <Layout className="min-h-screen,  bg-white">
+    <ConfigProvider
+    theme={{
+      token: {
+        colorPrimary: isDarkMode ? "#1677ff" : "#3b82f6",
+        colorBgBase: isDarkMode ? "#121212" : "#ffffff",
+        colorTextBase: isDarkMode ? "#ffffff" : "#000000",
+      },
+    }}
+  >
+    <Layout className="min-h-screen">
       <Row
         justify="center"
         align="middle"
-        style={{ minHeight: "100vh", overflow: "hidden", padding: "20px" }}
+        style={{ minHeight: "100vh", overflow: "hidden", padding: "20px", background: isDarkMode ? "#121212" : "#ffffff" }}
       >
         <Col
           xs={24}
@@ -60,14 +69,11 @@ const LoginPage = () => {
             src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
             preview={false}
             className="w-full object-cover md:rounded-tl-[20px] md:rounded-bl-[20px] rounded-tl-bl-[20px]"
-            style={{
-              width: "100%",
-              height: "auto",
-            }}
           />
         </Col>
       </Row>
     </Layout>
+    </ConfigProvider>
   );
 };
 

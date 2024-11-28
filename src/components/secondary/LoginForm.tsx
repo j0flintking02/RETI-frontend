@@ -7,7 +7,7 @@ const LoginForm = ({ isDarkMode, toggleTheme }) => {
       <Title level={2} className="mb-4 text-2xl font-semibold">
         Sign in to your account
       </Title>
-      <Text className="mb-8 block text-gray-600">
+      <Text  className={`mb-8 block ${isDarkMode ? "text-white" : "text-gray-600"}`}>
         Experience the power of networking
       </Text>
 
