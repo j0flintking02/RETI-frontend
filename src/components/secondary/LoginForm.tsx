@@ -18,7 +18,10 @@ const LoginForm = ({ isDarkMode, toggleTheme }) => {
       >
         <Input
           placeholder="Enter your email"
-          className="rounded-md border-gray-300"
+          className={`rounded-md px-3 py-2 w-full
+            ${isDarkMode ? "bg-gray-900 text-white border-white" : "bg-white text-black border-gray-300"}
+            border focus:outline-none focus:ring-2 focus:ring-blue-500
+          `}
         />
       </Form.Item>
 
@@ -29,7 +32,10 @@ const LoginForm = ({ isDarkMode, toggleTheme }) => {
       >
         <Input.Password
           placeholder="Enter your password"
-          className="rounded-md border-gray-300"
+          className={`rounded-md px-3 py-2 w-full
+            ${isDarkMode ? "bg-gray-900 text-white border-white" : "bg-white text-black border-gray-300"}
+            border focus:outline-none focus:ring-2 focus:ring-blue-500
+          `}
         />
       </Form.Item>
 
