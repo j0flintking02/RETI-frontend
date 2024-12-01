@@ -13,18 +13,19 @@ const ResetPasswordForm = () => {
                             <Input
                                 placeholder="Enter your email"
                                 type="Email"
+                                size="large"
                             />
                         </div>
                     </div>
 
                     <div>
-                        <Button type="primary" className="flex w-full justify-center px-3 py-4 text-sm/6 font-semibold text-white">Reset your password</Button>
+                        <Button type="primary" size="large" className="flex w-full justify-center px-3 py-4 text-sm/6 font-semibold text-white">Reset your password</Button>
                     </div>
                 </form>
 
                 <p className="mt-6 text-center text-sm text-gray-500">
                     Remembered your password? {''}
-                    <a href="#" className=" text-[#5B9BD5] hover:text-[#5B9BD5] hover:underline">Log in</a>
+                    <a href="/login" className=" text-[#5B9BD5] hover:text-[#5B9BD5] hover:underline">Log in</a>
                 </p>
             </div>
         </>
