@@ -1,5 +1,5 @@
 import { Layout, Row, Col, Image, ConfigProvider} from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoginForm from "../../components/secondary/LoginForm";
 import "tailwindcss/tailwind.css";
 import viteLogo from "/vite.svg";
@@ -11,6 +11,13 @@ const LoginPage = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };
 
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    const isDark = storedTheme === "dark";
+    setIsDarkMode(isDark);
+    document.body.classList.add(isDark ? "dark-mode" : "light-mode");
+  }, []);
+
   return (
     <ConfigProvider
     theme={{
@@ -21,7 +28,9 @@ const LoginPage = () => {
       },
     }}
   >
-    <Layout className="min-h-screen">
+    <Layout  className={`min-h-screen transition-colors duration-400 ${
+          isDarkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}>
       <Row
         justify="center"
         align="middle"
