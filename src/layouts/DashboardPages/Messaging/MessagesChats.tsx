@@ -53,7 +53,7 @@ export default function MessagingChats() {
                     </div>
 
                     <div>
-                    <Button shape="circle" icon={<SearchOutlined />} />
+                    <Button  size="small" shape="circle" icon={<SearchOutlined />} />
                     </div>
                 </div>
 
