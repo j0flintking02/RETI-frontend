@@ -41,8 +41,9 @@ const CustomAppLayout: React.FC<LayoutProps> = ({ children }) => {
         <Header onMenuClick={showDrawer} />
 
         {/* Main Content */}
-        <Content className="sm:px-8 sm:py-8 p-4">
-          <div className="w-full max-w-7xl">
+        <Content className="sm:px-6 sm:py-8 p-4">
+          <div className="">
+          {/* w-full max-w-7xl */}
             {children}
           </div>
         </Content>
