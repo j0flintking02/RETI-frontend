@@ -1,12 +1,13 @@
-import { useEffect } from "react"
+import { useEffect,useContext } from "react"
 import { Form, Input, Button, Checkbox, Typography, notification } from 'antd';
 import { useLoginMutation } from "../../services/users.ts";
 import { useNavigate } from "react-router-dom";
-
+import { ThemeContext } from "../../ThemeContext";
 
 const { Title, Text, Link } = Typography;
 
 const LoginForm = () => {
+    const { isDarkMode } = useContext(ThemeContext); 
     const [form] = Form.useForm();
     const [login, { isLoading, isSuccess, data }] = useLoginMutation()
     const navigate = useNavigate();
@@ -44,14 +45,14 @@ const LoginForm = () => {
      
             <Form.Item
                 name="email"
-                label="Email"
+                label={<span className={isDarkMode ? "text-gray-300" : "text-gray-900"}>Email</span>}
                 rules={[{ message: 'Please enter your email!' }]}>
                 <Input size='large' placeholder="Enter your email" className="rounded-md border-gray-300" />
             </Form.Item>
 
             <Form.Item
                 name="password"
-                label="Password"
+                  label={<span className={isDarkMode ? "text-gray-300" : "text-gray-900"}>Password</span>}
                 rules={[{ message: 'Please enter your password!' }]}>
                 <Input.Password  size= 'large' placeholder="Enter your password" className="rounded-md border-gray-300" />
             </Form.Item>
@@ -61,7 +62,7 @@ const LoginForm = () => {
             </Form.Item>
 
             <Form.Item name="remember" valuePropName="checked">
-                <Checkbox className="text-sm">Remember me</Checkbox>
+                <Checkbox className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-900"}`}>Remember me</Checkbox>
             </Form.Item>
             <Form.Item>
                 <Button

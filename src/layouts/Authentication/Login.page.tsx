@@ -1,12 +1,26 @@
-import { Layout, Row, Col, Image } from "antd";
-import Sign from "../../components/seconday/LoginForm";
+import { useContext, useEffect } from "react";
+import LoginForm from "../../components/seconday/LoginForm";
+import { ThemeContext } from "../../ThemeContext"; // Ensure ThemeContext is correctly imported
 import "tailwindcss/tailwind.css";
 import viteLogo from "/vite.svg";
 
 const LoginPage = () => {
-  return (
+  const { isDarkMode } = useContext(ThemeContext); // Access theme context for dark mode
 
-    <div className='xl:py-10'>
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [isDarkMode]);
+
+  return (
+    <div
+      className={`xl:py-10 ${
+        isDarkMode ? "bg-gray-900 text-gray-300" : "bg-white text-gray-900"
+      }`}
+    >
       <div className="mx-auto max-w-7xl">
         <div className="flex min-h-full flex-1">
           <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -17,15 +31,17 @@ const LoginPage = () => {
                   src={viteLogo}
                   className="h-10 w-auto"
                 />
-                <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
-                <p className="mt-2 text-sm/6 text-gray-500">
-                Experience the power of networking
+                <h2 className="mt-8 text-2xl font-bold tracking-tight dark:text-gray-100 text-gray-900">
+                  Sign in to your account
+                </h2>
+                <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
+                  Experience the power of networking
                 </p>
               </div>
 
               <div className="mt-10">
                 <div>
-                  <Sign />
+                  <LoginForm />
                 </div>
               </div>
             </div>
@@ -40,62 +56,6 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-    // <Layout className="min-h-screen,  bg-white">
-    //   <Row
-    //     justify="center"
-    //     align="middle"
-    //     style={{ minHeight: "100vh", overflow: "hidden", padding: "20px" }}
-    //   >
-    //     <Col
-    //       xs={24}
-    //       sm={24}
-    //       md={12}
-    //       style={{
-    //         display: "flex",
-    //         alignItems: "center",
-    //         justifyContent: "center",
-    //       }}
-    //     >
-    //       <div
-    //         style={{
-    //           width: "80%",
-    //           maxWidth: "500px",
-    //           marginBottom: "20px",
-    //         }}
-    //       >
-    //         <div
-    //           style={{
-    //             display: "flex",
-    //             alignItems: "center",
-    //             marginBottom: "16px",
-
-    //           }}
-    //         >
-    //           <img
-    //             src={viteLogo}
-    //             alt="logo"
-    //             style={{ width: "40px", marginRight: "8px" }}
-    //           />
-    //           <h2 className="text-black, font-bold">RETI PROJECT</h2>
-    //         </div>
-
-    //         <Sign />
-    //       </div>
-    //     </Col>
-
-    //     <Col xs={24} sm={24} md={12}>
-    //       <Image
-    //         src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-    //         preview={false}
-    //         className="w-full object-cover md:rounded-tl-[20px] md:rounded-bl-[20px] rounded-tl-bl-[20px]"
-    //         style={{
-    //           width: "100%",
-    //           height: "auto",
-    //         }}
-    //       />
-    //     </Col>
-    //   </Row>
-    // </Layout>
   );
 };
 

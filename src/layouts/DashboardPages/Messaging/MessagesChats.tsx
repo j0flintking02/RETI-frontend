@@ -1,10 +1,12 @@
-'use client'
+'use client';
 
-import { SearchOutlined } from "@ant-design/icons"
-import { Badge, Button } from "antd"
+import { SearchOutlined } from "@ant-design/icons";
+import { Badge, Button } from "antd";
+import { useContext } from "react";
+import { ThemeContext } from "../../../ThemeContext"; // Assuming ThemeContext is used for dark mode
 
 export default function MessagingChats() {
-
+    const { isDarkMode } = useContext(ThemeContext); // Access dark mode context
 
     const messages = [
         {
@@ -36,52 +38,54 @@ export default function MessagingChats() {
             lastSeen: null,
             status: 'unread',
         },
-
-    ]
-
+    ];
 
     return (
         <>
             {/* messages */}
-            <div className="sm:w-6/12 border-r border-gray-200">
-                <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+            <div className={`sm:w-6/12 ${isDarkMode ? "bg-gray-800" : "bg-white"} ${isDarkMode ? "border-gray-600" : "border-gray-200"}`}>
+                <div
+                    className={`p-4 border-b flex items-center justify-between ${isDarkMode ? "border-gray-600" : "border-gray-200"}`}
+                >
                     <div className="flex items-center gap-2">
-                        <h2 className="text-lg/6 truncate font-semibold text-gray-900">
+                        <h2 className={`text-lg/6 truncate font-semibold ${isDarkMode ? "text-gray-100" : "text-gray-900"}`}>
                             Messages
                         </h2>
-                        <Badge className="site-badge-count-109" count='2' style={{ backgroundColor: '#189bcc ' }} />
+                        <Badge className="site-badge-count-109" count="2" style={{ backgroundColor: '#189bcc' }} />
                     </div>
 
                     <div>
-                    <Button  size="small" shape="circle" icon={<SearchOutlined />} />
+                        <Button size="small" shape="circle" icon={<SearchOutlined />} />
                     </div>
                 </div>
 
-                <div className='h-[550px] xl:h-screen overflow-y-auto'>
-                    <ul role="list" className="divide-y divide-gray-100">
+                <div className="h-[550px] xl:h-screen overflow-y-auto">
+                    <ul role="list" className={`divide-y ${isDarkMode ? "divide-gray-600" : "divide-gray-100"}`}>
                         {messages.map((message) => (
                             <li key={message.id} className="flex justify-between gap-x-2 py-5 px-4 hover:bg-gray-50">
                                 <div className="flex min-w-0 gap-x-4">
                                     <img alt="" src={message.imageUrl} className="size-8 flex-none rounded-full bg-gray-50" />
                                     <div className="min-w-0 flex-auto">
                                         <p
-                                            className={`text-sm/6 truncate font-semibold ${message.status === 'unread' ? 'text-blue-600' : 'text-gray-900'
-                                                }`}
+                                            className={`text-sm/6 truncate font-semibold ${
+                                                message.status === 'unread' ? (isDarkMode ? 'text-blue-400' : 'text-blue-600') : (isDarkMode ? 'text-gray-300' : 'text-gray-900')
+                                            }`}
                                         >
                                             {message.title}
                                         </p>
-                                        <p className="mt-1 truncate text-xs/5 text-gray-500">{message.message}</p>
+                                        <p className={`mt-1 truncate text-xs/5 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
+                                            {message.message}
+                                        </p>
                                     </div>
                                 </div>
                                 <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-
                                     {message.lastSeen ? (
-                                        <p className="mt-1 text-xs/5 text-gray-500">
+                                        <p className={`mt-1 text-xs/5 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
                                             <time dateTime={message.lastSeenDateTime}>{message.lastSeen}</time>
                                         </p>
                                     ) : (
                                         <div className="mt-1 flex items-center gap-x-1.5">
-                                            <p className="text-xs/5 text-gray-500">Online</p>
+                                            <p className={`text-xs/5 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Online</p>
                                             <Badge status="success" />
                                         </div>
                                     )}
@@ -90,8 +94,7 @@ export default function MessagingChats() {
                         ))}
                     </ul>
                 </div>
-
             </div>
         </>
-    )
+    );
 }
