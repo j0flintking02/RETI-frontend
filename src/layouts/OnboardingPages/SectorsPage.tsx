@@ -1,11 +1,12 @@
-
+import { useContext } from "react";
+import { ThemeContext } from "../../ThemeContext"; 
 interface SectionsPageProps {
     sectionsData: string | null;
     setSectionsData: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 const SectionsPage: React.FC<SectionsPageProps> = ({ sectionsData, setSectionsData }) => {
-
+    const { isDarkMode } = useContext(ThemeContext);
     const handleSelection = (value: string) => {
         setSectionsData(value);
     };
@@ -26,7 +27,7 @@ const SectionsPage: React.FC<SectionsPageProps> = ({ sectionsData, setSectionsDa
         <div className="space-y-6"
         >
             <div className="mt-2">
-                <div className="text-xl/8 font-semibold text-gray-900 sm:text-lg/9">
+                <div className={`text-xl font-semibold sm:text-lg ${isDarkMode ? "text-white" : "text-gray-900"}`}>
                     <p>Sections</p>
                 </div>
 
