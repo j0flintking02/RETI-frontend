@@ -1,85 +1,83 @@
-import { DatePicker, Input, Space } from "antd";
+import {Button, DatePicker, Form, Input, Select} from "antd";
 
-const InformationPage = () => {
+const InformationPage = ({setInformData}) => {
+    const [form] = Form.useForm();
+    const {Option} = Select;
+    const prefixSelector = (
+        <Form.Item name="prefix" noStyle>
+            <Select style={{width: 80}} defaultValue="256">
+                <Option value="256">+256</Option>
+            </Select>
+        </Form.Item>
+    );
     return (
-        <div
-            className="space-y-6"
-        >
-            <div className="mt-2">
-                <div className="text-xl/8 font-semibold text-gray-900 sm:text-lg/9">
-                    <p>General Information</p>
-                </div>
-
+        <>
+            <div className="text-xl/8 font-semibold text-gray-900 sm:text-lg/9">
+                <p>General Information</p>
             </div>
-            <div className="mt-4">
-                <div className="mt-2 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
-                    <div className="sm:col-span-3">
-                        <label className="block text-sm/6 font-medium text-gray-900">First name</label>
-                        <div className="mt-2">
-                            <Input
-                                size="large"
-                                placeholder="Enter your first name"
-                                type="text"
-                            />
-                        </div>
-                    </div>
 
-                    <div className="sm:col-span-3">
-                        <label className="block text-sm/6 font-medium text-gray-900">Last name</label>
-                        <div className="mt-2">
-                            <Input
-                                size="large"
-                                placeholder="Enter your Last name"
-                                type="text"
-                            />
-                        </div>
-                    </div>
+            <Form
+                form={form}
+                layout="vertical"
+                style={{maxWidth: '100%'}}
+            >
+                <Form.Item className="my-24">
+                    <Form.Item
+                        style={{display: 'inline-block', width: '50%', margin: '0'}}
+                        label="First Name" name="firstName">
+                        <Input
+                            size="large"
+                            placeholder="Enter your first name"
+                            type="text"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
+                        label="Last name" name="lastName">
+                        <Input size="large" placeholder="Enter your Last name" type="text"/>
+                    </Form.Item>
+                </Form.Item>
 
-                    <div className="sm:col-span-3">
-                        <label className="block text-sm/6 font-medium text-gray-900">Date of birth</label>
-                        <div className="mt-2">
-                            <DatePicker
-                                size="large"
-                                className="w-full"
-                                needConfirm />
-                        </div>
-                    </div>
+                <Form.Item className="my-24">
+                    <Form.Item
+                        style={{display: 'inline-block', width: '50%', margin: '0'}}
+                        label="Date of birth" name="dateOfBirth">
+                        <DatePicker size="large" className="w-full" needConfirm/>
+                    </Form.Item>
 
-                    <div className="sm:col-span-3">
-                        <label className="block text-sm/6 font-medium text-gray-900">Gender</label>
-                        <div className="mt-2">
-                            <Input
-                                size="large"
-                                placeholder="Enter your gender"
-                                type="text"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                        <label className="block text-sm/6 font-medium text-gray-900">Email address</label>
-                        <div className="mt-2">
-                            <Input
-                                size="large"
-                                placeholder="Enter your email"
-                                type="email"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                        <label className="block text-sm/6 font-medium text-gray-900">Phone number</label>
-                        <div className="mt-2">
-                            <Space.Compact>
-                                <Input size="large" className="w-20" defaultValue="+256" readOnly />
-                                <Input size="large" className="w-50" defaultValue="786123456" />
-                            </Space.Compact>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+                    <Form.Item
+                        style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
+                        label="Gender" name="gender">
+                        <Input
+                            size="large"
+                            placeholder="Enter your gender"
+                            type="text"/>
+                    </Form.Item>
+                </Form.Item>
+                <Form.Item className="my-24">
+                    <Form.Item
+                        style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
+                        label="Email address" name="email">
+                        <Input
+                            size="large"
+                            placeholder="Enter your email"
+                            type="email"
+                        />
+                    </Form.Item>
+                    <Form.Item
+                        style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
+                        label="Phone number" name="phoneNumber">
+                        <Input size="large" addonBefore={prefixSelector}/>
+                    </Form.Item>
+                </Form.Item>
+                <Form.Item className="my-24">
+                    <Button type="default" block onClick={()=>{
+                        const values = form.getFieldsValue();
+                        setInformData(values);
+                    }}>Save</Button>
+                </Form.Item>
+            </Form>
+        </>
     );
 };
 

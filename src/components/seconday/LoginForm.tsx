@@ -1,10 +1,9 @@
 import { useEffect } from "react"
 import { Form, Input, Button, Checkbox, Typography, notification } from 'antd';
 import { useLoginMutation } from "../../services/users.ts";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 
-const { Title, Text, Link } = Typography;
 
 const LoginForm = () => {
     const [form] = Form.useForm();
@@ -57,7 +56,7 @@ const LoginForm = () => {
             </Form.Item>
 
             <Form.Item>
-                <Link href="/reset-password" className="text-[#5B9BD5] hover:text-[#5B9BD5] hover:underline">Forgot your password?</Link>
+                <Link className="text-[#5B9BD5] hover:text-[#5B9BD5] hover:underline" to="/reset-password">Forgot your password?</Link>
             </Form.Item>
 
             <Form.Item name="remember" valuePropName="checked">

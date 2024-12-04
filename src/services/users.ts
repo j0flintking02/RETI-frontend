@@ -1,7 +1,16 @@
 import {createApi, fetchBaseQuery, BaseQueryFn, FetchArgs} from "@reduxjs/toolkit/query/react"
 import {customError, LoginResponseType} from "./types.ts";
 
-
+interface User {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phoneNumber?: string;
+    dateOfBirth?: string;
+    role?: string;
+    aboutMe?: string;
+    profilePicture?: string;
+}
 
 export const userApi = createApi({
     reducerPath: 'userApi',
@@ -24,7 +33,7 @@ export const userApi = createApi({
                 response
             ) => response,
         }),
-        register: mutation<LoginResponseType, void>({
+        register: mutation<LoginResponseType, User>({
             query: (data) => ({
                 url: 'users',
                 method: 'POST',

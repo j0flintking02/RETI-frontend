@@ -33,3 +33,15 @@ export interface TabItem {
 export type TabsProps = {
     items: TabItem[];
 };
+
+export interface SectionsPageProps {
+    sectionsData: {
+        firstName?: string;
+        lastName?: string;
+        email?: string;
+        phoneNumber?: string;
+        dateOfBirth?: string;
+        role?: string
+    };
+    setSectionsData: React.Dispatch<React.SetStateAction<{ role: string } | null>>;
+}

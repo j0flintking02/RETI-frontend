@@ -1,39 +1,28 @@
 
 import React, { useState } from 'react';
-import { Button, Progress } from 'antd';
+import { Button, Progress, Form } from 'antd';
 import WelcomePage from './WelcomePage';
 import InformationPage from './InformationPage';
 import SectionsPage from './SectorsPage';
 import AdditionalInformationPage from './AdditionalInformationPage';
+import {useRegisterMutation} from "../../services/users.ts";
 
+interface InformData {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    phoneNumber?: string;
+    dateOfBirth?: string;
+    role?: string
+}
 
-
-const steps = [
-    {
-        title: 'Welcome',
-        content: () => <WelcomePage />,
-        key: 'welcomeData',
-    },
-    {
-        title: 'Second',
-        content: () => <InformationPage />,
-        key: 'informationData',
-    },
-    {
-        title: 'Third',
-        content: ({ sectionsData, setSectionsData }: { sectionsData: string | null; setSectionsData: React.Dispatch<React.SetStateAction<string | null>> }) => (
-            <SectionsPage sectionsData={sectionsData} setSectionsData={setSectionsData} />
-        ),
-        key: 'sectionsData',
-    },
-    {
-        title: 'four',
-        content: () => <AdditionalInformationPage />,
-        key: 'lastData',
-    },
-];
+interface AdditionalInformation {
+    aboutMe?: string;
+    profilePicture?: string;
+}
 
 const Onboarding: React.FC = () => {
+    const [form] = Form.useForm();
 
     const [current, setCurrent] = useState(0);
 
@@ -41,15 +30,46 @@ const Onboarding: React.FC = () => {
 
     const prev = () => setCurrent((prev) => prev - 1);
 
+    const [informData, setInformData] = useState<InformData | null>(null);
     const [sectionsData, setSectionsData] = useState<string | null>(null);
+    const [additionalData, setAdditionalData] = useState<AdditionalInformation | null>(null);
 
-    // form data
-    const handleSubmit = () => {
-        console.log('form data:', { sectionsData });
-
-    };
+    const steps = [
+        {
+            title: 'Welcome',
+            content: () => <WelcomePage />,
+            key: 'welcomeData',
+        },
+        {
+            title: 'Second',
+            content: () => (
+                <InformationPage setInformData={setInformData} />),
+            key: 'informationData',
+        },
+        {
+            title: 'Third',
+            content: () => (
+                <SectionsPage sectionsData={sectionsData} setSectionsData={setSectionsData} />
+            ),
+            key: 'sectionsData',
+        },
+        {
+            title: 'four',
+            content: () => <AdditionalInformationPage setAdditionalData={setAdditionalData} />,
+            key: 'lastData',
+        },
+    ];
+    console.log(additionalData, 'sectionsData1');
+    const [registerUser] = useRegisterMutation()
 
     const progressPercentage = ((current + 1) / steps.length) * 100;
+    const handleFinish = async ()=> {
+        await registerUser({
+            ...informData,
+            ...additionalData,
+            role:sectionsData,
+        }).unwrap()
+    }
 
     return (
         <div className='py-20'>
@@ -57,7 +77,7 @@ const Onboarding: React.FC = () => {
                 <div
                     className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8"
                 >
-                    <form>
+                    <Form form={form} onFinish={handleFinish}>
                         {/* Progress bar & step text */}
                         <div className='px-2'>
                             <div className="font-semibold text-sm text-gray-900">
@@ -70,10 +90,7 @@ const Onboarding: React.FC = () => {
                         <div  className="sm:h-[500px] px-2 w-full sm:overflow-hidden">
                            
                             {/* {steps[current].content} */}
-                            {steps[current].content({
-                                sectionsData,
-                                setSectionsData,
-                            })}
+                            {steps[current].content()}
                         </div>
 
                         {/* Navigation buttons */}
@@ -92,13 +109,13 @@ const Onboarding: React.FC = () => {
                                 <Button
                                     className="ml-2 w-24"
                                     type="primary"
-                                    onClick={() => handleSubmit()}
+                                    htmlType="submit"
                                 >
                                     Finish
                                 </Button>
                             )}
                         </div>
-                    </form>
+                    </Form>
                 </div>
             </div>
         </div>
