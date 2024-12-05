@@ -1,5 +1,6 @@
 import {createApi, fetchBaseQuery, BaseQueryFn, FetchArgs} from "@reduxjs/toolkit/query/react"
 import {customError, LoginResponseType} from "./types.ts";
+import {getHeaders} from "../utils.ts";
 
 interface User {
     firstName?: string;
@@ -44,6 +45,18 @@ export const userApi = createApi({
                 response
             ) => response,
         }),
+        updateProfile: mutation<LoginResponseType, { data:User; user_id: string }>({
+            query: ({data, user_id}) => ({
+                url: `profiles/${user_id}`,
+                method: 'POST',
+                body: data,
+                headers: getHeaders(),
+            }),
+            transformResponse: (response) => response,
+            transformErrorResponse: (
+                response
+            ) => response,
+        }),
         googleAuth: mutation<LoginResponseType, void>({
             query: (data) => ({
                 url: 'auth/login/google',
@@ -61,5 +74,6 @@ export const userApi = createApi({
 export const {
     useLoginMutation,
     useRegisterMutation,
-    useGoogleAuthMutation
+    useGoogleAuthMutation,
+    useUpdateProfileMutation
 } = userApi

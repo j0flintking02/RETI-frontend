@@ -1,7 +1,10 @@
 import {Button, DatePicker, Form, Input, Select} from "antd";
+import {userDetails} from "../../utils.ts";
+import moment from "moment";
 
 const InformationPage = ({setInformData}) => {
     const [form] = Form.useForm();
+    const user = userDetails().data||{}
     const {Option} = Select;
     const prefixSelector = (
         <Form.Item name="prefix" noStyle>
@@ -10,6 +13,22 @@ const InformationPage = ({setInformData}) => {
             </Select>
         </Form.Item>
     );
+    const validateDOB = (_, value) => {
+        if (!value) {
+            return Promise.reject(new Error('Date of Birth is required'));
+        }
+        const today = moment();
+        console.log(value.$d);
+        const age = today.diff(moment(value.$d), 'years');
+        console.log(age)
+        if (age < 18) {
+            return Promise.reject(new Error('You must be at least 18 years old'));
+        }
+        if (age > 150) {
+            return Promise.reject(new Error('Please enter a valid Date of Birth'));
+        }
+        return Promise.resolve();
+    };
     return (
         <>
             <div className="text-xl/8 font-semibold text-gray-900 sm:text-lg/9">
@@ -20,6 +39,12 @@ const InformationPage = ({setInformData}) => {
                 form={form}
                 layout="vertical"
                 style={{maxWidth: '100%'}}
+                initialValues={{
+                    "firstName": user?.firstName,
+                    "lastName": user?.lastName,
+                    "email": user?.email,
+                    "prefix": "256",
+                }}
             >
                 <Form.Item className="my-24">
                     <Form.Item
@@ -29,29 +54,31 @@ const InformationPage = ({setInformData}) => {
                             size="large"
                             placeholder="Enter your first name"
                             type="text"
+                            disabled
                         />
                     </Form.Item>
                     <Form.Item
                         style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
                         label="Last name" name="lastName">
-                        <Input size="large" placeholder="Enter your Last name" type="text"/>
+                        <Input size="large" placeholder="Enter your Last name" type="text" disabled/>
                     </Form.Item>
                 </Form.Item>
 
                 <Form.Item className="my-24">
                     <Form.Item
                         style={{display: 'inline-block', width: '50%', margin: '0'}}
-                        label="Date of birth" name="dateOfBirth">
-                        <DatePicker size="large" className="w-full" needConfirm/>
+                        label="Date of birth" name="dateOfBirth" rules={[{ validator: validateDOB }]}>
+                        <DatePicker size="large" className="w-full"/>
                     </Form.Item>
 
                     <Form.Item
                         style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
                         label="Gender" name="gender">
-                        <Input
-                            size="large"
-                            placeholder="Enter your gender"
-                            type="text"/>
+                        <Select size="large" defaultValue="other">
+                            <Select.Option value="male">Male</Select.Option>
+                            <Select.Option value="female">Female</Select.Option>
+                            <Select.Option value="other">Other</Select.Option>
+                        </Select>
                     </Form.Item>
                 </Form.Item>
                 <Form.Item className="my-24">
@@ -62,6 +89,7 @@ const InformationPage = ({setInformData}) => {
                             size="large"
                             placeholder="Enter your email"
                             type="email"
+                            disabled
                         />
                     </Form.Item>
                     <Form.Item
@@ -71,9 +99,14 @@ const InformationPage = ({setInformData}) => {
                     </Form.Item>
                 </Form.Item>
                 <Form.Item className="my-24">
-                    <Button type="default" block onClick={()=>{
+                    <Button type="default" block onClick={() => {
                         const values = form.getFieldsValue();
-                        setInformData(values);
+                        setInformData({
+                            "dateOfBirth": values.dateOfBirth,
+                            "age": moment().diff(moment(values.dateOfBirth), 'years'),
+                            "gender": values.gender,
+                            "phoneNumber": `${values.prefix}${values.phoneNumber}`,
+                            values});
                     }}>Save</Button>
                 </Form.Item>
             </Form>

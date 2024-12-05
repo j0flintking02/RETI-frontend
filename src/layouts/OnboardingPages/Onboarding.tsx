@@ -1,11 +1,13 @@
 
-import React, { useState } from 'react';
-import { Button, Progress, Form } from 'antd';
+import React, {useEffect, useState} from 'react';
+import {Button, Progress, Form, notification} from 'antd';
 import WelcomePage from './WelcomePage';
 import InformationPage from './InformationPage';
 import SectionsPage from './SectorsPage';
 import AdditionalInformationPage from './AdditionalInformationPage';
-import {useRegisterMutation} from "../../services/users.ts";
+import {useUpdateProfileMutation} from "../../services/users.ts";
+import {userDetails} from "../../utils.ts";
+import {useNavigate} from "react-router-dom";
 
 interface InformData {
     firstName?: string;
@@ -23,6 +25,7 @@ interface AdditionalInformation {
 
 const Onboarding: React.FC = () => {
     const [form] = Form.useForm();
+    const navigate = useNavigate();
 
     const [current, setCurrent] = useState(0);
 
@@ -59,17 +62,39 @@ const Onboarding: React.FC = () => {
             key: 'lastData',
         },
     ];
-    console.log(additionalData, 'sectionsData1');
-    const [registerUser] = useRegisterMutation()
+    const [updateUser, {isSuccess}] = useUpdateProfileMutation()
 
     const progressPercentage = ((current + 1) / steps.length) * 100;
     const handleFinish = async ()=> {
-        await registerUser({
-            ...informData,
-            ...additionalData,
-            role:sectionsData,
-        }).unwrap()
+        try {
+            await updateUser({data:{
+                    ...informData,
+                    ...additionalData,
+                    role:sectionsData,
+                }, user_id: userDetails().data.id}).unwrap()
+        } catch (e) {
+            let message = 'Try again'
+            if (typeof e.data.message === "string") {
+                message = e.data.message
+            } else {
+                message = e.data.message[0]
+            }
+            notification['error']({
+                message: 'Something went wrong',
+                description:
+                message,
+            });
+        }
     }
+    useEffect(() => {
+        if (isSuccess) {
+            localStorage.removeItem('userDetails')
+            notification["success"]({
+                message: 'Profile updated successfully',
+            })
+            navigate("/");
+        }
+    }, [isSuccess]);
 
     return (
         <div className='py-20'>
