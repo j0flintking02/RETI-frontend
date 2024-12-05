@@ -53,7 +53,7 @@ const PreferencesSettings = () => {
   return (
     <div className="mt-2">
       <Layout className={`${globalStyles.container.card.base} ${
-        isDarkMode ? globalStyles.background.dark : globalStyles.container.card.light
+        isDarkMode ? `${globalStyles.background.dark} border-[#3A3B3C]`: globalStyles.container.card.light
       }`}>
         <Content className="px-4 py-4 space-y-4">
           <div className={`sm:flex sm:justify-between border-b ${

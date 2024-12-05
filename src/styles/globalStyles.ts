@@ -44,7 +44,10 @@ export const globalStyles = {
     base: 'w-full rounded-md',
     light: 'bg-white border-gray-300 text-gray-900 placeholder-gray-500',
     dark: 'bg-gray-800 border-gray-700 text-gray-300 placeholder-gray-400',
-    focus: 'focus:border-blue-500 focus:ring-1 focus:ring-blue-500'
+    focus: 'focus:border-blue-500 focus:ring-1 focus:ring-blue-500',
+    search: {
+      dark: '[&_input::placeholder]:text-white'
+    }
   },
   button: {
     primary: {

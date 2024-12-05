@@ -18,18 +18,25 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
       {/* search / logo */}
       <div className="hidden lg:block px-4 w-1/3">
         <Input
-          size="large"
-          placeholder="Search"
-          className={`w-full ${
-            isDarkMode 
-              ? "border-gray-700 text-white [&::placeholder]:text-gray-300" 
-              : "border-gray-300 text-gray-900 [&::placeholder]:text-gray-500"
-          }`}
+           size="large"
+           placeholder="Search"
+           className={`w-full ${
+             isDarkMode
+               ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark}`
+               : "bg-transparent border-gray-300 text-gray-900"
+           }`}
           prefix={<SearchOutlined className={
             isDarkMode ? 'text-gray-300' : 'text-gray-500'
           } />}
           style={{
             backgroundColor: 'transparent'
+          }}
+          styles={{
+            input: {
+              '&::placeholder': {
+                color: isDarkMode ? '#D1D5DB' : '#6B7280'
+              }
+            }
           }}
         />
       </div>

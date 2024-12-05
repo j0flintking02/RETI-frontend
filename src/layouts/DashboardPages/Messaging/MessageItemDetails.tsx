@@ -13,8 +13,8 @@ export default function MessagingItemDetails() {
     return (
         <>
             {isVisible && (
-                <div className={`sm:w-6/12 border-l sm:block hidden ${globalStyles.container.card.base} ${
-                    isDarkMode ? globalStyles.background.dark : globalStyles.container.card.light
+                <div className={`sm:w-8/12 border-l sm:block hidden ${globalStyles.container.card.base} ${
+                    isDarkMode ? `${globalStyles.background.dark} border-[#3A3B3C]`: globalStyles.container.card.light
                 }`}>
                     <div className={`p-4 border-b flex items-center justify-between ${
                         isDarkMode ? 'border-gray-700' : 'border-gray-300'
@@ -27,9 +27,14 @@ export default function MessagingItemDetails() {
                         <Button
                             size="small"
                             type="link"
-                            className={`hover:underline ${globalStyles.button.secondary.base} ${
-                                isDarkMode ? globalStyles.button.secondary.dark : globalStyles.button.secondary.light
+                            className={`${
+                                isDarkMode 
+                                    ? "bg-transparent text-gray-300 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-100" 
+                                    : "bg-transparent text-gray-700 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-900"
                             }`}
+                            style={{
+                                backgroundColor: 'transparent'
+                            }}
                             onClick={() => setIsVisible(false)}
                         >
                             Hide details

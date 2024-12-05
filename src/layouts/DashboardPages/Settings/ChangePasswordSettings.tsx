@@ -15,7 +15,7 @@ const ChangePasswordSettings = () => {
   return (
     <div className="mt-2">
       <Layout className={`${globalStyles.container.card.base} ${
-        isDarkMode ? globalStyles.background.dark : globalStyles.container.card.light
+        isDarkMode ? `${globalStyles.background.dark} border-[#3A3B3C]`: globalStyles.container.card.light
       }`}>
         <Content className="px-4 py-4 space-y-4">
           <div className="sm:flex sm:justify-between">
@@ -58,18 +58,23 @@ const ChangePasswordSettings = () => {
                   placeholder="Enter your current password"
                   size="large"
                   type={currentPasswordVisible ? "text" : "password"}
-                  className={`${globalStyles.input.base} ${
-                    isDarkMode ? globalStyles.input.dark : globalStyles.input.light
-                  } ${globalStyles.input.focus}`}
+                  className={`w-full ${
+                    isDarkMode
+                      ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark}`
+                      : "bg-transparent border-gray-300 text-gray-900"
+                  }`}
+                  style={{
+                    backgroundColor: "transparent",
+                  }}
                   suffix={
                     currentPasswordVisible ? (
                       <EyeOutlined
-                        className="text-gray-400"
+                        className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                         onClick={() => setCurrentPasswordVisible(false)}
                       />
                     ) : (
                       <EyeInvisibleOutlined
-                        className="text-gray-400"
+                        className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                         onClick={() => setCurrentPasswordVisible(true)}
                       />
                     )
@@ -88,18 +93,23 @@ const ChangePasswordSettings = () => {
                   placeholder="Enter your new password"
                   size="large"
                   type={newPasswordVisible ? "text" : "password"}
-                  className={`${globalStyles.input.base} ${
-                    isDarkMode ? globalStyles.input.dark : globalStyles.input.light
-                  } ${globalStyles.input.focus}`}
+                  className={`w-full ${
+                    isDarkMode
+                      ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark}`
+                      : "bg-transparent border-gray-300 text-gray-900"
+                  }`}
+                  style={{
+                    backgroundColor: "transparent",
+                  }}
                   suffix={
                     newPasswordVisible ? (
                       <EyeOutlined
-                        className="text-gray-400"
+                        className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                         onClick={() => setNewPasswordVisible(false)}
                       />
                     ) : (
                       <EyeInvisibleOutlined
-                        className="text-gray-400"
+                        className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                         onClick={() => setNewPasswordVisible(true)}
                       />
                     )
@@ -118,18 +128,23 @@ const ChangePasswordSettings = () => {
                   placeholder="Confirm your new password"
                   size="large"
                   type={confirmPasswordVisible ? "text" : "password"}
-                  className={`${globalStyles.input.base} ${
-                    isDarkMode ? globalStyles.input.dark : globalStyles.input.light
-                  } ${globalStyles.input.focus}`}
+                  className={`w-full ${
+                    isDarkMode
+                      ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark}`
+                      : "bg-transparent border-gray-300 text-gray-900"
+                  }`}
+                  style={{
+                    backgroundColor: "transparent",
+                  }}
                   suffix={
                     confirmPasswordVisible ? (
                       <EyeOutlined
-                        className="text-gray-400"
+                        className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                         onClick={() => setConfirmPasswordVisible(false)}
                       />
                     ) : (
                       <EyeInvisibleOutlined
-                        className="text-gray-400"
+                        className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                         onClick={() => setConfirmPasswordVisible(true)}
                       />
                     )

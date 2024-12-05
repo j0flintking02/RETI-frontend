@@ -13,7 +13,7 @@ export default function MessagingChatDetails() {
     return (
         <>
             <div className={`sm:w-11/12 ${globalStyles.container.card.base} ${
-                isDarkMode ? globalStyles.background.dark  : globalStyles.container.card.light
+                isDarkMode ? `${globalStyles.background.dark} border-[#3A3B3C]`  : globalStyles.container.card.light
             }`}>
                 <div
                     className={`p-4 border-b flex items-center justify-between ${
@@ -85,9 +85,16 @@ export default function MessagingChatDetails() {
                     />
 
                     <TextArea
-                        className={`p-2 mr-2 ml-2 ${isDarkMode ? "bg-gray-600 text-gray-300" : "bg-white text-gray-900"}`}
+                        className={`p-2 mr-2 ml-2 ${
+                            isDarkMode 
+                                ? "bg-transparent border-gray-700 text-white placeholder-gray-400 hover:bg-transparent focus:bg-transparent active:bg-transparent" 
+                                : "bg-transparent border-gray-300 text-gray-900 placeholder-gray-500 hover:bg-transparent focus:bg-transparent active:bg-transparent"
+                        }`}
                         placeholder="Type a message"
                         autoSize
+                        style={{
+                            backgroundColor: 'transparent'
+                        }}
                     />
 
                     <div>

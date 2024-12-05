@@ -12,7 +12,7 @@ const PersonalInformationSettings = () => {
   return (
     <div className="mt-2">
       <Layout className={`${globalStyles.container.card.base} ${
-        isDarkMode ? globalStyles.background.dark : globalStyles.container.card.light
+        isDarkMode ? `${globalStyles.background.dark} border-[#3A3B3C]`: globalStyles.container.card.light
       }`}>
         <Content className="px-4 py-4 space-y-4">
           <div className="sm:flex sm:justify-between">
@@ -29,9 +29,16 @@ const PersonalInformationSettings = () => {
               </p>
             </div>
             <div className="flex gap-2 mt-4">
-              <Button className={`w-32 p-2 ${globalStyles.button.secondary.base} ${
-                isDarkMode ? globalStyles.button.secondary.dark : globalStyles.button.secondary.light
-              }`}>
+              <Button 
+                className={`w-32 p-2 ${
+                  isDarkMode 
+                    ? "bg-transparent border border-gray-700 text-gray-300 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-100 hover:border-gray-600" 
+                    : "bg-transparent border border-gray-300 text-gray-700 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-900 hover:border-gray-400"
+                }`}
+                style={{
+                  backgroundColor: 'transparent'
+                }}
+              >
                 Cancel
               </Button>
               <Button className={`w-32 p-2 ${globalStyles.button.primary.base} ${

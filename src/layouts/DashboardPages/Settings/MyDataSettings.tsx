@@ -11,7 +11,7 @@ const MyDataSettings = () => {
     return (
         <div className="mt-2">
             <Layout className={`${globalStyles.container.card.base} ${
-                isDarkMode ? globalStyles.background.dark : globalStyles.container.card.light
+                isDarkMode ? `${globalStyles.background.dark} border-[#3A3B3C]` : globalStyles.container.card.light
             }`}>
                 <Content className="px-4 py-4 space-y-4">
                     <div className={`sm:flex sm:justify-between border-b py-4 ${
@@ -51,11 +51,16 @@ const MyDataSettings = () => {
                             <div className="space-y-2">
                                 <div className="flex items-center gap-x-3 pt-2">
                                     <Button 
-                                        className={`px-4 ${globalStyles.button.secondary.base} ${
-                                            isDarkMode ? globalStyles.button.secondary.dark : globalStyles.button.secondary.light
+                                        className={`px-4 ${
+                                            isDarkMode 
+                                                ? "bg-transparent border border-gray-700 text-gray-300 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-100 hover:border-gray-600" 
+                                                : "bg-transparent border border-gray-300 text-gray-700 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-900 hover:border-gray-400"
                                         }`} 
                                         icon={<DownloadOutlined />} 
                                         size="large"
+                                        style={{
+                                            backgroundColor: 'transparent'
+                                        }}
                                     >
                                         Download your data
                                     </Button>
@@ -82,11 +87,16 @@ const MyDataSettings = () => {
                             <div className="space-y-2">
                                 <div className="flex items-center gap-x-3 pt-2">
                                     <Button 
-                                        className={`px-4 ${globalStyles.button.secondary.base} ${
-                                            isDarkMode ? globalStyles.button.secondary.dark : globalStyles.button.secondary.light
+                                        className={`px-4 ${
+                                            isDarkMode 
+                                                ? "bg-transparent border border-gray-700 text-gray-300 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-100 hover:border-gray-600" 
+                                                : "bg-transparent border border-gray-300 text-gray-700 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-900 hover:border-gray-400"
                                         }`} 
                                         icon={<DownloadOutlined />} 
                                         size="large"
+                                        style={{
+                                            backgroundColor: 'transparent'
+                                        }}
                                     >
                                         Download your data
                                     </Button>
