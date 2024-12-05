@@ -1,42 +1,69 @@
-
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Avatar, Badge, Input } from "antd";
 import { MenuOutlined, BellOutlined, UserOutlined, SearchOutlined } from "@ant-design/icons";
+import { ThemeContext } from "../../ThemeContext";
+import { globalStyles } from "../../styles/globalStyles";
 
 interface HeaderProps {
-    onMenuClick: () => void;
+  onMenuClick: () => void;
 }
 
-// const { Search } = Input;
-
 const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
-    return (
-        <div className="h-16 bg-white flex justify-between items-center px-4 border-b border-gray-300 shadow-sm">
-            {/* search / logo */}
-            <div className="hidden lg:block px-4"> 
-            <Input size="large" placeholder="Search" style={{ width: 400 }}  prefix={<SearchOutlined/>}/>
-            {/* <Search  size="large"placeholder="input search text" style={{ width: 200 }} /> */}
-            </div>
-            <div className="text-lg font-bold block lg:hidden">My Dashboard</div>
-            
-            {/* Notifications and Avatar */}
-            <div className="flex items-center space-x-4">
-                <Button type="primary" className="hidden lg:block">Find a place</Button>
-                <Badge count={5} className="hidden lg:block">
-                    <BellOutlined className="text-xl" />
-                </Badge>
-                <Avatar size="default" icon={<UserOutlined />} />
-                {/* Hamburger Menu */}
-                <Button
-                    className="block lg:hidden mt-2"
-                    type="text"
-                    icon={<MenuOutlined className="text-xl lg:hidden" />}
-                    onClick={onMenuClick}
-                />
-            </div>
+  const { isDarkMode } = useContext(ThemeContext);
 
-        </div>
-    );
+  return (
+    <div className={`h-16 flex justify-between items-center px-4 ${
+      isDarkMode ? globalStyles.background.dark : 'bg-white'
+    }`}>
+      {/* search / logo */}
+      <div className="hidden lg:block px-4 w-1/3">
+        <Input
+          size="large"
+          placeholder="Search"
+          className={`w-full ${
+            isDarkMode 
+              ? "border-gray-700 text-white [&::placeholder]:text-gray-300" 
+              : "border-gray-300 text-gray-900 [&::placeholder]:text-gray-500"
+          }`}
+          prefix={<SearchOutlined className={
+            isDarkMode ? 'text-gray-300' : 'text-gray-500'
+          } />}
+          style={{
+            backgroundColor: 'transparent'
+          }}
+        />
+      </div>
+      <div className={`text-lg font-bold block lg:hidden ${globalStyles.text.primary.base} ${
+        isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
+      }`}>
+        My Dashboard
+      </div>
+
+      {/* Notifications and Avatar */}
+      <div className="flex items-center space-x-4">
+        <Button className={`hidden lg:block flex items-center justify-center h-9 ${globalStyles.button.primary.base} ${
+          isDarkMode ? globalStyles.button.primary.dark : globalStyles.button.primary.light
+        }`} type="primary">
+          <span className="flex items-center justify-center">Find a place</span>
+        </Button>
+        <Badge count={5} className="hidden lg:block">
+          <BellOutlined className={`text-xl ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          }`} />
+        </Badge>
+        <Avatar size="default" icon={<UserOutlined />} />
+        {/* Hamburger Menu */}
+        <Button
+          className={`block lg:hidden mt-2 ${globalStyles.button.secondary.base} ${
+            isDarkMode ? globalStyles.button.secondary.dark : globalStyles.button.secondary.light
+          }`}
+          type="text"
+          icon={<MenuOutlined className="text-xl lg:hidden" />}
+          onClick={onMenuClick}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default Header;

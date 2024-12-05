@@ -2,10 +2,12 @@
 import { useEffect, useContext } from "react";
 import { Layout, Switch } from "antd";
 import { Content } from "antd/es/layout/layout";
-import { ThemeContext } from "../../../ThemeContext"; // Make sure to import the ThemeContext
+import { ThemeContext } from "../../../ThemeContext";
+import { globalStyles } from "../../../styles/globalStyles";
 
 const PreferencesSettings = () => {
-  const { isDarkMode, toggleTheme } = useContext(ThemeContext); // Access theme state and toggle function
+  const { isDarkMode, toggleTheme } = useContext(ThemeContext);
+  
   useEffect(() => {
     if (isDarkMode) {
       document.body.classList.add("dark");
@@ -13,8 +15,9 @@ const PreferencesSettings = () => {
       document.body.classList.remove("dark");
     }
   }, [isDarkMode]);
+
   const onChange = (checked: boolean) => {
-    toggleTheme(); // Call the toggleTheme function when the switch changes
+    toggleTheme();
   };
 
   const notificationSections = [
@@ -49,35 +52,44 @@ const PreferencesSettings = () => {
 
   return (
     <div className="mt-2">
-      <Layout
-        className={`transition-colors duration-300 ${
-          isDarkMode ? "dark" : "light"
-        }`}
-      >
-        <Content className="px-4 py-4 space-y-4 bg-white dark:bg-gray-900 border border-gray-900/10 dark:border-gray-700 rounded-lg">
-          <div className="sm:flex sm:justify-between border-b border-gray-900/10 dark:border-gray-700 py-4">
+      <Layout className={`${globalStyles.container.card.base} ${
+        isDarkMode ? globalStyles.background.dark : globalStyles.container.card.light
+      }`}>
+        <Content className="px-4 py-4 space-y-4">
+          <div className={`sm:flex sm:justify-between border-b ${
+            isDarkMode ? 'border-gray-700' : 'border-gray-300'
+          } py-4`}>
             <div>
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <h2 className={`${globalStyles.heading.secondary} ${
+                isDarkMode ? globalStyles.heading.dark : globalStyles.heading.light
+              }`}>
                 Preferences
               </h2>
-              <p className="mt-1 text-sm/6 text-gray-600 dark:text-gray-300">
+              <p className={`mt-1 ${globalStyles.text.secondary.base} ${
+                isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+              }`}>
                 Here you can manage your notifications and preferences.
               </p>
             </div>
           </div>
 
-          {/* Preferences */}
           <div className="py-4">
             {notificationSections.map((section) => (
               <div
                 key={section.id}
-                className="sm:flex sm:justify-between border-b border-gray-900/10 dark:border-gray-700 py-4"
+                className={`sm:flex sm:justify-between border-b ${
+                  isDarkMode ? 'border-gray-700' : 'border-gray-300'
+                } py-4`}
               >
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                  <h2 className={`${globalStyles.heading.secondary} ${
+                    isDarkMode ? globalStyles.heading.dark : globalStyles.heading.light
+                  }`}>
                     {section.heading}
                   </h2>
-                  <p className="mt-1 text-sm/6 text-gray-600 dark:text-gray-300">
+                  <p className={`mt-1 ${globalStyles.text.secondary.base} ${
+                    isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+                  }`}>
                     {section.description}
                   </p>
                 </div>
@@ -102,7 +114,9 @@ const PreferencesSettings = () => {
                           }
                         />
                       )}
-                      <p className="block text-md text-gray-900 dark:text-gray-100">
+                      <p className={`block ${globalStyles.text.primary.base} ${
+                        isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
+                      }`}>
                         {option.label}
                       </p>
                     </div>

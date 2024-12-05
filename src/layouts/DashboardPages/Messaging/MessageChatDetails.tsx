@@ -5,14 +5,16 @@ import { Badge, Button, Space } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useContext } from "react";
 import { ThemeContext } from "../../../ThemeContext"; // Assuming ThemeContext is used for dark mode
+import { globalStyles } from "../../../styles/globalStyles";
 
 export default function MessagingChatDetails() {
     const { isDarkMode } = useContext(ThemeContext); // Access dark mode context
 
     return (
         <>
-            {/* typing */}
-            <div className={`sm:w-11/12 ${isDarkMode ? "bg-gray-800" : "bg-white"}`}>
+            <div className={`sm:w-11/12 ${globalStyles.container.card.base} ${
+                isDarkMode ? globalStyles.background.dark  : globalStyles.container.card.light
+            }`}>
                 <div
                     className={`p-4 border-b flex items-center justify-between ${
                         isDarkMode ? "border-gray-600" : "border-gray-200"

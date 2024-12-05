@@ -5,6 +5,7 @@ import InformationPage from "./InformationPage";
 import SectionsPage from "./SectorsPage";
 import AdditionalInformationPage from "./AdditionalInformationPage";
 import { ThemeContext } from "../../ThemeContext";
+import { globalStyles } from "../../styles/globalStyles";
 
 const steps = [
   {
@@ -42,16 +43,12 @@ const steps = [
 
 const Onboarding: React.FC = () => {
   const [current, setCurrent] = useState(0);
-
   const { isDarkMode } = useContext(ThemeContext);
-
-  const next = () => setCurrent((prev) => prev + 1);
-
-  const prev = () => setCurrent((prev) => prev - 1);
-
   const [sectionsData, setSectionsData] = useState<string | null>(null);
 
-  // form data
+  const next = () => setCurrent((prev) => prev + 1);
+  const prev = () => setCurrent((prev) => prev - 1);
+
   const handleSubmit = () => {
     console.log("form data:", { sectionsData });
   };
@@ -59,13 +56,19 @@ const Onboarding: React.FC = () => {
   const progressPercentage = ((current + 1) / steps.length) * 100;
 
   return (
-    <div className={`py-20 ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'}`}>
-      <div className="mx-auto max-w-2xl">
+    <div className={`min-h-screen py-20 ${globalStyles.page.base} ${
+      isDarkMode ? 'bg-gray-950' : globalStyles.page.light
+    }`}>
+      <div className={`mx-auto max-w-2xl ${globalStyles.container.card.base} ${
+        isDarkMode ? 'bg-gray-900 border border-gray-800' : globalStyles.container.card.light
+      }`}>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <form>
             {/* Progress bar & step text */}
             <div className="px-2">
-              <div className={`font-semibold text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              <div className={`font-semibold ${globalStyles.text.primary.base} ${
+                isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
+              }`}>
                 Step {current + 1} of {steps.length}
               </div>
               <Progress percent={progressPercentage} showInfo={false} />
@@ -73,9 +76,8 @@ const Onboarding: React.FC = () => {
 
             {/* Step content */}
             <div className={`sm:h-[500px] px-2 w-full sm:overflow-hidden ${
-                isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
-              }`}>
-              {/* {steps[current].content} */}
+              isDarkMode ? 'bg-gray-900' : 'bg-white'
+            }`}>
               {steps[current].content({
                 sectionsData,
                 setSectionsData,
@@ -83,15 +85,22 @@ const Onboarding: React.FC = () => {
             </div>
 
             {/* Navigation buttons */}
-            <div className="mt-10 text-right">
+            <div className="mt-10 flex justify-end gap-2">
               {current > 0 && (
-                <Button className="ml-2 w-24" onClick={() => prev()}>
+                <Button
+                  className={`w-24 ${globalStyles.button.secondary.base} ${
+                    isDarkMode ? globalStyles.button.secondary.dark : globalStyles.button.secondary.light
+                  }`}
+                  onClick={() => prev()}
+                >
                   Back
                 </Button>
               )}
               {current < steps.length - 1 && (
                 <Button
-                  className="ml-2 w-24"
+                  className={`w-24 ${globalStyles.button.primary.base} ${
+                    isDarkMode ? globalStyles.button.primary.dark : globalStyles.button.primary.light
+                  }`}
                   type="primary"
                   onClick={() => next()}
                 >
@@ -100,7 +109,9 @@ const Onboarding: React.FC = () => {
               )}
               {current === steps.length - 1 && (
                 <Button
-                  className="ml-2 w-24"
+                  className={`w-24 ${globalStyles.button.primary.base} ${
+                    isDarkMode ? globalStyles.button.primary.dark : globalStyles.button.primary.light
+                  }`}
                   type="primary"
                   onClick={() => handleSubmit()}
                 >

@@ -2,13 +2,16 @@ import { useContext } from "react";
 import viteLogo from "/vite.svg";
 import RegisterForm from "../../components/seconday/registerForm";
 import { ThemeContext } from "../../ThemeContext";
+import { globalStyles } from "../../styles/globalStyles";
 
 export default function RegisterPage() {
   const { isDarkMode } = useContext(ThemeContext); 
 
   return (
-    <div className={`xl:py-10 ${isDarkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"}`}>
-      <div className="mx-auto max-w-7xl">
+    <div className={`${globalStyles.page.base} ${
+      isDarkMode ? globalStyles.page.dark : globalStyles.page.light
+    }`}>
+      <div className={globalStyles.container.base}>
         <div className="flex min-h-full flex-1">
           <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
             <div className="mx-auto w-full max-w-sm lg:w-96">
@@ -18,10 +21,14 @@ export default function RegisterPage() {
                   src={viteLogo}
                   className="h-10 w-auto"
                 />
-                <h2 className="mt-8 text-2xl/9 font-bold tracking-tight">
+                <h2 className={`mt-8 ${globalStyles.heading.primary} ${
+                  isDarkMode ? globalStyles.heading.dark : globalStyles.heading.light
+                }`}>
                   Register
                 </h2>
-                <p className="mt-2 text-sm/6">
+                <p className={`mt-2 ${globalStyles.text.secondary.base} ${
+                  isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+                }`}>
                   Start your journey with our product
                 </p>
               </div>

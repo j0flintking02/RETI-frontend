@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Input } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { globalStyles } from "../../styles/globalStyles";
 
 const ForgotPasswordForm = ({ isDarkMode }: { isDarkMode: boolean }) => {
     const [passwordVisible, setPasswordVisible] = useState(false);
@@ -10,9 +11,9 @@ const ForgotPasswordForm = ({ isDarkMode }: { isDarkMode: boolean }) => {
         <div className={`mt-8 sm:mx-auto sm:w-full sm:max-w-sm`}>
             <form className="space-y-4">
                 <div>
-                    <label
-                        className={`block text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-900"}`}
-                    >
+                    <label className={`block ${globalStyles.text.secondary.base} ${
+                        isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+                    }`}>
                         Password
                     </label>
                     <div className="mt-2">
@@ -22,29 +23,31 @@ const ForgotPasswordForm = ({ isDarkMode }: { isDarkMode: boolean }) => {
                             suffix={
                                 passwordVisible ? (
                                     <EyeOutlined
-                                        className={`${isDarkMode ? "text-gray-300" : "text-gray-400"}`}
+                                        className={`${globalStyles.text.secondary.base} ${
+                                            isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+                                        }`}
                                         onClick={() => setPasswordVisible(false)}
                                     />
                                 ) : (
                                     <EyeInvisibleOutlined
-                                        className={`${isDarkMode ? "text-gray-300" : "text-gray-400"}`}
+                                        className={`${globalStyles.text.secondary.base} ${
+                                            isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+                                        }`}
                                         onClick={() => setPasswordVisible(true)}
                                     />
                                 )
                             }
-                            className={`${
-                                isDarkMode
-                                    ? "bg-gray-800 text-gray-500 border-gray-400"
-                                    : "bg-white text-gray-900 border-gray-300"
-                            } placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
+                            className={`${globalStyles.input.base} ${
+                                isDarkMode ? globalStyles.input.dark : globalStyles.input.light
+                            }`}
                         />
                     </div>
                 </div>
 
                 <div>
-                    <label
-                        className={`block text-sm font-medium ${isDarkMode ? "text-gray-300" : "text-gray-900"}`}
-                    >
+                    <label className={`block ${globalStyles.text.secondary.base} ${
+                        isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+                    }`}>
                         Confirm password
                     </label>
                     <div className="mt-2">
@@ -54,21 +57,23 @@ const ForgotPasswordForm = ({ isDarkMode }: { isDarkMode: boolean }) => {
                             suffix={
                                 confirmPasswordVisible ? (
                                     <EyeOutlined
-                                        className={`${isDarkMode ? "text-gray-300" : "text-gray-400"}`}
+                                        className={`${globalStyles.text.secondary.base} ${
+                                            isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+                                        }`}
                                         onClick={() => setConfirmPasswordVisible(false)}
                                     />
                                 ) : (
                                     <EyeInvisibleOutlined
-                                        className={`${isDarkMode ? "text-gray-300" : "text-gray-400"}`}
+                                        className={`${globalStyles.text.secondary.base} ${
+                                            isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+                                        }`}
                                         onClick={() => setConfirmPasswordVisible(true)}
                                     />
                                 )
                             }
-                            className={`${
-                                isDarkMode
-                                    ? "bg-gray-800 text-gray-300 border-gray-400"
-                                    : "bg-white text-gray-900 border-gray-300"
-                            } placeholder-gray-500 focus:border-blue-500 focus:ring-1 focus:ring-blue-500`}
+                            className={`${globalStyles.input.base} ${
+                                isDarkMode ? globalStyles.input.dark : globalStyles.input.light
+                            }`}
                         />
                     </div>
                 </div>
@@ -76,8 +81,8 @@ const ForgotPasswordForm = ({ isDarkMode }: { isDarkMode: boolean }) => {
                 <div>
                     <Button
                         type="primary"
-                        className={`flex w-full justify-center px-3 py-4 text-sm font-semibold ${
-                            isDarkMode ? "bg-blue-600 text-white" : "bg-blue-500 text-white"
+                        className={`w-full ${globalStyles.button.primary.base} ${
+                            isDarkMode ? globalStyles.button.primary.dark : globalStyles.button.primary.light
                         }`}
                     >
                         Change password

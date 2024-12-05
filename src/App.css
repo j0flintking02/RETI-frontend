@@ -10,6 +10,6 @@ body {
 }
 
 body.dark {
-  background-color: #1a202c; /* Dark mode background */
+  background-color: #4A4A4B; /* Dark mode background */
   color: #f7fafc; /* Dark mode text color */
 }

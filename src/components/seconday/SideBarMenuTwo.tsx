@@ -6,7 +6,8 @@ import {
   MessageOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { ThemeContext } from "../../ThemeContext"; // Import the ThemeContext
+import { ThemeContext } from "../../ThemeContext";
+import { globalStyles } from "../../styles/globalStyles";
 
 interface MenuItem {
   key: string;
@@ -17,31 +18,37 @@ interface MenuItem {
 
 const { Sider } = Layout;
 
-const getMenuItems = (closeDrawer: () => void): MenuItem[] => {
+const getMenuItems = (closeDrawer: () => void, isDarkMode: boolean): MenuItem[] => {
   return [
     {
       key: "dashboard",
-      icon: <HomeOutlined />,
+      icon: <HomeOutlined className={isDarkMode ? "text-white" : "text-inherit"} />,
       label: (
-        <Link to="/" onClick={closeDrawer}>
+        <Link to="/" onClick={closeDrawer} className={`${globalStyles.text.primary.base} ${
+          isDarkMode ? "text-white" : "text-gray-900"
+        }`}>
           Dashboard
         </Link>
       ),
     },
     {
       key: "messages",
-      icon: <MessageOutlined />,
+      icon: <MessageOutlined className={isDarkMode ? "text-white" : "text-inherit"} />,
       label: (
-        <Link to="/messages" onClick={closeDrawer}>
+        <Link to="/messages" onClick={closeDrawer} className={`${globalStyles.text.primary.base} ${
+          isDarkMode ? "text-white" : "text-gray-900"
+        }`}>
           Messages
         </Link>
       ),
     },
     {
       key: "settings",
-      icon: <SettingOutlined />,
+      icon: <SettingOutlined className={isDarkMode ? "text-white" : "text-inherit"} />,
       label: (
-        <Link to="/settings" onClick={closeDrawer}>
+        <Link to="/settings" onClick={closeDrawer} className={`${globalStyles.text.primary.base} ${
+          isDarkMode ? "text-white" : "text-gray-900"
+        }`}>
           Settings
         </Link>
       ),
@@ -50,34 +57,37 @@ const getMenuItems = (closeDrawer: () => void): MenuItem[] => {
 };
 
 const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
-  const { isDarkMode } = useContext(ThemeContext); // Access theme state
+  const { isDarkMode } = useContext(ThemeContext);
   const [selectedKey, setSelectedKey] = useState("home");
 
   const handleMenuClick = (e) => {
-    setSelectedKey(e.key); // Update the selected key when an item is clicked
+    setSelectedKey(e.key);
   };
 
   return (
     <Sider
-      width={250}
-      theme={isDarkMode ? "dark" : "light"} // Apply dark or light theme based on context
-      className="h-full border-r-2"
-    >
-      <div
-        className={`h-16 py-4 px-8 ${
-          isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"
-        }`}
-      >
-        <h4 className="font-bold text-lg">Logo</h4>
+  width={250}
+  theme={isDarkMode ? "dark" : "light"}
+  className={`h-full ${
+    isDarkMode ? globalStyles.background.dark : globalStyles.background.light
+  }`}
+>
+      <div className={`h-16 py-4 px-8 ${globalStyles.text.primary.base} ${
+        isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
+      }`}>
+        <h4 className={`font-bold text-lg ${globalStyles.heading.secondary} ${
+          isDarkMode ? globalStyles.heading.dark : globalStyles.heading.light
+        }`}>Logo</h4>
       </div>
-      {/* Sidebar Menu */}
       <Menu
-        theme={isDarkMode ? "dark" : "light"} // Apply theme to menu
+        theme={isDarkMode ? "dark" : "light"}
         mode="inline"
         selectedKeys={[selectedKey]}
-        items={getMenuItems(closeDrawer)}
+        items={getMenuItems(closeDrawer, isDarkMode)}
         onClick={handleMenuClick}
-        className="capitalize flex-1 text-md"
+        className={`capitalize text-md border-0 ${
+          isDarkMode ? globalStyles.background.dark : "bg-white"
+        }`}
       />
     </Sider>
   );

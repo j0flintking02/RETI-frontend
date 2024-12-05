@@ -1,30 +1,22 @@
 import CustomAppTitle from "../../../components/seconday/CustomAppTitle";
 import Layout, { Content } from "antd/es/layout/layout";
-import { useContext, useEffect } from "react";
-import { ThemeContext } from "../../../ThemeContext"; // Import the ThemeContext
+import { useContext } from "react";
+import { ThemeContext } from "../../../ThemeContext";
 import MessagingChats from "./MessagesChats";
 import MessagingChatDetails from "./MessageChatDetails";
 import MessagingItemDetails from "./MessageItemDetails";
+import { globalStyles } from "../../../styles/globalStyles";
 
 const MessagesPage = () => {
-    const { isDarkMode } = useContext(ThemeContext); // Access dark mode state
-
-    useEffect(() => {
-        // Apply the dark mode class to the body based on the theme
-        if (isDarkMode) {
-            document.body.classList.add("dark");
-        } else {
-            document.body.classList.remove("dark");
-        }
-    }, [isDarkMode]);
+    const { isDarkMode } = useContext(ThemeContext);
 
     return (
-        <div className="space-y-4">
+        <div>
             <CustomAppTitle>Messaging</CustomAppTitle>
-            <Layout className={`transition-colors duration-500 ${isDarkMode ? "dark" : "light"}`}>
-                <Content
-                    className={`bg-white dark:bg-gray-900 mt-2 border border-gray-900/10 dark:border-gray-600 rounded-lg`}
-                >
+            <Layout className={`px-4 py-4 sm:rounded-[12px] ${
+                isDarkMode ? globalStyles.background.gray.dark : 'bg-white'
+            }`}>
+                <Content className="mt-2">
                     <div className="sm:flex">
                         <MessagingChats />
                         <MessagingChatDetails />

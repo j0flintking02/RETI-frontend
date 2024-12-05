@@ -3,6 +3,7 @@ import LoginForm from "../../components/seconday/LoginForm";
 import { ThemeContext } from "../../ThemeContext"; // Ensure ThemeContext is correctly imported
 import "tailwindcss/tailwind.css";
 import viteLogo from "/vite.svg";
+import { globalStyles } from "../../styles/globalStyles";
 
 const LoginPage = () => {
   const { isDarkMode } = useContext(ThemeContext); // Access theme context for dark mode
@@ -15,15 +16,37 @@ const LoginPage = () => {
     }
   }, [isDarkMode]);
 
+  const inputStyles = isDarkMode
+    ? `
+    bg-transparent 
+    border-gray-700 
+    text-white 
+    placeholder-gray-300
+    focus:bg-transparent 
+    hover:bg-transparent
+    focus:border-gray-500
+  `
+    : `
+    bg-white 
+    border-gray-300 
+    text-gray-900 
+    placeholder-gray-500
+    focus:border-blue-500
+  `;
+
   return (
     <div
-      className={`xl:py-10 ${
-        isDarkMode ? "bg-gray-900 text-gray-300" : "bg-white text-gray-900"
+      className={`${globalStyles.page.base} ${
+        isDarkMode ? globalStyles.background.dark : globalStyles.page.light
       }`}
     >
-      <div className="mx-auto max-w-7xl">
+      <div className={globalStyles.container.base}>
         <div className="flex min-h-full flex-1">
-          <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+          <div
+            className={`flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 ${
+              isDarkMode ? globalStyles.background.dark : "bg-white"
+            }`}
+          >
             <div className="mx-auto w-full max-w-sm lg:w-96">
               <div>
                 <img
@@ -31,17 +54,32 @@ const LoginPage = () => {
                   src={viteLogo}
                   className="h-10 w-auto"
                 />
-                <h2 className="mt-8 text-2xl font-bold tracking-tight dark:text-gray-100 text-gray-900">
+                <h2
+                  className={`mt-8 ${globalStyles.heading.primary} ${
+                    isDarkMode
+                      ? globalStyles.heading.dark
+                      : globalStyles.heading.light
+                  }`}
+                >
                   Sign in to your account
                 </h2>
-                <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
+                <p
+                  className={`mt-2 ${globalStyles.text.secondary.base} ${
+                    isDarkMode
+                      ? globalStyles.text.secondary.dark
+                      : globalStyles.text.secondary.light
+                  }`}
+                >
                   Experience the power of networking
                 </p>
               </div>
 
               <div className="mt-10">
                 <div>
-                  <LoginForm />
+                  <LoginForm
+                    inputStyles={inputStyles}
+                    isDarkMode={isDarkMode}
+                  />
                 </div>
               </div>
             </div>
