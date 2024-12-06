@@ -58,10 +58,10 @@ const LoginForm = () => {
         <Input
           size="large"
           placeholder="Enter your email"
-          className={`w-full ${
-            isDarkMode
-              ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark}`
-              : "bg-transparent border-gray-300 text-gray-900"
+          className={`${globalStyles.input.base} ${
+            isDarkMode 
+              ? `${globalStyles.input.dark} ${globalStyles.placeholder.white}` 
+              : `${globalStyles.input.light} ${globalStyles.placeholder.black}`
           }`}
           style={{
             backgroundColor: "transparent",
@@ -84,10 +84,12 @@ const LoginForm = () => {
           size="large"
           placeholder="Enter your password"
           className={`${globalStyles.input.base} ${
-            isDarkMode ? globalStyles.input.dark : globalStyles.input.light
+            isDarkMode 
+              ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark} ${globalStyles.placeholder.white}` 
+              : `bg-transparent border-gray-300 text-gray-900 ${globalStyles.placeholder.black}`
           }`}
           style={{
-            backgroundColor: 'transparent'
+            backgroundColor: "transparent",
           }}
         />
       </Form.Item>
@@ -127,9 +129,14 @@ const LoginForm = () => {
         <div className="mt-4">
           <Button
             size="large"
-            className={`flex items-center w-full justify-center ${globalStyles.button.secondary.base} ${
-              isDarkMode ? globalStyles.button.secondary.dark : globalStyles.button.secondary.light
+            className={`flex items-center w-full justify-center ${
+              isDarkMode
+                ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark} hover:bg-transparent focus:bg-transparent`
+                : "bg-transparent border-gray-300 text-gray-900 hover:bg-transparent focus:bg-transparent"
             }`}
+            style={{
+              backgroundColor: "transparent",
+            }}
           >
             <img
               className="w-4 h-4 mr-2"

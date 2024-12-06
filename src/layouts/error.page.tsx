@@ -14,7 +14,7 @@ export default function ErrorPage() {
 
   return (
     <div className={`${globalStyles.page.base} ${
-      isDarkMode ? globalStyles.background.dark : globalStyles.page.light
+      isDarkMode ? globalStyles.background.gray.dark: globalStyles.page.light
     } h-screen flex items-center justify-center`}>
       <Result
         status="500"
