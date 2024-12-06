@@ -9,10 +9,10 @@ const SuccessOnboardPage = () => {
 
   return (
     <Layout className={`h-screen ${globalStyles.page.base} ${
-      isDarkMode ? globalStyles.page.dark : globalStyles.page.light
+      isDarkMode ? globalStyles.background.gray.dark : globalStyles.page.light
     }`}>
       <div className={`my-auto sm:mx-auto sm:w-full sm:max-w-md ${globalStyles.container.card.base} ${
-        isDarkMode ? globalStyles.container.card.dark : globalStyles.container.card.light
+        isDarkMode ? globalStyles.background.dark: globalStyles.container.card.light
       }`}>
         <div className="flex min-h-full flex-col justify-center px-6 py-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">

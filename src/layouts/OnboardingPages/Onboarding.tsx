@@ -57,10 +57,10 @@ const Onboarding: React.FC = () => {
 
   return (
     <div className={`min-h-screen py-20 ${globalStyles.page.base} ${
-      isDarkMode ? 'bg-gray-950' : globalStyles.page.light
+      isDarkMode ? globalStyles.background.dark  : globalStyles.page.light
     }`}>
-      <div className={`mx-auto max-w-2xl ${globalStyles.container.card.base} ${
-        isDarkMode ? 'bg-gray-900 border border-gray-800' : globalStyles.container.card.light
+      <div className={`mx-auto max-w-2xl ${
+        isDarkMode ? globalStyles.background.dark : globalStyles.container.card.light
       }`}>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <form>
@@ -76,7 +76,7 @@ const Onboarding: React.FC = () => {
 
             {/* Step content */}
             <div className={`sm:h-[500px] px-2 w-full sm:overflow-hidden ${
-              isDarkMode ? 'bg-gray-900' : 'bg-white'
+              isDarkMode ? globalStyles.background.dark : 'bg-white'
             }`}>
               {steps[current].content({
                 sectionsData,
@@ -88,9 +88,14 @@ const Onboarding: React.FC = () => {
             <div className="mt-10 flex justify-end gap-2">
               {current > 0 && (
                 <Button
-                  className={`w-24 ${globalStyles.button.secondary.base} ${
-                    isDarkMode ? globalStyles.button.secondary.dark : globalStyles.button.secondary.light
+                  className={`w-24 ${
+                    isDarkMode 
+                      ? "bg-transparent border border-gray-700 text-gray-300 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-100 hover:border-gray-600" 
+                      : "bg-transparent border border-gray-300 text-gray-700 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-900 hover:border-gray-400"
                   }`}
+                  style={{
+                    backgroundColor: 'transparent'
+                  }}
                   onClick={() => prev()}
                 >
                   Back

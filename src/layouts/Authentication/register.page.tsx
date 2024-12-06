@@ -9,7 +9,7 @@ export default function RegisterPage() {
 
   return (
     <div className={`${globalStyles.page.base} ${
-      isDarkMode ? globalStyles.page.dark : globalStyles.page.light
+      isDarkMode ? globalStyles.background.dark : globalStyles.page.light
     }`}>
       <div className={globalStyles.container.base}>
         <div className="flex min-h-full flex-1">

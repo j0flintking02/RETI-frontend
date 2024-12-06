@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { ThemeContext } from "../../ThemeContext";
+import { globalStyles } from "../../styles/globalStyles";
 
 const WelcomePage = () => {
   const { isDarkMode } = useContext(ThemeContext);
@@ -15,7 +16,7 @@ const WelcomePage = () => {
         </div>
         <div
           className={`text-base ${
-            isDarkMode ? "text-gray-400" : "text-gray-700"
+            isDarkMode ? globalStyles.text.primary.white : "text-gray-700"
           }`}
         >
           <p>Faucibus commodo massa rhoncus, volutpat. Lorem ipsum dolor </p>

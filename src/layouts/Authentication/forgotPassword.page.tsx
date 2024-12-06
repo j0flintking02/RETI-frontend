@@ -10,10 +10,10 @@ const ForgotPasswordPage = () => {
 
   return (
     <Layout className={`h-screen ${globalStyles.page.base} ${
-      isDarkMode ? 'bg-gray-950' : globalStyles.page.light
+      isDarkMode ? globalStyles.background.gray.dark : globalStyles.page.light
     }`}>
       <div className={`my-auto sm:mx-auto sm:w-full sm:max-w-md ${
-        isDarkMode ? 'bg-gray-900 border border-gray-800' : globalStyles.container.card.light
+        isDarkMode ? globalStyles.background.dark : globalStyles.container.card.light
       }`}>
         <div className="flex min-h-full flex-col justify-center px-6 py-8 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">

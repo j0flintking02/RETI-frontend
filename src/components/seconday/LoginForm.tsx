@@ -3,10 +3,12 @@ import { Form, Input, Button, Checkbox, Typography, notification } from "antd";
 import { useLoginMutation } from "../../services/users.ts";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../ThemeContext";
+import { globalStyles } from "../../styles/globalStyles";
 
 const { Title, Text, Link } = Typography;
 
-const LoginForm = ({ inputStyles, isDarkMode }) => {
+const LoginForm = () => {
+  const { isDarkMode } = useContext(ThemeContext)
   const [form] = Form.useForm();
   const [login, { isLoading, isSuccess, data }] = useLoginMutation();
   const navigate = useNavigate();
@@ -45,7 +47,9 @@ const LoginForm = ({ inputStyles, isDarkMode }) => {
       <Form.Item
         name="email"
         label={
-          <span className={isDarkMode ? "text-gray-300" : "text-gray-900"}>
+          <span className={`${globalStyles.text.primary.base} ${
+            isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
+          }`}>
             Email
           </span>
         }
@@ -54,14 +58,23 @@ const LoginForm = ({ inputStyles, isDarkMode }) => {
         <Input
           size="large"
           placeholder="Enter your email"
-          className={`${inputStyles}`}
+          className={`w-full ${
+            isDarkMode
+              ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark}`
+              : "bg-transparent border-gray-300 text-gray-900"
+          }`}
+          style={{
+            backgroundColor: "transparent",
+          }}
         />
       </Form.Item>
 
       <Form.Item
         name="password"
         label={
-          <span className={isDarkMode ? "text-gray-300" : "text-gray-900"}>
+          <span className={`${globalStyles.text.primary.base} ${
+            isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
+          }`}>
             Password
           </span>
         }
@@ -70,7 +83,12 @@ const LoginForm = ({ inputStyles, isDarkMode }) => {
         <Input.Password
           size="large"
           placeholder="Enter your password"
-          className={`${inputStyles}`}
+          className={`${globalStyles.input.base} ${
+            isDarkMode ? globalStyles.input.dark : globalStyles.input.light
+          }`}
+          style={{
+            backgroundColor: 'transparent'
+          }}
         />
       </Form.Item>
 
@@ -99,6 +117,9 @@ const LoginForm = ({ inputStyles, isDarkMode }) => {
           block
           loading={isLoading}
           size="large"
+          className={`${globalStyles.button.primary.base} ${
+            isDarkMode ? globalStyles.button.primary.dark : globalStyles.button.primary.light
+          }`}
         >
           Sign in
         </Button>
@@ -106,7 +127,9 @@ const LoginForm = ({ inputStyles, isDarkMode }) => {
         <div className="mt-4">
           <Button
             size="large"
-            className="flex items-center w-full justify-center px-3 py-4 text-sm font-semibold  text-gray-700 hover:bg-gray-100"
+            className={`flex items-center w-full justify-center ${globalStyles.button.secondary.base} ${
+              isDarkMode ? globalStyles.button.secondary.dark : globalStyles.button.secondary.light
+            }`}
           >
             <img
               className="w-4 h-4 mr-2"

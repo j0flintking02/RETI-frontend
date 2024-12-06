@@ -1,5 +1,7 @@
 import { useContext } from "react";
-import { ThemeContext } from "../../ThemeContext"; 
+import { ThemeContext } from "../../ThemeContext";
+import { globalStyles } from "../../styles/globalStyles";
+
 interface SectionsPageProps {
     sectionsData: string | null;
     setSectionsData: React.Dispatch<React.SetStateAction<string | null>>;
@@ -11,7 +13,6 @@ const SectionsPage: React.FC<SectionsPageProps> = ({ sectionsData, setSectionsDa
         setSectionsData(value);
     };
 
-
     const options = [
         { id: 'option1', label: 'Mentor', value: 'Mentor', image: 'images/undraw_business_chat_re_gg4h.svg' },
         { id: 'option2', label: 'Trader', value: 'Trader', image: 'images/undraw_candidate_ubwv.svg' },
@@ -19,19 +20,21 @@ const SectionsPage: React.FC<SectionsPageProps> = ({ sectionsData, setSectionsDa
         { id: 'option4', label: 'Employee', value: 'Employee', image: 'images/undraw_business_deal_re_up4u.svg' },
         { id: 'option5', label: 'Seller', value: 'Seller', image: 'images/undraw_brainstorming_re_1lmw.svg' },
         { id: 'option5', label: 'Buyer', value: 'Buyer', image: 'images/undraw_business_deal_re_up4u.svg' },
-  
     ]
 
-
     return (
-        <div className="space-y-6"
-        >
+        <div className="space-y-6">
             <div className="mt-2">
-                <div className={`text-xl font-semibold sm:text-lg ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                <div className={`text-xl font-semibold sm:text-lg ${globalStyles.text.primary.base} ${
+                    isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
+                }`}>
                     <p>Sections</p>
                 </div>
-
-                <div>Select a section</div>
+                <div className={`${globalStyles.text.primary.base} ${
+                    isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
+                }`}>
+                    Select a section
+                </div>
             </div>
 
             <div className="mt-6 p-2 overflow-y-auto h-[400px]">
@@ -39,10 +42,11 @@ const SectionsPage: React.FC<SectionsPageProps> = ({ sectionsData, setSectionsDa
                     {options.map((option) => (
                         <label
                             key={option.id}
-                            className={` cursor-pointer border rounded-lg shadow-md overflow-hidden transition transform ${ sectionsData === option.value
+                            className={`cursor-pointer border rounded-lg shadow-md overflow-hidden transition transform ${
+                                sectionsData === option.value
                                     ? 'border-blue-500 scale-105'
                                     : 'border-gray-300'
-                                }`}
+                            }`}
                         >
                             <input
                                 type="radio"
@@ -57,7 +61,11 @@ const SectionsPage: React.FC<SectionsPageProps> = ({ sectionsData, setSectionsDa
                                     alt={option.label}
                                     className="w-full h-28 bg-gray-50 object-cover rounded-t-lg"
                                 />
-                                <span className="p-4 text-md font-semibold">{option.label}</span>
+                                <span className={`p-4 text-md font-semibold ${globalStyles.text.primary.base} ${
+                                    isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
+                                }`}>
+                                    {option.label}
+                                </span>
                             </div>
                         </label>
                     ))}

@@ -20,26 +20,28 @@ const ForgotPasswordForm = ({ isDarkMode }: { isDarkMode: boolean }) => {
                         <Input
                             placeholder="Enter password"
                             type={passwordVisible ? "text" : "password"}
+                            size="large"
+                            className={`w-full ${
+                                isDarkMode
+                                    ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark}`
+                                    : "bg-transparent border-gray-300 text-gray-900"
+                            }`}
+                            style={{
+                                backgroundColor: "transparent",
+                            }}
                             suffix={
                                 passwordVisible ? (
                                     <EyeOutlined
-                                        className={`${globalStyles.text.secondary.base} ${
-                                            isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
-                                        }`}
+                                        className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                                         onClick={() => setPasswordVisible(false)}
                                     />
                                 ) : (
                                     <EyeInvisibleOutlined
-                                        className={`${globalStyles.text.secondary.base} ${
-                                            isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
-                                        }`}
+                                        className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                                         onClick={() => setPasswordVisible(true)}
                                     />
                                 )
                             }
-                            className={`${globalStyles.input.base} ${
-                                isDarkMode ? globalStyles.input.dark : globalStyles.input.light
-                            }`}
                         />
                     </div>
                 </div>
@@ -54,26 +56,28 @@ const ForgotPasswordForm = ({ isDarkMode }: { isDarkMode: boolean }) => {
                         <Input
                             placeholder="Confirm password"
                             type={confirmPasswordVisible ? "text" : "password"}
+                            size="large"
+                            className={`w-full ${
+                                isDarkMode
+                                    ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark}`
+                                    : "bg-transparent border-gray-300 text-gray-900"
+                            }`}
+                            style={{
+                                backgroundColor: "transparent",
+                            }}
                             suffix={
                                 confirmPasswordVisible ? (
                                     <EyeOutlined
-                                        className={`${globalStyles.text.secondary.base} ${
-                                            isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
-                                        }`}
+                                        className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                                         onClick={() => setConfirmPasswordVisible(false)}
                                     />
                                 ) : (
                                     <EyeInvisibleOutlined
-                                        className={`${globalStyles.text.secondary.base} ${
-                                            isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
-                                        }`}
+                                        className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                                         onClick={() => setConfirmPasswordVisible(true)}
                                     />
                                 )
                             }
-                            className={`${globalStyles.input.base} ${
-                                isDarkMode ? globalStyles.input.dark : globalStyles.input.light
-                            }`}
                         />
                     </div>
                 </div>

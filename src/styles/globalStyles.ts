@@ -32,6 +32,7 @@ export const globalStyles = {
     primary: {
       light: 'text-gray-900',
       dark: 'text-gray-100',
+      white: 'text-white',
       base: 'text-base'
     },
     secondary: {
@@ -42,8 +43,8 @@ export const globalStyles = {
   },
   input: {
     base: 'w-full rounded-md',
-    light: 'bg-white border-gray-300 text-gray-900 placeholder-gray-500',
-    dark: 'bg-gray-800 border-gray-700 text-gray-300 placeholder-gray-400',
+    light: 'bg-white border-gray-300 text-gray-900 placeholder-black',
+    dark: 'bg-gray-800 border-gray-700 text-gray-300 placeholder-white',
     focus: 'focus:border-blue-500 focus:ring-1 focus:ring-blue-500',
     search: {
       dark: '[&_input::placeholder]:text-white'
@@ -75,5 +76,9 @@ export const globalStyles = {
     base: 'p-4',
     light: 'bg-gray-50',
     dark: 'bg-gray-900'
+  },
+  placeholder: {
+    white: '[&::placeholder]:text-white/50',
+    black: '[&::placeholder]:text-black/50'
   }
 }; 

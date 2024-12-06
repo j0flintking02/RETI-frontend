@@ -4,7 +4,7 @@ import { useEffect, useState, useContext } from "react";
 import { useGoogleAuthMutation, useRegisterMutation } from "../../services/users.ts";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../ThemeContext";
-
+import { globalStyles } from "../../styles/globalStyles";
 const RegisterForm = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -52,91 +52,126 @@ const RegisterForm = () => {
     <div>
       <Form layout="vertical" form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
         <Form.Item
-          label={<span className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Full name</span>}
+          label={
+            <span className={`block ${globalStyles.text.secondary.base} ${
+              isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+            }`}>
+              Full name
+            </span>
+          }
           name="full_name"
         >
           <Input
             placeholder="Enter your full name"
-            type="text"
             size="large"
-            className={`bg-transparent border ${
-              isDarkMode ? "border-gray-700" : "border-gray-300"
-            } text-gray-900 dark:text-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${
-              isDarkMode ? "placeholder-gray-500" : "placeholder-gray-500"
+            className={`w-full ${
+              isDarkMode
+                ? "bg-transparent border-gray-700 text-white placeholder-white focus:ring-0 focus:border-blue-500"
+                : "bg-transparent border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-0 focus:ring-blue-500"
             }`}
+            style={{
+              backgroundColor: "transparent",
+            }}
           />
         </Form.Item>
 
         <Form.Item
-          label={<span className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Email</span>}
+          label={
+            <span className={`block ${globalStyles.text.secondary.base} ${
+              isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+            }`}>
+              Email
+            </span>
+          }
           name="email"
         >
           <Input
             placeholder="Enter your email"
-            type="email"
             size="large"
-            className={`bg-transparent border ${
-              isDarkMode ? "border-gray-700" : "border-gray-300"
-            } text-gray-900 dark:text-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${
-              isDarkMode ? "placeholder-gray-500" : "placeholder-gray-500"
+            className={`w-full ${
+              isDarkMode
+                ? "bg-transparent border-gray-700 text-white placeholder-white focus:ring-0 focus:border-blue-500"
+                : "bg-transparent border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-0 focus:ring-blue-500"
             }`}
+            style={{
+              backgroundColor: "transparent",
+            }}
           />
         </Form.Item>
 
         <Form.Item
-          label={<span className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Password</span>}
+          label={
+            <span className={`block ${globalStyles.text.secondary.base} ${
+              isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+            }`}>
+              Password
+            </span>
+          }
           name="password"
         >
           <Input
-            size="large"
             placeholder="Enter password"
+            size="large"
             type={passwordVisible ? "text" : "password"}
+            className={`w-full ${
+              isDarkMode
+                ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark}`
+                : "bg-transparent border-gray-300 text-gray-900"
+            }`}
+            style={{
+              backgroundColor: "transparent",
+            }}
             suffix={
               passwordVisible ? (
                 <EyeOutlined
-                  className="text-gray-400"
+                  className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                   onClick={() => setPasswordVisible(false)}
                 />
               ) : (
                 <EyeInvisibleOutlined
-                  className="text-gray-400"
+                  className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                   onClick={() => setPasswordVisible(true)}
                 />
               )
             }
-            className={`bg-transparent border ${
-              isDarkMode ? "border-gray-700" : "border-gray-300"
-            } text-gray-900 dark:text-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${
-              isDarkMode ? "placeholder-gray-500" : "placeholder-gray-500"
-            }`}
           />
         </Form.Item>
 
         <Form.Item
-          label={<span className={isDarkMode ? "text-gray-300" : "text-gray-700"}>Confirm password</span>}
+          label={
+            <span className={`block ${globalStyles.text.secondary.base} ${
+              isDarkMode ? globalStyles.text.secondary.dark : globalStyles.text.secondary.light
+            }`}>
+              Confirm password
+            </span>
+          }
+          name="confirm_password"
         >
           <Input
-            size="large"
             placeholder="Confirm password"
+            size="large"
             type={confirmPasswordVisible ? "text" : "password"}
+            className={`w-full ${
+              isDarkMode
+                ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark}`
+                : "bg-transparent border-gray-300 text-gray-900"
+            }`}
+            style={{
+              backgroundColor: "transparent",
+            }}
             suffix={
               confirmPasswordVisible ? (
                 <EyeOutlined
-                  className="text-gray-400"
+                  className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                   onClick={() => setConfirmPasswordVisible(false)}
                 />
               ) : (
                 <EyeInvisibleOutlined
-                  className="text-gray-400"
+                  className={isDarkMode ? "text-gray-300" : "text-gray-400"}
                   onClick={() => setConfirmPasswordVisible(true)}
                 />
               )
             }
-            className={`bg-transparent border ${
-              isDarkMode ? "border-gray-700" : "border-gray-300"
-            } text-gray-900 dark:text-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 ${
-              isDarkMode ? "placeholder-gray-500" : "placeholder-gray-500"
-            }`}
           />
         </Form.Item>
 
@@ -156,7 +191,14 @@ const RegisterForm = () => {
           <Button
             size="large"
             onClick={handleGoogleAuth}
-            className="flex items-center w-full justify-center px-3 py-4 text-sm font-semibold text-gray-700 hover:bg-gray-100"
+            className={`w-full ${
+              isDarkMode
+                ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark} hover:bg-transparent focus:bg-transparent`
+                : "bg-transparent border-gray-300 text-gray-900 hover:bg-transparent focus:bg-transparent"
+            }`}
+            style={{
+              backgroundColor: "transparent",
+            }}
           >
             <img className="w-4 h-4 mr-2" src="images/gogole.svg" alt="google" />
             Sign up with Google
@@ -164,7 +206,9 @@ const RegisterForm = () => {
         </div>
       </Form>
 
-      <p className="mt-6 text-center text-sm text-gray-500">
+      <p className={`mt-6 text-center text-sm ${
+        isDarkMode ? "text-gray-300" : "text-gray-500"
+      }`}>
         Already have an account?{" "}
         <Typography.Link
           className="text-[#5B9BD5] hover:text-[#5B9BD5] hover:underline"

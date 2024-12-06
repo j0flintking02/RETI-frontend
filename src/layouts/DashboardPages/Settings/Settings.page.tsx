@@ -55,9 +55,7 @@ const SettingsPage = () => {
     <div>
       <CustomAppTitle>Settings</CustomAppTitle>
       <Layout 
-        className={`px-4 py-4 sm:rounded-[12px] ${
-          isDarkMode ? globalStyles.background.gray.dark : 'bg-white'
-        }`}
+        className={`${isDarkMode ? globalStyles.background.gray.dark : globalStyles.background.light}`}
       >
         <Tabs
           defaultActiveKey="1"
@@ -65,10 +63,6 @@ const SettingsPage = () => {
           className={`${globalStyles.text.primary.base} ${
             isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
           }`}
-          tabBarStyle={{
-            backgroundColor: 'transparent',
-            borderBottom: 'none'
-          }}
         />
       </Layout>
     </div>
