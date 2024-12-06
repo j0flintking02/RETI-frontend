@@ -31,7 +31,7 @@ const AdditionalInformationPage = ({setAdditionalData}) => {
                 </div>
             </div>
             <Form form={form} layout="vertical">
-                <Form.Item label="About me" className="my-24" name="aboutMe">
+                <Form.Item label="About me" className="my-24" name="bio">
                     <TextArea placeholder="" allowClear/>
                 </Form.Item>
 

@@ -26,9 +26,8 @@ const LoginForm = () => {
         if (isSuccess) {
             const results = JSON.stringify(data)
             localStorage.setItem('loginDetails', results)
-
             notification["success"]({
-                message: `Welcome Back, ${data?.user.first_name}`,
+                message: `Welcome Back, ${data?.user.firstName}`,
             })
             navigate("/");
         }

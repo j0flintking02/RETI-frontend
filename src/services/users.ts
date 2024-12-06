@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery, BaseQueryFn, FetchArgs} from "@reduxjs/toolkit/query/react"
-import {customError, LoginResponseType} from "./types.ts";
+import {customError, LoginResponseType, ProfileResponseType} from "./types.ts";
 import {getHeaders} from "../utils.ts";
 
 interface User {
@@ -22,7 +22,7 @@ export const userApi = createApi({
         }
     ) as BaseQueryFn<string | FetchArgs, unknown, customError>,
     tagTypes: ['Users'],
-    endpoints: ({mutation}) => ({
+    endpoints: ({mutation, query}) => ({
         login: mutation<LoginResponseType, void>({
             query: (data) => ({
                 url: 'auth/login',
@@ -44,6 +44,13 @@ export const userApi = createApi({
             transformErrorResponse: (
                 response
             ) => response,
+        }),
+        getUserProfile: query<ProfileResponseType, string>({
+            query: (user_id) => ({
+                url: `/profiles/${user_id}`,
+                method: "GET",
+                headers: getHeaders(),
+            }),
         }),
         updateProfile: mutation<LoginResponseType, { data:User; user_id: string }>({
             query: ({data, user_id}) => ({
@@ -75,5 +82,6 @@ export const {
     useLoginMutation,
     useRegisterMutation,
     useGoogleAuthMutation,
-    useUpdateProfileMutation
+    useUpdateProfileMutation,
+    useGetUserProfileQuery
 } = userApi
