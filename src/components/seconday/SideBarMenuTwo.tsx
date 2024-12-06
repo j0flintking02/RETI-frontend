@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
-import { HomeOutlined, MessageOutlined, SettingOutlined, } from "@ant-design/icons";
+import { HomeOutlined, MessageOutlined, SettingOutlined, TeamOutlined, } from "@ant-design/icons";
 
 interface MenuItem {
     key: string;
@@ -21,6 +21,11 @@ const { Sider } = Layout;
             key: "dashboard",
             icon: <HomeOutlined/>,
             label: <Link to="/" onClick={closeDrawer}>Dashboard</Link>,
+          },
+          {
+            key: "opportunities",
+            icon: <TeamOutlined/>,
+            label: <Link to="/opportunities" onClick={closeDrawer}>Opportunities</Link>,
           },
           {
             key: "messages",

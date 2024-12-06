@@ -22,6 +22,9 @@ import LoginPage from "./layouts/Authentication/Login.page.tsx";
 import Onboarding from "./layouts/OnboardingPages/Onboarding.tsx";
 import SuccessOnboardPage from "./layouts/OnboardingPages/OnboardSuccessPage.tsx";
 import SettingsPage from "./layouts/DashboardPages/Settings/Settings.page.tsx";
+import OpportunitiesPage from "./layouts/DashboardPages/Opportunities/Opportunities.page.tsx";
+
+
 
 
 
@@ -50,6 +53,17 @@ const router = createBrowserRouter([
         element: (
             <CustomAppLayout>
                 <DashboardPage />
+            </CustomAppLayout>
+        ),
+        errorElement: <ErrorPage />,
+        children: [],
+    },
+    {
+        path: "/opportunities",
+        // loader: protectedLoader,
+        element: (
+            <CustomAppLayout>
+                <OpportunitiesPage />
             </CustomAppLayout>
         ),
         errorElement: <ErrorPage />,
