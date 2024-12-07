@@ -1,7 +1,7 @@
 
 import React from "react";
-import { Button, Avatar, Badge, Input } from "antd";
-import { MenuOutlined, BellOutlined, UserOutlined, SearchOutlined } from "@ant-design/icons";
+import { Button, Badge, Input } from "antd";
+import { MenuOutlined, BellOutlined, SearchOutlined } from "@ant-design/icons";
 
 interface HeaderProps {
     onMenuClick: () => void;
@@ -25,7 +25,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 <Badge count={5} className="hidden lg:block">
                     <BellOutlined className="text-xl" />
                 </Badge>
-                <Avatar size="default" icon={<UserOutlined />} />
                 {/* Hamburger Menu */}
                 <Button
                     className="block lg:hidden mt-2"

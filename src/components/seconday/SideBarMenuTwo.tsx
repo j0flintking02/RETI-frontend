@@ -1,8 +1,8 @@
 import { useState } from "react";
-import {Button, Layout, Menu} from "antd";
+import {Avatar, Layout, Menu} from "antd";
 import { Link } from "react-router-dom";
-import { HomeOutlined, LogoutOutlined, MessageOutlined, SettingOutlined, } from "@ant-design/icons";
-import {handleLogout} from "../../utils.ts";
+import { HomeOutlined, LogoutOutlined, MessageOutlined, SettingOutlined, UserOutlined, } from "@ant-design/icons";
+import {handleLogout, loginDetails} from "../../utils.ts";
 
 interface MenuItem {
     key: string;
@@ -43,6 +43,7 @@ const { Sider } = Layout;
 
     const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
     const [selectedKey, setSelectedKey] = useState("home");
+    const user = loginDetails();
 
     const handleMenuClick = (e) => {
         setSelectedKey(e.key); // Update the selected key when an item is clicked
@@ -68,6 +69,13 @@ const { Sider } = Layout;
                 onClick={handleMenuClick}
                 className="capitalize flex-1 text-md"
             />
+            <div className="absolute bottom-0 w-full flex items-center p-4"> 
+                <Avatar size="default" icon={<UserOutlined />} className="mr-2" /> 
+                <div> 
+                    <label className="block">{`${user.user.firstName} ${user.user.lastName}`}</label>
+                    <label className="block">{user.user.email}</label>
+                </div>
+            </div>
         </Sider>
 
     );
