@@ -77,7 +77,7 @@ const PersonalInformationSettings = () => {
                     First name
                   </label>
                   <Input
-                    value="John"
+                    placeholder="Enter your first name"
                     size="large"
                     className={`${
                       isDarkMode
@@ -96,7 +96,7 @@ const PersonalInformationSettings = () => {
                     Last name
                   </label>
                   <Input
-                    value="Doe"
+                    placeholder="Enter your last name"
                     size="large"
                     className={`${
                       isDarkMode
@@ -117,7 +117,7 @@ const PersonalInformationSettings = () => {
                     Date of birth
                   </label>
                   <Input
-                    value="28/12/2009"
+                    placeholder="28/12/2009"
                     size="large"
                     className={`${
                       isDarkMode
@@ -157,7 +157,7 @@ const PersonalInformationSettings = () => {
                     Email address
                   </label>
                   <Input
-                    value="johnd@gmail.com"
+                    placeholder="johnd@gmail.com"
                     size="large"
                     className={`${
                       isDarkMode
@@ -176,7 +176,7 @@ const PersonalInformationSettings = () => {
                     Phone number
                   </label>
                   <Input
-                    value="+256787123456"
+                    placeholder="+256787123456"
                     size="large"
                     className={`${
                       isDarkMode
@@ -197,7 +197,7 @@ const PersonalInformationSettings = () => {
                     About
                   </label>
                   <TextArea
-                    value="Lorem ipsum dolor sit"
+                    placeholder="Value"
                     size="large"
                     className={`${
                       isDarkMode
