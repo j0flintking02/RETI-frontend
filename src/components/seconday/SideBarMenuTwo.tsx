@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {Button, Layout, Menu} from "antd";
 import { Link } from "react-router-dom";
-import { HomeOutlined, MessageOutlined, SettingOutlined, } from "@ant-design/icons";
+import { HomeOutlined, LogoutOutlined, MessageOutlined, SettingOutlined, } from "@ant-design/icons";
 import {handleLogout} from "../../utils.ts";
 
 interface MenuItem {
@@ -33,6 +33,11 @@ const { Sider } = Layout;
             icon: <SettingOutlined/>,
             label: <Link to="/settings" onClick={closeDrawer}>Settings</Link>,
           },
+          {
+            key: "logout",
+            icon: <LogoutOutlined />,
+            label: <Link type="link" onClick={handleLogout} to={""}>Log Out</Link>
+          },
     ];
 };
 
@@ -63,9 +68,6 @@ const { Sider } = Layout;
                 onClick={handleMenuClick}
                 className="capitalize flex-1 text-md"
             />
-            <div className="absolute bottom-0 w-full">
-                <Button type="link" block onClick={handleLogout}>Logout</Button>
-            </div>
         </Sider>
 
     );
