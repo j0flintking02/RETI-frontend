@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import { Form, Input, Button, Checkbox, Typography, notification } from 'antd';
 import { useLoginMutation } from "../../services/users.ts";
 import {Link, useNavigate} from "react-router-dom";
+import {userDetails} from "../../utils.ts";
 
 
 
@@ -26,10 +27,17 @@ const LoginForm = () => {
         if (isSuccess) {
             const results = JSON.stringify(data)
             localStorage.setItem('loginDetails', results)
-            notification["success"]({
-                message: `Welcome Back, ${data?.user.firstName}`,
-            })
-            navigate("/");
+            if (userDetails()){
+                notification["success"]({
+                    message: `Let's complete your onboarding`,
+                })
+                navigate("/onboarding");
+            }else {
+                notification["success"]({
+                    message: `Welcome Back, ${data?.user.firstName}`,
+                })
+                navigate("/");
+            }
         }
     }, [isSuccess, data]);
     return (
