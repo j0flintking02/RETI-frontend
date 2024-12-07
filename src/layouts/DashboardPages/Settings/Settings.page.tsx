@@ -1,6 +1,6 @@
 import { Layout, Tabs } from "antd";
 import CustomAppTitle from "../../../components/seconday/CustomAppTitle";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../../../ThemeContext";
 import { TabsProps } from "../../../services/types";
 import PersonalInformationSettings from "./PersonalInformationSettings";
@@ -11,12 +11,17 @@ import { globalStyles } from "../../../styles/globalStyles";
 
 const SettingsPage = () => {
   const { isDarkMode } = useContext(ThemeContext);
+  const [activeTab, setActiveTab] = useState("1");
 
   const items: TabsProps["items"] = [
     {
       key: "1",
       label: (
-        <span className={isDarkMode ? "text-white" : "text-gray-900"}>
+        <span className={`${
+          isDarkMode 
+            ? activeTab === "1" ? "text-blue-500" : "text-white"
+            : activeTab === "1" ? "text-blue-500" : "text-gray-900"
+        }`}>
           Personal Information
         </span>
       ),
@@ -25,7 +30,11 @@ const SettingsPage = () => {
     {
       key: "2",
       label: (
-        <span className={isDarkMode ? "text-white" : "text-gray-900"}>
+        <span className={`${
+          isDarkMode 
+            ? activeTab === "2" ? "text-blue-500" : "text-white"
+            : activeTab === "2" ? "text-blue-500" : "text-gray-900"
+        }`}>
           Change Password
         </span>
       ),
@@ -34,7 +43,11 @@ const SettingsPage = () => {
     {
       key: "3",
       label: (
-        <span className={isDarkMode ? "text-white" : "text-gray-900"}>
+        <span className={`${
+          isDarkMode 
+            ? activeTab === "3" ? "text-blue-500" : "text-white"
+            : activeTab === "3" ? "text-blue-500" : "text-gray-900"
+        }`}>
           Preferences
         </span>
       ),
@@ -43,7 +56,11 @@ const SettingsPage = () => {
     {
       key: "4",
       label: (
-        <span className={isDarkMode ? "text-white" : "text-gray-900"}>
+        <span className={`${
+          isDarkMode 
+            ? activeTab === "4" ? "text-blue-500" : "text-white"
+            : activeTab === "4" ? "text-blue-500" : "text-gray-900"
+        }`}>
           My Data
         </span>
       ),
@@ -76,6 +93,7 @@ const SettingsPage = () => {
               },
             },
           }}
+          onChange={(key) => setActiveTab(key.toString())}
         />
       </Layout>
     </div>
