@@ -13,7 +13,7 @@ export default function MessagingItemDetails() {
     return (
         <>
             {isVisible && (
-                <div className={`sm:w-6/12 border-l sm:block hidden ${globalStyles.container.card.base} ${
+                <div className={`sm:w-4/12 border-l sm:block hidden rounded-r-[12px] ${globalStyles.container.card.base} ${
                     isDarkMode ? `${globalStyles.background.dark} border-[#3A3B3C]`: globalStyles.container.card.light
                 }`}>
                     <div className={`p-4 border-b flex items-center justify-between ${

@@ -44,7 +44,7 @@ export default function MessagingChats() {
   return (
     <>
       <div
-        className={`sm:w-4/12 ${globalStyles.container.card.base} ${
+        className={`sm:w-4/12 border-r${globalStyles.container.card.base} ${
           isDarkMode
             ? `${globalStyles.background.dark} border-[#3A3B3C]`
             : globalStyles.container.card.light
