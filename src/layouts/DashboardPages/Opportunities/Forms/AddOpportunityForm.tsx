@@ -44,12 +44,10 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                     </Button>,
                     <Button key="submit" type="primary" loading={loading} onClick={handleSubmit}>
                         Submit
-                    </Button>,
-
+                    </Button>
                 ]}
             >
                 <div className="mt-4 p-2">
-
                     <Form
                         form={form}
                         layout="vertical"
