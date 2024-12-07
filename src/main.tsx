@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import {
     createBrowserRouter,
     RouterProvider,
-    redirect
+    redirect, LoaderFunctionArgs
 } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "../store.ts";
@@ -29,15 +29,23 @@ import OpportunitiesDetailsPage from "./layouts/DashboardPages/Opportunities/Opp
 
 
 
-// function protectedLoader({ request }: LoaderFunctionArgs) {
-//     const loginDetails = localStorage.getItem("loginDetails");
-//     if (!loginDetails) {
-//         const params = new URLSearchParams();
-//         params.set("from", new URL(request.url).pathname);
-//         return redirect("/login?" + params.toString());
-//     }
-//     return null;
-// }
+function protectedLoader({ request }: LoaderFunctionArgs) {
+    const loginDetails = localStorage.getItem("loginDetails");
+    if (!loginDetails) {
+        const params = new URLSearchParams();
+        params.set("from", new URL(request.url).pathname);
+        return redirect("/login?" + params.toString());
+    }
+    return null;
+}
+function protectedOnBoardingLoader() {
+    const userDetails = localStorage.getItem("userDetails");
+    const loginDetails = localStorage.getItem("loginDetails");
+    if (!userDetails && loginDetails ) {
+        return redirect("/register");
+    }
+    return null;
+}
 
 async function loginLoader() {
     const loginDetails = localStorage.getItem("loginDetails");
@@ -46,11 +54,18 @@ async function loginLoader() {
     }
     return null;
 }
+async function registerLoader() {
+    const userDetails = localStorage.getItem("userDetails");
+    if (userDetails) {
+        return redirect("onboarding");
+    }
+    return null;
+}
 
 const router = createBrowserRouter([
     {
         path: "/",
-        // loader: protectedLoader,
+        loader: protectedLoader,
         element: (
             <CustomAppLayout>
                 <DashboardPage />
@@ -81,7 +96,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/messages",
-        // loader: protectedLoader,
+        loader: protectedLoader,
         element: (
             <CustomAppLayout>
                 <MessagesPage />
@@ -92,7 +107,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/settings",
-        // loader: protectedLoader,
+        loader: protectedLoader,
         element: (
             <CustomAppLayout>
                 <SettingsPage />
@@ -122,7 +137,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/register",
-        loader: loginLoader,
+        loader: registerLoader,
         errorElement: <ErrorPage />,
         element: <RegisterPage/>,
     },
@@ -134,14 +149,14 @@ const router = createBrowserRouter([
     },
     {
         path: "/onboarding",
-        loader: loginLoader,
+        loader: protectedOnBoardingLoader,
         errorElement: <ErrorPage />,
         element: <Onboarding />,
     },
 
     {
         path: "/onboard-success",
-        loader: loginLoader,
+        loader: protectedOnBoardingLoader,
         errorElement: <ErrorPage />,
         element: <SuccessOnboardPage />,
     },

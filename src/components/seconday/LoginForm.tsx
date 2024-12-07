@@ -1,10 +1,10 @@
 import { useEffect } from "react"
 import { Form, Input, Button, Checkbox, Typography, notification } from 'antd';
 import { useLoginMutation } from "../../services/users.ts";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {userDetails} from "../../utils.ts";
 
 
-const { Title, Text, Link } = Typography;
 
 const LoginForm = () => {
     const [form] = Form.useForm();
@@ -27,11 +27,17 @@ const LoginForm = () => {
         if (isSuccess) {
             const results = JSON.stringify(data)
             localStorage.setItem('loginDetails', results)
-
-            notification["success"]({
-                message: `Welcome Back, ${data?.user.first_name}`,
-            })
-            navigate("/");
+            if (userDetails()){
+                notification["success"]({
+                    message: `Let's complete your onboarding`,
+                })
+                navigate("/onboarding");
+            }else {
+                notification["success"]({
+                    message: `Welcome Back, ${data?.user.firstName}`,
+                })
+                navigate("/");
+            }
         }
     }, [isSuccess, data]);
     return (
@@ -57,7 +63,7 @@ const LoginForm = () => {
             </Form.Item>
 
             <Form.Item>
-                <Link href="/reset-password" className="text-[#5B9BD5] hover:text-[#5B9BD5] hover:underline">Forgot your password?</Link>
+                <Link className="text-[#5B9BD5] hover:text-[#5B9BD5] hover:underline" to="/reset-password">Forgot your password?</Link>
             </Form.Item>
 
             <Form.Item name="remember" valuePropName="checked">

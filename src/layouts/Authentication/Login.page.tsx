@@ -1,4 +1,3 @@
-import { Layout, Row, Col, Image } from "antd";
 import Sign from "../../components/seconday/LoginForm";
 import "tailwindcss/tailwind.css";
 import viteLogo from "/vite.svg";
