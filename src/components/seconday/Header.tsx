@@ -26,10 +26,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
                 <Badge count={5} className="hidden lg:block">
                     <BellOutlined  className="text-xl" />
                 </Badge>
-<<<<<<< HEAD
-                {/* <Avatar size="default" icon={<UserOutlined />} /> */}
-=======
->>>>>>> develop
                 {/* Hamburger Menu */}
                 <Button
                     className="block lg:hidden mt-2"
