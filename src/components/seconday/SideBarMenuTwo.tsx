@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Layout, Menu } from "antd";
+import {Button, Layout, Menu} from "antd";
 import { Link } from "react-router-dom";
 import { HomeOutlined, MessageOutlined, SettingOutlined, } from "@ant-design/icons";
+import {handleLogout} from "../../utils.ts";
 
 interface MenuItem {
     key: string;
@@ -47,10 +48,10 @@ const { Sider } = Layout;
         <Sider
             width={250}
             theme="light"
-            className="h-full border-r-2 border-gray-300"
+            className="relative h-full border-r-2 border-gray-300"
         >
             <div className="h-16 text-black py-4 px-8 bg-white">
-                <h4 className="font-bold text-lg"> Logo</h4>
+                <h4 className="font-bold text-lg"> Reti</h4>
                
             </div>
             {/* Sidebar Menu */}
@@ -62,6 +63,9 @@ const { Sider } = Layout;
                 onClick={handleMenuClick}
                 className="capitalize flex-1 text-md"
             />
+            <div className="absolute bottom-0 w-full">
+                <Button type="link" block onClick={handleLogout}>Logout</Button>
+            </div>
         </Sider>
 
     );
