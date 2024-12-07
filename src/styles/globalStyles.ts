@@ -33,6 +33,7 @@ export const globalStyles = {
       light: 'text-gray-900',
       dark: 'text-gray-100',
       white: 'text-white',
+      blue: 'text-blue-500',
       base: 'text-base'
     },
     secondary: {

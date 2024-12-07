@@ -63,6 +63,19 @@ const SettingsPage = () => {
           className={`${globalStyles.text.primary.base} ${
             isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
           }`}
+          tabBarStyle={{
+            color: isDarkMode ? '#fff' : '#000',
+          }}
+          styles={{
+            inkBar: {
+              backgroundColor: '#3B82F6',
+            },
+            tabBarItem: {
+              '&.ant-tabs-tab-active': {
+                color: '#3B82F6 !important',
+              },
+            },
+          }}
         />
       </Layout>
     </div>

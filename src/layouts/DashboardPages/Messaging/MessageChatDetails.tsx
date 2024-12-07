@@ -79,7 +79,7 @@ export default function MessagingChatDetails() {
             <div
               className={`${
                 isDarkMode ? "bg-gray-600" : "bg-gray-200"
-              } max-w-xs p-3 rounded-lg shadow-sm text-gray-900 inline-block`}
+              } max-w-xs p-3 rounded-l-lg shadow-sm text-gray-900 inline-block`}
             >
               Quidem exercitationem vero. Possimus doloribus quam placeat
               tempore laborum rem repudiandae.
@@ -89,7 +89,7 @@ export default function MessagingChatDetails() {
             <div
               className={`${
                 isDarkMode ? "bg-gray-600" : "bg-gray-200"
-              } max-w-xs p-3 rounded-lg shadow-sm text-gray-900 inline-block`}
+              } max-w-xs p-3 rounded-l-lg shadow-sm text-gray-900 inline-block`}
             >
               Quidem exercitationem vero. Possimus doloribus quam placeat
               tempore laborum rem repudiandae.

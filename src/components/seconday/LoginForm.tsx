@@ -105,9 +105,7 @@ const LoginForm = () => {
 
       <Form.Item name="remember" valuePropName="checked">
         <Checkbox
-          className={`text-sm ${
-            isDarkMode ? "text-gray-300" : "text-gray-900"
-          }`}
+          className={isDarkMode ? "text-gray-300 [&>.ant-checkbox>.ant-checkbox-inner]:bg-transparent [&>.ant-checkbox>.ant-checkbox-inner]:border-gray-700" : "text-gray-900"}
         >
           Remember me
         </Checkbox>

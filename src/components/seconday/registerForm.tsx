@@ -176,7 +176,9 @@ const RegisterForm = () => {
         </Form.Item>
 
         <Form.Item name="remember" valuePropName="checked">
-          <Checkbox className={isDarkMode ? "text-gray-300" : "text-gray-700"}>
+          <Checkbox 
+            className={isDarkMode ? "text-gray-300 [&>.ant-checkbox>.ant-checkbox-inner]:bg-transparent [&>.ant-checkbox>.ant-checkbox-inner]:border-gray-700" : "text-gray-700"}
+          >
             Remember me
           </Checkbox>
         </Form.Item>
