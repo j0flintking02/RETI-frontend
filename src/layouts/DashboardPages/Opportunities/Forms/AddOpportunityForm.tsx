@@ -31,7 +31,7 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                 width={600}
                 title={
                     <div>
-                        <h2 className="text-lg font-semibold">Add Opportunity</h2>
+                        <h2 className="text-lg font-semibold">Create a job</h2>
                         <p className="text-sm font-normal text-gray-500">
                             Please fill in the form below to create a new opportunity. <br />
                             <span className="font-normal text-blue-500">Jobs will be seen by youth.</span>

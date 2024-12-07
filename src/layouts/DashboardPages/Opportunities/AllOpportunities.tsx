@@ -1,11 +1,12 @@
-import { Badge } from "antd";
+import { EnvironmentOutlined} from "@ant-design/icons";
 import { formatDistanceToNow } from 'date-fns';
+import { useNavigate } from "react-router-dom";
 
 
 
 const AllOpportunitiesPage = () => {
+    const navigate = useNavigate();
 
-    
 
     const jobOpportunities = [
         {
@@ -16,7 +17,7 @@ const AllOpportunitiesPage = () => {
             salary: '$35/hour',
             imageSrc: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
             createdBy: 'John Doe',
-            createdWhen: new Date().toISOString(), // Example of a "just added" job
+            createdWhen: new Date().toISOString(), 
         },
         {
             id: 2,
@@ -61,54 +62,61 @@ const AllOpportunitiesPage = () => {
     ];
 
 
-    //   // Function to handle card click
-    //   const handleCardClick = () => {
-    //     history.push(`/job/${job.id}`);
-    // };
+
 
 
     return (
         <>
-            <div className="mt-10 grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-2 grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
                 {jobOpportunities.map((job) => {
-                    const jobCreatedDate = new Date(job.createdWhen); // Convert createdWhen to Date
+                    const jobCreatedDate = new Date(job.createdWhen); 
                     const isJustAdded =
                         Date.now() - jobCreatedDate.getTime() < 3 * 24 * 60 * 60 * 1000; // Less than 3 days
 
                     return (
                         <div
                             key={job.id}
-                            // onClick={handleCardClick}
-                            className="w-lg h-34 relative flex flex-col p-1 border border-gray-300 rounded-lg bg-white hover:shadow-lg hover:bg-gray-50 cursor-pointer transition-all duration-200"
-                        // key={job.id}
-                        // className="w-lg relative flex flex-col p-1 border border-gray-300 rounded-lg bg-white"
+                            onClick={() => navigate(`/opportunities/${job.id}`)}
+                            className=" h-34 relative flex flex-col p-1 border border-gray-300 rounded-sm bg-white hover:shadow-lg hover:bg-gray-50 cursor-pointer transition-all duration-200"
                         >
                             <div className="p-2">
-                                <h3 className="text-lg capitalize truncate font-semibold text-gray-700">
+                                <div className="text-right mb-1">
+                                    <h3
+                                        className={`text-xs ${isJustAdded ? 'text-green-600' : 'text-gray-500'
+                                            }`}
+                                    >
+                                        {isJustAdded ? 'Just Added' : `${formatDistanceToNow(jobCreatedDate)} ago`}
+                                    </h3>
+                                </div>
+
+                                <h3 className="text-lg capitalize truncate  text-gray-700">
                                     {job.title}
                                 </h3>
-                                <p className="py-2 text-md truncate text-gray-500">{job.description}</p>
+                                <p className="text-md truncate text-gray-500">{job.description}</p>
+                                <p className="text-sm truncate text-gray-500 flex items-center gap-1">
+                                    <span className="text-gray-400">
+                                    <EnvironmentOutlined  /> 
+                                    </span>
+                                    {job.location}
+                                </p>
 
-                                <p className="py-2 text-md font-semibold truncate">Posted by</p>
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-x-2">
-                                        <img
-                                            alt=""
-                                            src={job.imageSrc}
-                                            className="w-10 h-10 rounded-full"
-                                        />
-                                        <div>
-                                            <h3 className="text-base font-semibold tracking-tight text-gray-900">
-                                                {job.createdBy}
-                                            </h3>
+                                <div className="mt-4">
+                                    <p className="text-sm font-semibold truncate">Posted by</p>
+
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-x-2">
+                                            <img
+                                                alt=""
+                                                src={job.imageSrc}
+                                                className="w-10 h-10 rounded-full"
+                                            />
+                                            <div>
+                                                <h3 className="text-base font-semibold tracking-tight text-gray-900">
+                                                    {job.createdBy}
+                                                </h3>
+                                            </div>
                                         </div>
                                     </div>
-
-                                    {/* Display Badge */}
-                                    <Badge
-                                        count={isJustAdded ? 'Just Added' : formatDistanceToNow(jobCreatedDate)}
-                                        style={{ backgroundColor: isJustAdded ? '#52c41a' : '#d9d9d9' }}
-                                    />
                                 </div>
                             </div>
                         </div>

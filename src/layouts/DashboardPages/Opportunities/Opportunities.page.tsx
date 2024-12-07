@@ -11,6 +11,7 @@ const OpportunitiesPage = () => {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
 
+
     const showModal = () => {
         setOpen(true);
     };
@@ -32,8 +33,8 @@ const OpportunitiesPage = () => {
             <div className="flex items-center justify-between">
                 <CustomAppTitle>Opportunities</CustomAppTitle>
                 <div>
-                    <Button size="large" type="primary" onClick={showModal}>
-                    Add opportunity
+                    <Button type="primary" onClick={showModal}>
+                        Create a job
                     </Button>
                     <AddOpportunitiesForm onOk={handleOk}
                         onCancel={handleCancel} open={open} loading={loading} />
