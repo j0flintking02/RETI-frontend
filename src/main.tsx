@@ -22,6 +22,10 @@ import LoginPage from "./layouts/Authentication/Login.page.tsx";
 import Onboarding from "./layouts/OnboardingPages/Onboarding.tsx";
 import SuccessOnboardPage from "./layouts/OnboardingPages/OnboardSuccessPage.tsx";
 import SettingsPage from "./layouts/DashboardPages/Settings/Settings.page.tsx";
+import OpportunitiesPage from "./layouts/DashboardPages/Opportunities/Opportunities.page.tsx";
+import OpportunitiesDetailsPage from "./layouts/DashboardPages/Opportunities/OpportuntiesDetailsPage.tsx";
+
+
 
 
 
@@ -69,6 +73,26 @@ const router = createBrowserRouter([
         ),
         errorElement: <ErrorPage />,
         children: [],
+    },
+    {
+        path: "/opportunities",
+        // loader: protectedLoader,
+        element: (
+            <CustomAppLayout>
+                <OpportunitiesPage />
+            </CustomAppLayout>
+        ),
+        errorElement: <ErrorPage />,
+        children: [],
+    },
+    {
+        path: "/opportunities/:id", // Route for Job Details by ID
+        element: (
+            <CustomAppLayout>
+                <OpportunitiesDetailsPage />
+            </CustomAppLayout>
+        ),
+        errorElement: <ErrorPage />,
     },
     {
         path: "/messages",

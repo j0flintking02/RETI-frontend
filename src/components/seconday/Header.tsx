@@ -20,10 +20,11 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             <div className="text-lg font-bold block lg:hidden">My Dashboard</div>
             
             {/* Notifications and Avatar */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 mr-2">
                 <Button type="primary" className="hidden lg:block">Find a place</Button>
+                
                 <Badge count={5} className="hidden lg:block">
-                    <BellOutlined className="text-xl" />
+                    <BellOutlined  className="text-xl" />
                 </Badge>
                 {/* Hamburger Menu */}
                 <Button

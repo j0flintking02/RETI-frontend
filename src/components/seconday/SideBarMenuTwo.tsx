@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {Avatar, Layout, Menu} from "antd";
 import { Link } from "react-router-dom";
-import { HomeOutlined, LogoutOutlined, MessageOutlined, SettingOutlined, UserOutlined, } from "@ant-design/icons";
+import { HomeOutlined, LogoutOutlined, MessageOutlined, SettingOutlined, TeamOutlined, UserOutlined, } from "@ant-design/icons";
 import {handleLogout, loginDetails} from "../../utils.ts";
 
 interface MenuItem {
@@ -22,6 +22,11 @@ const { Sider } = Layout;
             key: "dashboard",
             icon: <HomeOutlined/>,
             label: <Link to="/" onClick={closeDrawer}>Dashboard</Link>,
+          },
+          {
+            key: "opportunities",
+            icon: <TeamOutlined/>,
+            label: <Link to="/opportunities" onClick={closeDrawer}>Opportunities</Link>,
           },
           {
             key: "messages",

@@ -47,7 +47,7 @@ const PreferencesSettings = () => {
             <Layout>
                 <Content className="px-4 py-4 space-y-4 bg-white border border-gray-900/10 rounded-lg"
                 >
-                    <div className="sm:flex sm:justify-between  border-b border-gray-900/10 py-4">
+                    <div className="sm:flex sm:justify-between border-b border-gray-900/10 py-4">
                         <div>
                             <h2 className="text-lg font-semibold text-gray-900">Preferences</h2>
                             <p className="mt-1 text-sm/6 text-gray-600">Here you can manage your notifications and preferences.</p>
