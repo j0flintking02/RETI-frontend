@@ -78,7 +78,7 @@ const { Sider } = Layout;
                 <Avatar size="default" icon={<UserOutlined />} className="mr-2" /> 
                 <div> 
                     <label className="block">{`${user.user.firstName} ${user.user.lastName}`}</label>
-                    <label className="block">{user.user.email}</label>
+                    <label className="block">{user.user.phoneNumber}</label>
                 </div>
             </div>
         </Sider>
