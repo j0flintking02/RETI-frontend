@@ -1,8 +1,8 @@
-import {EyeInvisibleOutlined, EyeOutlined} from "@ant-design/icons";
-import {Button, Checkbox, Input, notification, Form, Typography} from "antd";
-import {useEffect, useState} from "react";
-import {useGoogleAuthMutation, useRegisterMutation} from "../../services/users.ts";
-import {useNavigate} from "react-router-dom";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Input, notification, Form, Typography } from "antd";
+import { useEffect, useState } from "react";
+import { useGoogleAuthMutation, useRegisterMutation } from "../../services/users.ts";
+import { useNavigate } from "react-router-dom";
 
 // const { Title, Text, Link } = Typography;
 
@@ -11,7 +11,7 @@ const RegisterForm = () => {
     const [api, contextHolder] = notification.useNotification();
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-    const [registerUser, {isLoading, isSuccess, data, isError}] = useRegisterMutation()
+    const [registerUser, { isLoading, isSuccess, data, isError }] = useRegisterMutation()
     const [googleAuth] = useGoogleAuthMutation()
     const [form] = Form.useForm();
 
@@ -19,7 +19,8 @@ const RegisterForm = () => {
 
     const onFinish = async (values: never) => {
         try {
-            await registerUser(values).unwrap()
+            const fullPhoneNumber = `+256${values.phoneNumber.replace(/^0/, '')}`;
+            await registerUser({ phoneNumber: fullPhoneNumber, password: values.password, firstName: values.firstName, lastName: values.lastName}).unwrap()
         } catch (e) {
             let message = 'Try again'
             if (typeof e.data.message === "string") {
@@ -30,7 +31,7 @@ const RegisterForm = () => {
             notification['error']({
                 message: 'Something went wrong',
                 description:
-                message,
+                    message,
             });
         }
     }
@@ -40,9 +41,7 @@ const RegisterForm = () => {
             description: "Something went wrong"
         })
     };
-    const handleGoogleAuth = async () => {
-        await googleAuth().unwrap()
-    }
+
     useEffect(() => {
         if (isSuccess) {
             const results = JSON.stringify(data)
@@ -62,7 +61,7 @@ const RegisterForm = () => {
                 form={form} onFinish={onFinish} onFinishFailed={onFinishFailed}>
                 <Form.Item>
                     <Form.Item
-                        style={{display: 'inline-block', width: '50%', margin: '0'}}
+                        style={{ display: 'inline-block', width: '50%', margin: '0' }}
                         label="First Name" name="firstName">
                         <Input
                             size="large"
@@ -71,16 +70,26 @@ const RegisterForm = () => {
                         />
                     </Form.Item>
                     <Form.Item
-                        style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
+                        style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px' }}
                         label="Last name" name="lastName">
-                        <Input size="large" placeholder="Enter your Last name" type="text"/>
+                        <Input size="large" placeholder="Enter your Last name" type="text" />
                     </Form.Item>
                 </Form.Item>
-                <Form.Item label="Email" name="email">
+                <Form.Item
+                    name="phoneNumber"
+                    label="Phone Number"
+                    rules={[
+                        { required: true, message: 'Please enter your phone number!' },
+                        {
+                            pattern: /^[0-9]{9}$/,
+                            message: 'Phone number must be exactly 9 digits!'
+                        }
+                    ]}>
                     <Input
-                        placeholder="Enter your email"
-                        type="Email"
                         size='large'
+                        placeholder="Enter your phone number"
+                        className="rounded-md border-gray-300"
+                        prefix={<span>+256</span>}
                     />
                 </Form.Item>
                 <Form.Item label="Password" name="password">
@@ -91,10 +100,10 @@ const RegisterForm = () => {
                         suffix={
                             passwordVisible ? (
                                 <EyeOutlined className='text-gray-400'
-                                             onClick={() => setPasswordVisible(false)}/>
+                                    onClick={() => setPasswordVisible(false)} />
                             ) : (
                                 <EyeInvisibleOutlined className='text-gray-400'
-                                                      onClick={() => setPasswordVisible(true)}/>
+                                    onClick={() => setPasswordVisible(true)} />
                             )
                         }
                     />
@@ -107,18 +116,18 @@ const RegisterForm = () => {
                         suffix={
                             confirmPasswordVisible ? (
                                 <EyeOutlined className='text-gray-400'
-                                             onClick={() => setConfirmPasswordVisible(false)}/>
+                                    onClick={() => setConfirmPasswordVisible(false)} />
                             ) : (
                                 <EyeInvisibleOutlined className='text-gray-400'
-                                                      onClick={() => setConfirmPasswordVisible(true)}/>
+                                    onClick={() => setConfirmPasswordVisible(true)} />
                             )
                         }
                     />
                 </Form.Item>
 
-                <Form.Item name="remember" valuePropName="checked">
+                {/* <Form.Item name="remember" valuePropName="checked">
                     <Checkbox className="text-sm">Remember me</Checkbox>
-                </Form.Item>
+                </Form.Item> */}
 
                 <div>
                     <Button
@@ -130,7 +139,7 @@ const RegisterForm = () => {
                         Sign up
                     </Button>
                 </div>
-                <div className='mt-4'>
+                {/* <div className='mt-4'>
                     <Button
                         size='large'
                         onClick={handleGoogleAuth}
@@ -138,7 +147,7 @@ const RegisterForm = () => {
                         <img className="w-4 h-4 mr-2" src='images/gogole.svg' alt="google"/>
                         Sign up with Google
                     </Button>
-                </div>
+                </div> */}
 
             </Form>
 

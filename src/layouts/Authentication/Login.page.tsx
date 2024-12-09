@@ -1,6 +1,7 @@
 import Sign from "../../components/seconday/LoginForm";
 import "tailwindcss/tailwind.css";
 import viteLogo from "/vite.svg";
+import youth from '../../assets/youth.jpg';
 
 const LoginPage = () => {
   return (
@@ -16,9 +17,9 @@ const LoginPage = () => {
                   src={viteLogo}
                   className="h-10 w-auto"
                 />
-                <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">Sign in to your account</h2>
+                <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">Login</h2>
                 <p className="mt-2 text-sm/6 text-gray-500">
-                  Experience the power of networking
+                  Welcome back
                 </p>
               </div>
 
@@ -32,69 +33,13 @@ const LoginPage = () => {
           <div className="relative hidden w-0 flex-1 lg:block">
             <img
               alt=""
-              src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+              src={youth}
               className="absolute inset-0 size-full object-cover"
             />
           </div>
         </div>
       </div>
     </div>
-    // <Layout className="min-h-screen,  bg-white">
-    //   <Row
-    //     justify="center"
-    //     align="middle"
-    //     style={{ minHeight: "100vh", overflow: "hidden", padding: "20px" }}
-    //   >
-    //     <Col
-    //       xs={24}
-    //       sm={24}
-    //       md={12}
-    //       style={{
-    //         display: "flex",
-    //         alignItems: "center",
-    //         justifyContent: "center",
-    //       }}
-    //     >
-    //       <div
-    //         style={{
-    //           width: "80%",
-    //           maxWidth: "500px",
-    //           marginBottom: "20px",
-    //         }}
-    //       >
-    //         <div
-    //           style={{
-    //             display: "flex",
-    //             alignItems: "center",
-    //             marginBottom: "16px",
-
-    //           }}
-    //         >
-    //           <img
-    //             src={viteLogo}
-    //             alt="logo"
-    //             style={{ width: "40px", marginRight: "8px" }}
-    //           />
-    //           <h2 className="text-black, font-bold">RETI PROJECT</h2>
-    //         </div>
-
-    //         <Sign />
-    //       </div>
-    //     </Col>
-
-    //     <Col xs={24} sm={24} md={12}>
-    //       <Image
-    //         src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-    //         preview={false}
-    //         className="w-full object-cover md:rounded-tl-[20px] md:rounded-bl-[20px] rounded-tl-bl-[20px]"
-    //         style={{
-    //           width: "100%",
-    //           height: "auto",
-    //         }}
-    //       />
-    //     </Col>
-    //   </Row>
-    // </Layout>
   );
 };
 

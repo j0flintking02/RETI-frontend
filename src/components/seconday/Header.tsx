@@ -21,8 +21,6 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
             
             {/* Notifications and Avatar */}
             <div className="flex items-center space-x-4 mr-2">
-                <Button type="primary" className="hidden lg:block">Find a place</Button>
-                
                 <Badge count={5} className="hidden lg:block">
                     <BellOutlined  className="text-xl" />
                 </Badge>

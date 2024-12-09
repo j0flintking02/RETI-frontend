@@ -42,7 +42,7 @@ const InformationPage = ({setInformData}) => {
                 initialValues={{
                     "firstName": user?.firstName,
                     "lastName": user?.lastName,
-                    "email": user?.email,
+                    "phoneNumber": user?.phoneNumber,
                     "prefix": "256",
                 }}
             >
@@ -89,13 +89,12 @@ const InformationPage = ({setInformData}) => {
                             size="large"
                             placeholder="Enter your email"
                             type="email"
-                            disabled
                         />
                     </Form.Item>
                     <Form.Item
                         style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
                         label="Phone number" name="phoneNumber">
-                        <Input size="large" addonBefore={prefixSelector}/>
+                        <Input size="large" addonBefore={prefixSelector} disabled/>
                     </Form.Item>
                 </Form.Item>
                 <Form.Item className="my-24">

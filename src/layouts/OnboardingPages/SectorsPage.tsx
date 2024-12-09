@@ -14,11 +14,7 @@ const SectionsPage: React.FC<SectionsPageProps> = ({ sectionsData, setSectionsDa
     const options = [
         { id: 'option1', label: 'Mentor', value: 'Mentor', image: 'images/undraw_business_chat_re_gg4h.svg' },
         { id: 'option2', label: 'Trader', value: 'Trader', image: 'images/undraw_candidate_ubwv.svg' },
-        { id: 'option3', label: 'Student', value: 'Student', image: 'images/undraw_brainstorming_re_1lmw.svg' },
-        { id: 'option4', label: 'Employee', value: 'Employee', image: 'images/undraw_business_deal_re_up4u.svg' },
-        { id: 'option5', label: 'Seller', value: 'Seller', image: 'images/undraw_brainstorming_re_1lmw.svg' },
-        { id: 'option6', label: 'Buyer', value: 'Buyer', image: 'images/undraw_business_deal_re_up4u.svg' },
-  
+        { id: 'option4', label: 'Employer', value: 'Employer', image: 'images/undraw_business_deal_re_up4u.svg' },
     ]
 
 

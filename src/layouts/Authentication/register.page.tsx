@@ -1,10 +1,7 @@
-// import { Layout } from "antd";
 import viteLogo from '/vite.svg'
 
-
+import youth from '../../assets/youth.jpg';
 import RegisterForm from "../../components/seconday/registerForm";
-
-
 
 export default function RegisterPage() {
     return (
@@ -19,9 +16,9 @@ export default function RegisterPage() {
                                 src={viteLogo}
                                 className="h-10 w-auto"
                             />
-                            <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">Register</h2>
+                            <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">JOIN RETi</h2>
                             <p className="mt-2 text-sm/6 text-gray-500">
-                                Start your journey with our product
+                            Unlock a world of opportunities by joining the RETi community.
                             </p>
                         </div>
 
@@ -34,7 +31,7 @@ export default function RegisterPage() {
                 <div className="relative hidden w-0 flex-1 lg:block">
                     <img
                         alt=""
-                        src="https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+                        src={youth}
                         className="absolute inset-0 size-full object-cover"
                     />
                 </div>

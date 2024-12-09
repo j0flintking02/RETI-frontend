@@ -77,7 +77,7 @@ const AllOpportunitiesPage = () => {
                         <div
                             key={job.id}
                             onClick={() => navigate(`/opportunities/${job.id}`)}
-                            className=" h-34 relative flex flex-col p-1 border border-gray-300 rounded-sm bg-white hover:shadow-lg hover:bg-gray-50 cursor-pointer transition-all duration-200"
+                            className=" h-34 relative flex flex-col p-1 border border-gray-300 rounded-lg bg-white hover:shadow-lg hover:bg-gray-50 cursor-pointer transition-all duration-200"
                         >
                             <div className="p-2">
                                 <div className="text-right mb-1">

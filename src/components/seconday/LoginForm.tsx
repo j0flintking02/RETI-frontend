@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { Form, Input, Button, Checkbox, Typography, notification } from 'antd';
+import { Form, Input, Button, Typography, notification } from 'antd';
 import { useLoginMutation } from "../../services/users.ts";
 import {Link, useNavigate} from "react-router-dom";
 import {userDetails} from "../../utils.ts";
@@ -10,17 +10,22 @@ const LoginForm = () => {
     const [form] = Form.useForm();
     const [login, { isLoading, isSuccess, data }] = useLoginMutation()
     const navigate = useNavigate();
-    const onFinish = async (values: never) => {
+    const onFinish = async (values: { phoneNumber: string; password: string }) => {
         try {
-            await login(values).unwrap()
-        } catch (e) {
+            const fullPhoneNumber = `+256${values.phoneNumber.replace(/^0/, '')}`;
+            await login({ phoneNumber: fullPhoneNumber, password: values.password }).unwrap()
+        } catch (error) {
             notification.error({
-                message: e,
+                message: error.message,
                 description: "Something went wrong"
             })
         }
     }
-    const onFinishFailed = (errorInfo: never) => {
+    const onFinishFailed = (errorInfo: any) => {
+        notification.error({
+            message: 'Unable to log in with provided credentials.',
+            description: 'Please check your phone number and password and try again.'
+        });
         console.log('Failed:', errorInfo);
     };
     useEffect(() => {
@@ -49,26 +54,35 @@ const LoginForm = () => {
             onFinishFailed={onFinishFailed}>
      
             <Form.Item
-                name="email"
-                label="Email"
-                rules={[{ message: 'Please enter your email!' }]}>
-                <Input size='large' placeholder="Enter your email" className="rounded-md border-gray-300" />
+                name="phoneNumber"
+                label="Phone Number"
+                rules={[
+                    { required: true, message: 'Please enter your phone number!' },
+                    { 
+                        pattern: /^[0-9]{9}$/, 
+                        message: 'Phone number must be exactly 9 digits!' 
+                    }
+                ]}>
+                <Input
+                    size='large'
+                    placeholder="Enter your phone number"
+                    className="rounded-md border-gray-300"
+                    prefix={<span>+256</span>}
+                />
             </Form.Item>
 
             <Form.Item
                 name="password"
-                label="Password"
-                rules={[{ message: 'Please enter your password!' }]}>
-                <Input.Password  size= 'large' placeholder="Enter your password" className="rounded-md border-gray-300" />
+                label={
+                    <div className="flex items-center">
+                        <span className="mr-4">Password</span>
+                        <Link className="text-[#5B9BD5] hover:text-[#5B9BD5] hover:underline" to="/reset-password">Forgot your password?</Link>
+                    </div>
+                }
+                rules={[{ required: true, message: 'Please enter your password!' }]}>
+                <Input.Password size='large' placeholder="Enter your password" className="rounded-md border-gray-300" />
             </Form.Item>
 
-            <Form.Item>
-                <Link className="text-[#5B9BD5] hover:text-[#5B9BD5] hover:underline" to="/reset-password">Forgot your password?</Link>
-            </Form.Item>
-
-            <Form.Item name="remember" valuePropName="checked">
-                <Checkbox className="text-sm">Remember me</Checkbox>
-            </Form.Item>
             <Form.Item>
                 <Button
                     type="primary"
@@ -77,15 +91,9 @@ const LoginForm = () => {
                     loading={isLoading}
                      size= 'large'
                 >
-                    Sign in
+                    Login
                 </Button>
 
-                <div className='mt-4'>
-                    <Button size='large' className="flex items-center w-full justify-center px-3 py-4 text-sm font-semibold  text-gray-700 hover:bg-gray-100">
-                        <img className="w-4 h-4 mr-2" src='images/gogole.svg' alt="google" />
-                        Sign up with Google
-                    </Button>
-                </div>
             </Form.Item>
             <p className="mt-6 text-center text-sm text-gray-500">
                 Don't have an account?{" "}
