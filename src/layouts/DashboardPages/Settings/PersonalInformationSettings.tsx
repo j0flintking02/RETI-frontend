@@ -80,8 +80,8 @@ const PersonalInformationSettings = () => {
                 {!isLoading && <Form layout="vertical" form={form} initialValues={{
                     firstName: data?.data.user.firstName,
                     lastName: data?.data.user.lastName,
-                    email: data?.data.user.email,
-                    phoneNumber: data?.data.phoneNumber,
+                    email: data?.data.email,
+                    phoneNumber: data?.data.user.phoneNumber,
                     gender: data?.data.gender,
                     bio: data?.data.bio,
                     dateOfBirth: moment(data?.data.dateOfBirth),
