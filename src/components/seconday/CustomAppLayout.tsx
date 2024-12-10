@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Layout as AntdLayout, Drawer } from "antd";
-import Header from "./Header";
+import { Layout as AntdLayout } from "antd";
+
 import SiderTwo from "./SideBarMenuTwo";
 
 const { Content } = AntdLayout;
@@ -13,42 +13,25 @@ const CustomAppLayout: React.FC<LayoutProps> = ({ children }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
 
   // Drawer toggle functions
-  const showDrawer = () => setDrawerVisible(true);
   const closeDrawer = () => setDrawerVisible(false);
 
   return (
     <AntdLayout className="min-h-screen">
       {/* Sidebar */}
       <div className="hidden lg:block">
-        <SiderTwo closeDrawer={closeDrawer} />
+        <SiderTwo
+          closeDrawer={closeDrawer}
+        />
       </div>
 
-      {/* Drawer for small screens */}
-      <Drawer
-        title="Menu"
-        placement="left"
-        onClose={closeDrawer}
-        open={drawerVisible}
-        className="lg:hidden"
-        bodyStyle={{ padding: 0 }}
-        width={250}
-      >
-        <SiderTwo closeDrawer={closeDrawer} />
-      </Drawer>
 
       <AntdLayout>
-        {/* Header */}
-        <Header onMenuClick={showDrawer} />
-
         {/* Main Content */}
-        <Content className="sm:px-6 sm:py-8 p-4">
-          <div className="">
-          {/* w-full max-w-7xl */}
-            {children}
-          </div>
+        <Content>
+          {children}
         </Content>
       </AntdLayout>
-      
+
     </AntdLayout>
   );
 };
