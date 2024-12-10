@@ -17,9 +17,10 @@ export default function MessagingChatDetails() {
                     <h2 className="text-lg/6 truncate font-semibold text-gray-900">
                         Leslie Alexander
                     </h2>
-                    <div className=" flex items-center gap-x-1.5">
-                        <p className="text-xs/5 text-gray-500">Online</p>
-                        <Badge status="success" />
+                    <div className="flex items-center justify-center gap-x-1.5">
+                        <p className="text-xs/5 text-green-500">Online</p>
+                        
+                        {/* <Badge status="success"  size="small"/> */}
                     </div>
 
                 </div>

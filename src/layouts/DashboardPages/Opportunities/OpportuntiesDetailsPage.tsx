@@ -1,16 +1,17 @@
 
 
-import { useParams } from 'react-router-dom'; 
+import { useParams } from 'react-router-dom';
 import CustomAppTitle from '../../../components/seconday/CustomAppTitle';
-import { Button, Layout } from 'antd';
+import { Button } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import { formatDistanceToNow } from '../../../utils';
 import { EnvironmentOutlined, MailOutlined, MoneyCollectOutlined, PhoneOutlined, ScheduleOutlined } from '@ant-design/icons';
+import CustomDahboardLayout from '../../../components/seconday/CustomDashboardPagesLayout';
+import Header from '../../../components/seconday/Header';
 
 const OpportunitiesDetailsPage = () => {
-    const { id } = useParams(); 
+    const { id } = useParams();
 
-  
 
     const job = {
         id,
@@ -41,9 +42,10 @@ const OpportunitiesDetailsPage = () => {
 
     return (
 
-        <div className="space-y-2">
+        <div >
+            <Header pageTitle="Opportunity Details" />
             <CustomAppTitle showBackButton={true}></CustomAppTitle>
-            <Layout className="max-w-screen">
+            <CustomDahboardLayout>
                 <Content className="bg-white mt-2 border border-gray-900/10 rounded-lg">
                     <div className='sm:flex  justify-between'>
                         <div className="sm:w-8/12 border-r border-gray-200 p-6">
@@ -85,16 +87,13 @@ const OpportunitiesDetailsPage = () => {
 
                                     <p className="text-sm truncate text-gray-500 flex items-center gap-2">
                                         <span className="text-gray-400">
-                                            <MoneyCollectOutlined/>
+                                            <MoneyCollectOutlined />
                                         </span>
                                         ${job.minSalary} - ${job.maxSalary}
                                     </p>
                                 </div>
 
-                                
-
                                 <Button className='mt-4' type="primary">Apply now</Button>
-
 
                             </div>
                         </div>
@@ -122,7 +121,7 @@ const OpportunitiesDetailsPage = () => {
 
                                 <div className="mt-2">
                                     <h4 className="font-semibold text-gray-800">Contact:</h4>
-                                    
+
                                     <p className="text-sm truncate text-gray-500 flex items-center gap-2">
                                         <span className="text-gray-400">
                                             <MailOutlined />
@@ -148,8 +147,7 @@ const OpportunitiesDetailsPage = () => {
                         </div>
                     </div>
                 </Content>
-
-            </Layout>
+            </CustomDahboardLayout>
         </div>
 
     );

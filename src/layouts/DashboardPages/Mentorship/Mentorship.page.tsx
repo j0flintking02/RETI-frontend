@@ -1,14 +1,16 @@
 
 import Layout from "antd/es/layout/layout";
-import AllOpportunitiesPage from "./AllOpportunities";
+
 import { Button } from "antd";
 import { useState } from "react";
-import AddOpportunitiesForm from "../Forms/AddOpportunityForm";
+import MentorshipDates from "./Mentorship.dates.page";
 import Header from "../../../components/seconday/Header";
 import CustomDahboardLayout from "../../../components/seconday/CustomDashboardPagesLayout";
+import AddInspirationsForm from "../Forms/AddGuidanceForm";
 
 
-const OpportunitiesPage = () => {
+const MentorshipPage = () => {
+
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
 
@@ -31,28 +33,26 @@ const OpportunitiesPage = () => {
 
     return (
         <>
-            <Header pageTitle="Opportunities" />
+            <Header  pageTitle="Community Guidance" />
 
             <CustomDahboardLayout>
                 <div className="flex items-center justify-end">
                     <div>
                         <Button type="primary" onClick={showModal}>
-                            Create a job
+                            Add guidance
                         </Button>
-                        <AddOpportunitiesForm onOk={handleOk}
-                            onCancel={handleCancel} open={open} loading={loading} />
+                        <AddInspirationsForm onOk={handleOk}
+                        onCancel={handleCancel} open={open} loading={loading} />
                     </div>
                 </div>
 
                 <Layout
-           
                 >
-                    <AllOpportunitiesPage />
+                    <MentorshipDates />
                 </Layout>
             </CustomDahboardLayout>
         </>
     )
 }
 
-export default OpportunitiesPage;
-
+export default MentorshipPage;

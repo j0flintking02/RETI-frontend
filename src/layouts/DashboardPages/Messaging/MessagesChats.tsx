@@ -49,11 +49,11 @@ export default function MessagingChats() {
                         <h2 className="text-lg/6 truncate font-semibold text-gray-900">
                             Messages
                         </h2>
-                        <Badge className="site-badge-count-109" count='2' style={{ backgroundColor: '#189bcc ' }} />
+                        {/* <Badge className="site-badge-count-109" count='2' style={{ backgroundColor: '#189bcc ' }} /> */}
                     </div>
 
                     <div>
-                    <Button  size="small" shape="circle" icon={<SearchOutlined />} />
+                    <Button   shape="circle" icon={<SearchOutlined />} />
                     </div>
                 </div>
 
@@ -81,8 +81,8 @@ export default function MessagingChats() {
                                         </p>
                                     ) : (
                                         <div className="mt-1 flex items-center gap-x-1.5">
-                                            <p className="text-xs/5 text-gray-500">Online</p>
-                                            <Badge status="success" />
+                                            <p className="text-xs/5 text-green-500">Online</p>
+                                            {/* <Badge status="success" /> */}
                                         </div>
                                     )}
                                 </div>

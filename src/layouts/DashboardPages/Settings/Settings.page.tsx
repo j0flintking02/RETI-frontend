@@ -1,16 +1,18 @@
 import { Layout, Tabs } from "antd";
-import CustomAppTitle from "../../../components/seconday/CustomAppTitle";
+
 
 import { TabsProps } from "../../../services/types";
 import PersonalInformationSettings from "./PersonalInformationSettings";
 import ChangePasswordSettings from "./ChangePasswordSettings";
 import PreferencesSettings from "./PreferencesSettings";
 import MyDataSettings from "./MyDataSettings";
+import Header from "../../../components/seconday/Header";
+import CustomDahboardLayout from "../../../components/seconday/CustomDashboardPagesLayout";
 
 
 const SettingsPage = () => {
 
- 
+
 
     const items: TabsProps['items'] = [
         {
@@ -36,14 +38,16 @@ const SettingsPage = () => {
     ];
 
     return (
-        <div className="space-y-4">
-            <CustomAppTitle>Settings</CustomAppTitle>
-            <Layout>
-                {/* tab */}
-                <Tabs defaultActiveKey="1" items={items} 
-                />
-            </Layout>
-        </div>
+        <>
+            <Header pageTitle="Settings" />
+
+            <CustomDahboardLayout>
+                <Layout
+                >
+                    <Tabs defaultActiveKey="1" items={items} />
+                </Layout>
+            </CustomDahboardLayout>
+        </>
     )
 };
 
