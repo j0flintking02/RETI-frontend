@@ -14,9 +14,11 @@ const MessagesPage = () => {
         <div>
             <CustomAppTitle>Messaging</CustomAppTitle>
             <Layout className={`px-4 py-4 sm:rounded-[12px] ${
-                isDarkMode ? globalStyles.background.gray.dark : 'bg-white'
+                isDarkMode 
+                    ? `${globalStyles.background.gray.dark} border-[#3A3B3C]` 
+                    : 'bg-white border-gray-200'
             }`}>
-                <Content className="mt-2">
+                <Content>
                     <div className="sm:flex">
                         <MessagingChats />
                         <MessagingChatDetails />

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import viteLogo from "/vite.svg";
+import reti from '/src/assets/reti.png';
 import RegisterForm from "../../components/seconday/registerForm";
 import { ThemeContext } from "../../ThemeContext";
 import { globalStyles } from "../../styles/globalStyles";
@@ -18,8 +18,8 @@ export default function RegisterPage() {
               <div>
                 <img
                   alt="Your Company"
-                  src={viteLogo}
-                  className="h-10 w-auto"
+                  src={reti}
+                  className= "h-16 w-auto"
                 />
                 <h2 className={`mt-8 ${globalStyles.heading.primary} ${
                   isDarkMode ? globalStyles.heading.dark : globalStyles.heading.light

@@ -1,14 +1,16 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { Form, Input, Button, Checkbox, Typography, notification } from "antd";
 import { useLoginMutation } from "../../services/users.ts";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../ThemeContext";
 import { globalStyles } from "../../styles/globalStyles";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 
-const { Title, Text, Link } = Typography;
+const { Link } = Typography;
 
 const LoginForm = () => {
-  const { isDarkMode } = useContext(ThemeContext)
+  const { isDarkMode } = useContext(ThemeContext);
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const [form] = Form.useForm();
   const [login, { isLoading, isSuccess, data }] = useLoginMutation();
   const navigate = useNavigate();
@@ -35,7 +37,7 @@ const LoginForm = () => {
       });
       navigate("/");
     }
-  }, [isSuccess, data]);
+  });
   return (
     <Form
       layout="vertical"
@@ -47,9 +49,13 @@ const LoginForm = () => {
       <Form.Item
         name="email"
         label={
-          <span className={`${globalStyles.text.primary.base} ${
-            isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
-          }`}>
+          <span
+            className={`${globalStyles.text.primary.base} ${
+              isDarkMode
+                ? globalStyles.text.primary.dark
+                : globalStyles.text.primary.light
+            }`}
+          >
             Email
           </span>
         }
@@ -59,8 +65,8 @@ const LoginForm = () => {
           size="large"
           placeholder="Enter your email"
           className={`${globalStyles.input.base} ${
-            isDarkMode 
-              ? `${globalStyles.input.dark} ${globalStyles.placeholder.white}` 
+            isDarkMode
+              ? `${globalStyles.input.dark} ${globalStyles.placeholder.white}`
               : `${globalStyles.input.light} ${globalStyles.placeholder.black}`
           }`}
           style={{
@@ -72,25 +78,43 @@ const LoginForm = () => {
       <Form.Item
         name="password"
         label={
-          <span className={`${globalStyles.text.primary.base} ${
-            isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
-          }`}>
+          <span
+            className={`${globalStyles.text.primary.base} ${
+              isDarkMode
+                ? globalStyles.text.primary.dark
+                : globalStyles.text.primary.light
+            }`}
+          >
             Password
           </span>
         }
         rules={[{ message: "Please enter your password!" }]}
       >
-        <Input.Password
+        <Input
           size="large"
           placeholder="Enter your password"
+          type={passwordVisible ? "text" : "password"}
           className={`${globalStyles.input.base} ${
-            isDarkMode 
-              ? `bg-transparent border-gray-700 text-white ${globalStyles.input.search.dark} ${globalStyles.placeholder.white}` 
-              : `bg-transparent border-gray-300 text-gray-900 ${globalStyles.placeholder.black}`
+            isDarkMode
+              ? `${globalStyles.input.dark} ${globalStyles.placeholder.white}`
+              : `${globalStyles.input.light} ${globalStyles.placeholder.black}`
           }`}
           style={{
             backgroundColor: "transparent",
           }}
+          suffix={
+            passwordVisible ? (
+              <EyeOutlined
+                className={isDarkMode ? "text-white" : "text-gray-400"}
+                onClick={() => setPasswordVisible(false)}
+              />
+            ) : (
+              <EyeInvisibleOutlined
+                className={isDarkMode ? "text-white" : "text-gray-400"}
+                onClick={() => setPasswordVisible(true)}
+              />
+            )
+          }
         />
       </Form.Item>
 
@@ -105,7 +129,11 @@ const LoginForm = () => {
 
       <Form.Item name="remember" valuePropName="checked">
         <Checkbox
-          className={isDarkMode ? "text-gray-300 [&>.ant-checkbox>.ant-checkbox-inner]:bg-transparent [&>.ant-checkbox>.ant-checkbox-inner]:border-gray-700" : "text-gray-900"}
+          className={
+            isDarkMode
+              ? "text-gray-300 [&>.ant-checkbox>.ant-checkbox-inner]:bg-transparent [&>.ant-checkbox>.ant-checkbox-inner]:border-gray-700"
+              : "text-gray-900"
+          }
         >
           Remember me
         </Checkbox>
@@ -118,7 +146,9 @@ const LoginForm = () => {
           loading={isLoading}
           size="large"
           className={`${globalStyles.button.primary.base} ${
-            isDarkMode ? globalStyles.button.primary.dark : globalStyles.button.primary.light
+            isDarkMode
+              ? globalStyles.button.primary.dark
+              : globalStyles.button.primary.light
           }`}
         >
           Sign in
@@ -145,7 +175,9 @@ const LoginForm = () => {
           </Button>
         </div>
       </Form.Item>
-      <p className="mt-6 text-center text-sm text-gray-500">
+      <p className={`mt-6 text-center text-sm ${
+        isDarkMode ? globalStyles.text.primary.white : "text-gray-500"
+      }`}>
         Don't have an account?{" "}
         <Typography.Link
           className="text-[#5B9BD5] hover:text-[#5B9BD5] hover:underline"

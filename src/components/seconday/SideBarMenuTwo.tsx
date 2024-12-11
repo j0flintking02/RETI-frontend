@@ -8,6 +8,8 @@ import {
 } from "@ant-design/icons";
 import { ThemeContext } from "../../ThemeContext";
 import { globalStyles } from "../../styles/globalStyles";
+import lightModeLogo from '/src/assets/reti2.png';
+import darkModeLogo from '/src/assets/retro.png';
 
 interface MenuItem {
   key: string;
@@ -75,9 +77,13 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
       <div className={`h-16 py-4 px-8 ${globalStyles.text.primary.base} ${
         isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
       }`}>
-        <h4 className={`font-bold text-lg ${globalStyles.heading.secondary} ${
-          isDarkMode ? globalStyles.heading.dark : globalStyles.heading.light
-        }`}>Logo</h4>
+        <div className="flex items-center">
+          <img
+            src={isDarkMode ? darkModeLogo : lightModeLogo}
+            alt="Reti Logo"
+            className="h-14 w-auto"
+          />
+        </div>
       </div>
       <Menu
         theme={isDarkMode ? "dark" : "light"}

@@ -16,6 +16,7 @@ export const globalStyles = {
     light: 'bg-white',
     dark: 'bg-[#202020]',
     darker: 'bg-black',
+    blue: 'bg-[#F4F4F6]',
     gray: {
       light: 'bg-gray-50',
       dark: 'bg-[#3A3B3C]',
@@ -32,6 +33,7 @@ export const globalStyles = {
     primary: {
       light: 'text-gray-900',
       dark: 'text-gray-100',
+      gray: 'bg-[#3A3B3C]',
       white: 'text-white',
       blue: 'text-blue-500',
       base: 'text-base'
