@@ -1,6 +1,7 @@
 
-import { Form, Input, Select, DatePicker, Button, Row, Col, Modal } from 'antd';
+import {Form, Input, Select, DatePicker, Button, Row, Col, Modal, notification} from 'antd';
 import 'antd/dist/reset.css';
+import {useAddOpportunityMutation} from "../../../services/opportunities.ts";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -9,15 +10,25 @@ const { Option } = Select;
 const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
 
     const [form] = Form.useForm();
+    const [addJob] = useAddOpportunityMutation()
 
     const handleSubmit = () => {
         form
             .validateFields() // Validate form fields
-            .then((values) => {
+            .then(async (values) => {
+                await addJob(values).unwrap()
                 console.log('Form Values:', values); // Replace with actual submission logic
+                notification['success']({
+                    message: "Add successfully",
+                });
                 onOk(); // close modal
             })
             .catch((info) => {
+                notification['error']({
+                    message: info?.data?.error,
+                    description:
+                    info?.data?.message,
+                });
                 console.log('Validation Failed:', info);
             });
     };
@@ -51,13 +62,14 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                     <Form
                         form={form}
                         layout="vertical"
+                        onFinish={handleSubmit}
                     >
                         <Row gutter={[16, 16]}>
                             {/* Job Title */}
                             <Col xs={24} sm={12}>
                                 <Form.Item
                                     label="Job Title"
-                                    name="jobTitle"
+                                    name="title"
                                     rules={[{ required: true, message: 'Please enter the job title' }]}
                                 >
                                     <Input placeholder="e.g., Sales Person" size='large' />
@@ -153,7 +165,7 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                         {/* Job Description */}
                         <Form.Item
                             label="Job Description"
-                            name="jobDescription"
+                            name="description"
                             rules={[{ required: true, message: 'Please enter the job description' }]}
                         >
                             <TextArea rows={4} placeholder="Describe the responsibilities and expectations" />

@@ -67,3 +67,36 @@ export interface SectionsPageProps {
     };
     setSectionsData: React.Dispatch<React.SetStateAction<{ role: string } | null>>;
 }
+
+
+export interface OpportunitiesType {
+    status: number
+    message: string
+    data: Data[]
+}
+
+export interface Data {
+    id: number
+    title: string
+    description: string
+    location: string
+    salary: Salary
+    qualifications: string[]
+    status: string
+    interested: any[]
+    employerId: number
+    positions: number
+    experience: string
+    jobCategory: string
+    jobType: string
+    applicationDeadline: string
+    companyName: string
+    contactEmail: string
+    createdAt: string
+    updatedAt: string
+}
+
+export interface Salary {
+    min: number
+    max: number
+}
