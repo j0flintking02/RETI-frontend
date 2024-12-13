@@ -16,7 +16,13 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
         form
             .validateFields() // Validate form fields
             .then(async (values) => {
-                await addJob(values).unwrap()
+                await addJob({
+                    ...values,
+                    salary: {
+                        min:values.maxSalary,
+                        max:values.minSalary
+                    }
+                }).unwrap()
                 console.log('Form Values:', values); // Replace with actual submission logic
                 notification['success']({
                     message: "Add successfully",
@@ -102,8 +108,8 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                                     rules={[{ required: true, message: 'Please select a job type' }]}
                                 >
                                     <Select placeholder="Select job type" size='large'>
-                                        <Option value="full-time">Full-Time</Option>
-                                        <Option value="part-time">Part-Time</Option>
+                                        <Option value="fulltime">Full-Time</Option>
+                                        <Option value="parttime">Part-Time</Option>
                                         <Option value="freelance">Freelance</Option>
                                     </Select>
                                 </Form.Item>

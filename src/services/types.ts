@@ -69,13 +69,18 @@ export interface SectionsPageProps {
 }
 
 
-export interface OpportunitiesType {
+export interface OpportunitiesResponseType {
     status: number
     message: string
-    data: Data[]
+    data: OpportunitiesType[]
+}
+export interface OpportunitiesDetailsResponseType {
+    status: number
+    message: string
+    data: OpportunitiesType
 }
 
-export interface Data {
+export interface OpportunitiesType {
     id: number
     title: string
     description: string

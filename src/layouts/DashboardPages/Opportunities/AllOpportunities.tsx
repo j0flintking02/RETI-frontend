@@ -1,11 +1,16 @@
-import { EditOutlined, EnvironmentOutlined } from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, EnvironmentOutlined, QuestionCircleOutlined} from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import DeletePopconfirm from "../../../components/seconday/CustomDeletePopUp";
-import {Avatar, Modal, Typography} from "antd";
+import {Avatar, Button, Modal, notification, Popconfirm, Typography} from "antd";
 import { useState} from "react";
-import {useGetOpportunitiesQuery} from "../../../services/opportunities.ts";
+import {
+    useDeleteOpportunityMutation,
+    useDeleteOpportunityQuery,
+    useGetOpportunitiesQuery
+} from "../../../services/opportunities.ts";
 import moment from "moment";
 import DateCheckComponent from "../../../components/primary/dataChecker.tsx";
+import {loginDetails} from "../../../utils.ts";
 
 
 
@@ -15,20 +20,28 @@ const AllOpportunitiesPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalOpen(false);
+   //"""""              M  setIsModalOpen(false);
     };
 
     const {data} = useGetOpportunitiesQuery()
+    const[deleteOpportunity]=useDeleteOpportunityMutation()
 
 
+    const handleDeleteJob =  async (opportunityID: number)=>{
+        try {
+            await deleteOpportunity(opportunityID).unwrap()
+            notification['success']({
+                message: 'Opportunity deleted successfully.',
+            })
+        } catch(e){
+            notification['error']({
+                message: 'Opportunity deleted error',
+                description: e.data.message,
+            })
+        }
+    }
+    const handleOk = () =>{}
+    const handleCancel = () =>{}
 
     return (
         <>
@@ -45,20 +58,19 @@ const AllOpportunitiesPage = () => {
                             <div className="p-2">
                                 <div className="text-right mb-1">
                                     <DateCheckComponent date={job.createdAt} />
-                                    <div className="space-x-2 text-right pt-2">
+                                    <div className={`space-x-2 text-right pt-2 ${loginDetails().user.role !== 'employer' && 'hidden'}`}>
                                       
-                                        <EditOutlined
-                                            onClick={showModal}
-                                            className="text-blue-500 cursor-pointer"
-                                        // onClick={() => editInspiration(index)}
-                                        />
-                                        <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                                           Edit job
-                                        </Modal>
+                                        {/*<EditOutlined*/}
+                                        {/*    onClick={showModal}*/}
+                                        {/*    className="text-blue-500 cursor-pointer"*/}
+                                        {/*/>*/}
+                                        {/*<Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>*/}
+                                        {/*   Edit job*/}
+                                        {/*</Modal>*/}
                                         <DeletePopconfirm
                                             title="Delete"
                                             description="Are you sure to delete this job?"
-                                            // onConfirm={deleteTask}  // This is where the delete function is called
+                                            onConfirm={()=>handleDeleteJob(job.id)}
                                             onConfirmMessage="Task deleted successfully"
                                             onCancelMessage="Task deletion cancelled"
                                             okText="Yes"

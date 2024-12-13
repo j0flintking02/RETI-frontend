@@ -1,5 +1,12 @@
 import {createApi, fetchBaseQuery, BaseQueryFn, FetchArgs} from "@reduxjs/toolkit/query/react"
-import {customError, LoginResponseType, OpportunitiesType, ProfileResponseType} from "./types.ts";
+import {
+    customError,
+    LoginResponseType,
+    OpportunitiesResponseType,
+    OpportunitiesType,
+    ProfileResponseType,
+    OpportunitiesDetailsResponseType
+} from "./types.ts";
 import {getHeaders} from "../utils.ts";
 
 
@@ -25,17 +32,44 @@ export const opportunityApi = createApi({
                 response
             ) => response,
         }),
-        getOpportunities: query<OpportunitiesType, void>({
+        getOpportunities: query<OpportunitiesResponseType, void>({
             query: () => ({
                 url: `jobs`,
                 method: "GET",
                 headers: getHeaders(),
             }),
         }),
-        UpdateJob: query<ProfileResponseType, string>({
-            query: (user_id) => ({
-                url: `/profiles/${user_id}`,
+        getOpportunityDetails: query<OpportunitiesDetailsResponseType, string>({
+            query: (jobId) => ({
+                url: `jobs/${jobId}`,
                 method: "GET",
+                headers: getHeaders(),
+            }),
+        }),
+        updateOpportunity: mutation<LoginResponseType, { data:OpportunitiesType, opportunityID:string }>({
+            query: (data) => ({
+                url: 'jobs',
+                method: 'POST',
+                headers: getHeaders(),
+                body: data,
+            }),
+            transformResponse: (response) => response,
+            transformErrorResponse: (
+                response
+            ) => response,
+        }),
+        updateOpportunity: mutation<OpportunitiesType, { payload:OpportunitiesType, jobID:string }>({
+            query: ({body, jobID}) => ({
+                url: `/jobs/${jobID}`,
+                method: "UPDATE",
+                body,
+                headers: getHeaders(),
+            }),
+        }),
+        deleteOpportunity: mutation<OpportunitiesType, number>({
+            query: (jobID) => ({
+                url: `/jobs/${jobID}`,
+                method: "DELETE",
                 headers: getHeaders(),
             }),
         }),
@@ -44,5 +78,8 @@ export const opportunityApi = createApi({
 
 export const {
     useAddOpportunityMutation,
-    useGetOpportunitiesQuery
+    useGetOpportunitiesQuery,
+    useUpdateOpportunityMutation,
+    useDeleteOpportunityMutation,
+    useGetOpportunityDetailsQuery
 } = opportunityApi
