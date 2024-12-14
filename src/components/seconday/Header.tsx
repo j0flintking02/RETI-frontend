@@ -41,11 +41,12 @@
 // export default Header;
 
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Drawer, Button, Badge } from 'antd';
 import { BellOutlined, MenuOutlined } from '@ant-design/icons';
 import SiderTwo from './SideBarMenuTwo';
-
+import { ThemeContext } from "../../ThemeContext";
+import { globalStyles } from "../../styles/globalStyles";
 
 
 interface HeaderProps {
@@ -61,16 +62,20 @@ const Header: React.FC<HeaderProps> = ({ pageTitle }) => {
     // Drawer toggle functions
     const showDrawer = () => setDrawerVisible(true);
     const closeDrawer = () => setDrawerVisible(false);
-
+    const { isDarkMode } = useContext(ThemeContext);
     return (
-        <div className="h-16 bg-white flex justify-between items-center px-4 border-b border-gray-300 shadow-sm">
+        <div className={`h-16 flex justify-between items-center px-4 ${
+            isDarkMode ? globalStyles.background.dark : 'bg-white'
+          }`}>
             <h2 className="hidden text-xl font-medium lg:block px-4">{pageTitle}</h2>
             <div className="text-lg font-bold block lg:hidden">Reti</div>
 
             {/* Notifications and Avatar */}
             <div className="flex items-center space-x-4 mr-2">
                 <Badge count={5} className="hidden lg:block">
-                    <BellOutlined className="text-xl" />
+                    <BellOutlined className={`text-xl ${
+            isDarkMode ? 'text-gray-300' : ''
+          }`} />
                 </Badge>
 
                 {/* Hamburger Menu */}

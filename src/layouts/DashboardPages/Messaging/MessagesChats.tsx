@@ -2,10 +2,12 @@
 
 import { SearchOutlined } from "@ant-design/icons"
 import { Badge, Button } from "antd"
-
+import { useContext } from "react";
+import { ThemeContext } from "../../../ThemeContext";
+import { globalStyles } from "../../../styles/globalStyles";
 export default function MessagingChats() {
 
-
+    const { isDarkMode } = useContext(ThemeContext);
     const messages = [
         {
             id: 1,
@@ -43,10 +45,16 @@ export default function MessagingChats() {
     return (
         <>
             {/* messages */}
-            <div className="sm:w-6/12 border-r border-gray-200">
-                <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+            <div className={`sm:w-6/12 border-r rounded-l-[12px] ${
+                isDarkMode ? `${globalStyles.background.dark} border-[#3A3B3C]`: `${globalStyles.container.card.light} border-gray-200`
+            }`}>
+                <div className={`p-4 border-b flex items-center justify-between ${
+                    isDarkMode ? "border-[#3A3B3C]" : "border-gray-200"
+                }`}>
                     <div className="flex items-center gap-2">
-                        <h2 className="text-lg/6 truncate font-semibold text-gray-900">
+                        <h2 className={`text-lg/6 truncate font-semibold ${
+                            isDarkMode ? globalStyles.text.primary.dark : globalStyles.text.primary.light
+                        }`}>
                             Messages
                         </h2>
                         {/* <Badge className="site-badge-count-109" count='2' style={{ backgroundColor: '#189bcc ' }} /> */}

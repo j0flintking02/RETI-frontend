@@ -2,28 +2,53 @@ import {Button, Form, Input, Layout} from "antd";
 
 import {Content} from "antd/es/layout/layout";
 
-
+import { useState, useContext } from "react";
+import { ThemeContext } from "../../../ThemeContext";
+import { globalStyles } from "../../../styles/globalStyles";
 const ChangePasswordSettings = () => {
     const [form] = Form.useForm();
     const handleFinish = (values)=>{
         console.log(values, 'values')
     }
-
+    const { isDarkMode } = useContext(ThemeContext);
     return (
         <div className="mt-2">
             <Layout>
-                <Content className="px-4 py-4 space-y-4 bg-white border border-gray-900/10 rounded-lg"
-                >
+                <Content className={`px-4 py-4 space-y-4 rounded-lg ${
+                    isDarkMode 
+                        ? `${globalStyles.background.dark} border-gray-700` 
+                        : 'bg-white border-gray-900/10'
+                }`}>
                     <div className="sm:flex sm:justify-between">
                         <div>
-                            <h2 className="text-lg font-semibold text-gray-900">Change password</h2>
-                            <p className="mt-1 text-sm/6 text-gray-600">Here you can change your password.</p>
+                            <h2 className={`${globalStyles.heading.secondary} ${
+                  isDarkMode
+                    ? globalStyles.heading.dark
+                    : globalStyles.heading.light
+                }`}>Change password</h2>
+                            <p  className={`mt-1 ${globalStyles.text.secondary.base} ${
+                  isDarkMode
+                    ? globalStyles.text.secondary.dark
+                    : globalStyles.text.secondary.light
+                }`}>Here you can change your password.</p>
                         </div>
                         <div className="flex gap-2 mt-4">
-                            <Button className="w-32 p-2">
+                            <Button className={`w-32 p-2 ${
+                  isDarkMode
+                    ? "bg-transparent border border-gray-700 text-gray-300 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-100 hover:border-gray-600"
+                    : "bg-transparent border border-gray-300 text-gray-700 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-900 hover:border-gray-400"
+                }`}
+                style={{
+                  backgroundColor: "transparent",
+                }}>
                                 Cancel
                             </Button>
-                            <Button htmlType="submit" form="passwordForm" className="w-32 p-2" type="primary">
+                            <Button htmlType="submit" form="passwordForm" className={`w-32 p-2 ${globalStyles.button.primary.base} ${
+                  isDarkMode
+                    ? globalStyles.button.primary.dark
+                    : globalStyles.button.primary.light
+                }`}
+                type="primary">
                                 Save changes
                             </Button>
                         </div>

@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { Avatar, Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
 import { HomeOutlined, LogoutOutlined, MessageOutlined, ProjectOutlined, QuestionCircleOutlined, SettingOutlined,  UsergroupAddOutlined, UserOutlined, } from "@ant-design/icons";
 import { handleLogout, loginDetails } from "../../utils.ts";
 import HelpandsupportForm from "../../layouts/DashboardPages/Forms/HelpAndSupportForm.tsx";
+import { ThemeContext } from "../../ThemeContext";
+import { globalStyles } from "../../styles/globalStyles";
 
 interface MenuItem {
     key: string;
@@ -39,7 +41,7 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
         setIsModalOpen(false);
     };
 
-
+    const { isDarkMode } = useContext(ThemeContext);
 
     // Function to generate menu items
 
@@ -47,7 +49,7 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
         return [
             {
                 key: "dashboard",
-                icon: <HomeOutlined />,
+                icon: <HomeOutlined className={isDarkMode ? "text-white" : "text-inherit"}/>,
                 label: <Link to="/" onClick={closeDrawer}>Dashboard</Link>,
             },
             {
@@ -67,8 +69,10 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
             },
             {
                 key: "settings",
-                icon: <SettingOutlined />,
-                label: <Link to="/settings" onClick={closeDrawer}>Settings</Link>,
+                icon: <SettingOutlined className={isDarkMode ? "text-white" : "text-inherit"}/>,
+                label: <Link to="/settings" onClick={closeDrawer} className={`${globalStyles.text.primary.base} ${
+                    isDarkMode ? "text-white" : "text-gray-900"
+                  }`}>Settings</Link>,
             },
             {
                 key: "help-support",
@@ -98,8 +102,10 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
 
         <Sider
             width={250}
-            theme="light"
-            className="relative h-full border-r-2 border-gray-300"
+            theme={isDarkMode ? "dark" : "light"}
+            className={`h-full ${
+                isDarkMode ? globalStyles.background.dark : globalStyles.background.light
+              }`}
         >
             <div className="h-16 text-black py-4 px-8 bg-white">
                 <h4 className="font-bold text-lg"> Reti</h4>
@@ -107,12 +113,14 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
             </div>
             {/* Sidebar Menu */}
             <Menu
-                theme="light"
+                theme={isDarkMode ? "dark" : "light"}
                 mode="inline"
                 selectedKeys={[selectedKey]}
                 items={getMenuItems(closeDrawer)}
                 onClick={handleMenuClick}
-                className="capitalize flex-1 text-md"
+                className={`capitalize text-md border-0 ${
+                    isDarkMode ? globalStyles.background.dark : "bg-white"
+                  }`}
             />
             <div className="absolute bottom-0 w-full flex items-center p-4">
                 <Avatar size="default" icon={<UserOutlined />} className="mr-2" />

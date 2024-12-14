@@ -25,7 +25,7 @@ import SettingsPage from "./layouts/DashboardPages/Settings/Settings.page.tsx";
 import OpportunitiesPage from "./layouts/DashboardPages/Opportunities/Opportunities.page.tsx";
 import OpportunitiesDetailsPage from "./layouts/DashboardPages/Opportunities/OpportuntiesDetailsPage.tsx";
 import MentorshipPage from "./layouts/DashboardPages/Mentorship/Mentorship.page.tsx";
-
+import { ThemeProvider } from "./ThemeContext";
 
 
 
@@ -177,6 +177,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <Provider store={store}>
         <React.StrictMode>
+        <ThemeProvider>
             <ConfigProvider
                 theme={{
                     token: {
@@ -191,6 +192,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             >
                 <RouterProvider router={router} />
             </ConfigProvider>
+            </ThemeProvider>
         </React.StrictMode>
     </Provider>
 );

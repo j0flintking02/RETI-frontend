@@ -6,8 +6,11 @@ import MessagingChatDetails from "./MessageChatDetails";
 import MessagingItemDetails from "./MessageItemDetails";
 import Header from "../../../components/seconday/Header";
 import CustomDahboardLayout from "../../../components/seconday/CustomDashboardPagesLayout";
-
+import { useContext } from "react";
+import { ThemeContext } from "../../../ThemeContext";
+import { globalStyles } from "../../../styles/globalStyles";
 const MessagesPage = () => {
+    const { isDarkMode } = useContext(ThemeContext);
     return (
 
         <>

@@ -1,17 +1,16 @@
-
 import Layout from "antd/es/layout/layout";
 import AllOpportunitiesPage from "./AllOpportunities";
 import { Button } from "antd";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import AddOpportunitiesForm from "../Forms/AddOpportunityForm";
 import Header from "../../../components/seconday/Header";
 import CustomDahboardLayout from "../../../components/seconday/CustomDashboardPagesLayout";
-
+import { ThemeContext } from "../../../ThemeContext";
+import { globalStyles } from "../../../styles/globalStyles";
 
 const OpportunitiesPage = () => {
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
-
 
     const showModal = () => {
         setOpen(true);
@@ -28,6 +27,7 @@ const OpportunitiesPage = () => {
     const handleCancel = () => {
         setOpen(false);
     };
+    const { isDarkMode } = useContext(ThemeContext);
 
     return (
         <>
@@ -44,9 +44,9 @@ const OpportunitiesPage = () => {
                     </div>
                 </div>
 
-                <Layout
-           
-                >
+                <Layout className={`${
+                    isDarkMode ? globalStyles.background.gray.dark : globalStyles.background.light
+                }`}>
                     <AllOpportunitiesPage />
                 </Layout>
             </CustomDahboardLayout>
