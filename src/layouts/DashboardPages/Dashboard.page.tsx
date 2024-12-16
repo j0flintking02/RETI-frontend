@@ -1,24 +1,15 @@
+import DashboardPage from "./AllDashboardPages/Dashboard.pages";
 
-import Layout from "antd/es/layout/layout";
-import CustomDahboardLayout from "../../components/seconday/CustomDashboardPagesLayout";
-import Header from "../../components/seconday/Header";
-
-
-
-const DashboardPage = () => {
+const Dashboard = () => {
 
     return (
         <>
-            <Header  pageTitle="Dashboard" />
-            <CustomDahboardLayout>
-
-                <Layout
-                >
-                   Dashboard
-                </Layout>
-            </CustomDahboardLayout>
+            <DashboardPage />
         </>
-    )
-}
+    );
+};
 
-export default DashboardPage;
+export default Dashboard;
+
+
+
