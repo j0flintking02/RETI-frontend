@@ -32,6 +32,10 @@ const LoginForm = () => {
         if (isSuccess) {
             const results = JSON.stringify(data)
             localStorage.setItem('loginDetails', results)
+            localStorage.setItem('token', data.access_token)
+            localStorage.setItem('user', JSON.stringify(data.user))
+            console.log('Logged in user:', data.user);
+            console.log(data.access_token)
             if (userDetails()){
                 notification["success"]({
                     message: `Let's complete your onboarding`,

@@ -2,44 +2,14 @@
 
 import { SearchOutlined } from "@ant-design/icons"
 import { Badge, Button } from "antd"
+import React from "react"
 
-export default function MessagingChats() {
+interface MessagingChatsProps {
+    conversations: any[]
+    onConversationClick: (conversation: any) => void
+}
 
-
-    const messages = [
-        {
-            id: 1,
-            title: 'Leslie Alexander',
-            message: 'leslie.alexander@example.com',
-            imageUrl:
-                'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            lastSeen: '3h ago',
-            lastSeenDateTime: '2023-01-23T13:23Z',
-            status: 'read',
-        },
-        {
-            id: 2,
-            title: 'Michael Foster',
-            message: 'michael.foster@example.com',
-            imageUrl:
-                'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            lastSeen: '3h ago',
-            lastSeenDateTime: '2023-01-23T13:23Z',
-            status: 'unread',
-        },
-        {
-            id: 3,
-            title: 'Dries Vincent',
-            message: 'dries.vincent@example.com',
-            imageUrl:
-                'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-            lastSeen: null,
-            status: 'unread',
-        },
-
-    ]
-
-
+const MessagingChats: React.FC<MessagingChatsProps> = ({ conversations, onConversationClick }) => {
     return (
         <>
             {/* messages */}
@@ -53,41 +23,36 @@ export default function MessagingChats() {
                     </div>
 
                     <div>
-                    <Button   shape="circle" icon={<SearchOutlined />} />
+                        <Button shape="circle" icon={<SearchOutlined />} />
                     </div>
                 </div>
 
                 <div className='h-[550px] xl:h-screen overflow-y-auto'>
                     <ul role="list" className="divide-y divide-gray-100">
-                        {messages.map((message) => (
-                            <li key={message.id} className="flex justify-between gap-x-2 py-5 px-4 hover:bg-gray-50">
-                                <div className="flex min-w-0 gap-x-4">
-                                    <img alt="" src={message.imageUrl} className="size-8 flex-none rounded-full bg-gray-50" />
-                                    <div className="min-w-0 flex-auto">
-                                        <p
-                                            className={`text-sm/6 truncate font-semibold ${message.status === 'unread' ? 'text-blue-600' : 'text-gray-900'
-                                                }`}
-                                        >
-                                            {message.title}
-                                        </p>
-                                        <p className="mt-1 truncate text-xs/5 text-gray-500">{message.message}</p>
-                                    </div>
-                                </div>
-                                <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-
-                                    {message.lastSeen ? (
-                                        <p className="mt-1 text-xs/5 text-gray-500">
-                                            <time dateTime={message.lastSeenDateTime}>{message.lastSeen}</time>
-                                        </p>
-                                    ) : (
-                                        <div className="mt-1 flex items-center gap-x-1.5">
-                                            <p className="text-xs/5 text-green-500">Online</p>
-                                            {/* <Badge status="success" /> */}
+                        {conversations.map((conversation) => {
+                            const lastMessage = conversation.messages[conversation.messages.length - 1]
+                            return (
+                                <li key={conversation.id} className="flex justify-between gap-x-2 py-5 px-4 hover:bg-gray-50" onClick={() => onConversationClick(conversation)}>
+                                    <div className="flex min-w-0 gap-x-4">
+                                        <img alt="" src="https://via.placeholder.com/150" className="size-8 flex-none rounded-full bg-gray-50" />
+                                        <div className="min-w-0 flex-auto">
+                                            <p
+                                                className={`text-sm/6 truncate font-semibold ${lastMessage.isRead ? 'text-gray-900' : 'text-blue-600'
+                                                    }`}
+                                            >
+                                                {lastMessage.senderId === 1 ? 'You' : `User ${lastMessage.senderId}`}
+                                            </p>
+                                            <p className="mt-1 truncate text-xs/5 text-gray-500">{lastMessage.content}</p>
                                         </div>
-                                    )}
-                                </div>
-                            </li>
-                        ))}
+                                    </div>
+                                    <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                                        <p className="mt-1 text-xs/5 text-gray-500">
+                                            <time dateTime={lastMessage.createdAt}>{new Date(lastMessage.createdAt).toLocaleTimeString()}</time>
+                                        </p>
+                                    </div>
+                                </li>
+                            )
+                        })}
                     </ul>
                 </div>
 
@@ -95,3 +60,5 @@ export default function MessagingChats() {
         </>
     )
 }
+
+export default MessagingChats
