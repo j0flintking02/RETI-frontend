@@ -1,8 +1,21 @@
 import {DeleteOutlined, EditOutlined, EnvironmentOutlined, QuestionCircleOutlined} from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import DeletePopconfirm from "../../../components/seconday/CustomDeletePopUp";
-import {Avatar, Button, Modal, notification, Popconfirm, Typography} from "antd";
-import { useState} from "react";
+import {
+    Avatar,
+    Button,
+    Input,
+    Modal,
+    notification,
+    Popconfirm,
+    Typography,
+    Form,
+    Select,
+    Row,
+    Col,
+    DatePicker
+} from "antd";
+import {useState} from "react";
 import {
     useDeleteOpportunityMutation,
     useDeleteOpportunityQuery,
@@ -11,37 +24,46 @@ import {
 import moment from "moment";
 import DateCheckComponent from "../../../components/primary/dataChecker.tsx";
 import {loginDetails} from "../../../utils.ts";
-
+import EditOpportunitiesForm from "../Forms/EditOpportunityForm.tsx";
 
 
 const AllOpportunitiesPage = () => {
     const navigate = useNavigate();
-
+    const [form] = Form.useForm()
+    const {Option} = Select;
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = () => {
-   //"""""              M  setIsModalOpen(false);
+        setIsModalOpen(true);
     };
 
     const {data} = useGetOpportunitiesQuery()
-    const[deleteOpportunity]=useDeleteOpportunityMutation()
+    const [deleteOpportunity] = useDeleteOpportunityMutation()
 
 
-    const handleDeleteJob =  async (opportunityID: number)=>{
+    const handleDeleteJob = async (opportunityID: number) => {
         try {
             await deleteOpportunity(opportunityID).unwrap()
             notification['success']({
                 message: 'Opportunity deleted successfully.',
             })
-        } catch(e){
+        } catch (e) {
             notification['error']({
                 message: 'Opportunity deleted error',
                 description: e.data.message,
             })
         }
     }
-    const handleOk = () =>{}
-    const handleCancel = () =>{}
+    const handleOk = () => {
+    }
+    const handleCancel = () => {
+    }
+
+    function handleSubmit(values) {
+        console.log(values)
+    }
+
+    const [isEditOpen, setIsEditOpen] = useState(false);
 
     return (
         <>
@@ -57,20 +79,18 @@ const AllOpportunitiesPage = () => {
                         >
                             <div className="p-2">
                                 <div className="text-right mb-1">
-                                    <DateCheckComponent date={job.createdAt} />
-                                    <div className={`space-x-2 text-right pt-2 ${loginDetails().user.role !== 'employer' && 'hidden'}`}>
-                                      
-                                        {/*<EditOutlined*/}
-                                        {/*    onClick={showModal}*/}
-                                        {/*    className="text-blue-500 cursor-pointer"*/}
-                                        {/*/>*/}
-                                        {/*<Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>*/}
-                                        {/*   Edit job*/}
-                                        {/*</Modal>*/}
+                                    <DateCheckComponent date={job.createdAt}/>
+                                    <div
+                                        className={`space-x-2 text-right pt-2 ${loginDetails().user.role !== 'employer' && 'hidden'}`}>
+
+                                        <EditOutlined
+                                            onClick={() => setIsEditOpen(true)}
+                                            className="text-blue-500 cursor-pointer"
+                                        />
                                         <DeletePopconfirm
                                             title="Delete"
                                             description="Are you sure to delete this job?"
-                                            onConfirm={()=>handleDeleteJob(job.id)}
+                                            onConfirm={() => handleDeleteJob(job.id)}
                                             onConfirmMessage="Task deleted successfully"
                                             onCancelMessage="Task deletion cancelled"
                                             okText="Yes"
@@ -87,7 +107,7 @@ const AllOpportunitiesPage = () => {
                                     <p className="text-md truncate text-gray-500">{job.description}</p>
                                     <p className="text-sm truncate text-gray-500 flex items-center gap-1">
                                         <span className="text-gray-400">
-                                            <EnvironmentOutlined />
+                                            <EnvironmentOutlined/>
                                         </span>
                                         {job.location}
                                     </p>
@@ -114,6 +134,13 @@ const AllOpportunitiesPage = () => {
                     );
                 })}
             </div>
+            <EditOpportunitiesForm
+                onCancel={handleCancel}
+                onOk={() => {
+                }}
+                open={isEditOpen}
+                loading={false}
+            />
         </>
     )
 }

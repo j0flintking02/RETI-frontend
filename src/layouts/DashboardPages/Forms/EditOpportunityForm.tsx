@@ -54,7 +54,7 @@ const EditOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                     >
                         <Row gutter={[16, 16]}>
                             {/* Job Title */}
-                            <Col xs={24} sm={12}>
+                            <Col xs={24} sm={24}>
                                 <Form.Item
                                     label="Job Title"
                                     name="jobTitle"
@@ -63,7 +63,9 @@ const EditOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                                     <Input placeholder="e.g., Sales Person" size='large' />
                                 </Form.Item>
                             </Col>
+                        </Row>
 
+                        <Row gutter={[16, 16]}>
                             {/* Job Category */}
                             <Col  xs={24} sm={12}>
                                 <Form.Item
@@ -79,9 +81,6 @@ const EditOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                                     </Select>
                                 </Form.Item>
                             </Col>
-                        </Row>
-
-                        <Row gutter={[16, 16]}>
                             {/* Job Type */}
                             <Col  xs={24} sm={12}>
                                 <Form.Item
@@ -96,9 +95,10 @@ const EditOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                                     </Select>
                                 </Form.Item>
                             </Col>
-
+                        </Row>
+                        <Row gutter={[16, 16]}>
                             {/* Location */}
-                            <Col  xs={24} sm={12}>
+                            <Col  xs={24} sm={24}>
                                 <Form.Item
                                     label="Location"
                                     name="location"
@@ -108,7 +108,6 @@ const EditOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                                 </Form.Item>
                             </Col>
                         </Row>
-
 
                         <Row gutter={[16, 16]}>
                             {/* Minimum Salary */}
