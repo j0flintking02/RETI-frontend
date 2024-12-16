@@ -1,6 +1,4 @@
-
 import Layout, { Content } from "antd/es/layout/layout";
-
 import MessagingChats from "./MessagesChats";
 import MessagingChatDetails from "./MessageChatDetails";
 import MessagingItemDetails from "./MessageItemDetails";
@@ -9,16 +7,21 @@ import CustomDahboardLayout from "../../../components/seconday/CustomDashboardPa
 import { useContext } from "react";
 import { ThemeContext } from "../../../ThemeContext";
 import { globalStyles } from "../../../styles/globalStyles";
+
 const MessagesPage = () => {
     const { isDarkMode } = useContext(ThemeContext);
     return (
-
         <>
             <Header pageTitle="Messaging" />
-
             <CustomDahboardLayout>
-                <Layout>
-                    <Content className="bg-white mt-2 border border-gray-900/10 rounded-lg">
+                <Layout className={`${
+                    isDarkMode ? globalStyles.background.gray.dark : ""
+                }`}>
+                    <Content className={`mt-2 border rounded-lg ${
+                        isDarkMode 
+                            ? `${globalStyles.background.dark} border-gray-700` 
+                            : 'bg-white border-gray-900/10'
+                    }`}>
                         <div className='sm:flex'>
                             <MessagingChats />
                             <MessagingChatDetails />

@@ -45,7 +45,7 @@ const OpportunitiesPage = () => {
                 </div>
 
                 <Layout className={`${
-                    isDarkMode ? globalStyles.background.gray.dark : globalStyles.background.light
+                    isDarkMode ? globalStyles.background.gray.dark : ""
                 }`}>
                     <AllOpportunitiesPage />
                 </Layout>

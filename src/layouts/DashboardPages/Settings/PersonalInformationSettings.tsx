@@ -63,10 +63,19 @@ const PersonalInformationSettings = () => {
               }`}>Update your photo and personal details here.</p>
                 </div>
                 <div className="flex gap-2 mt-4">
-                    <Button className="w-32 p-2">
+                    <Button className={`w-32 p-2 ${
+                  isDarkMode 
+                    ? "bg-transparent border border-gray-700 text-gray-300 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-100 hover:border-gray-600" 
+                    : "bg-transparent border border-gray-300 text-gray-700 hover:bg-transparent focus:bg-transparent active:bg-transparent hover:text-gray-900 hover:border-gray-400"
+                }`}
+                style={{
+                  backgroundColor: 'transparent'
+                }}>
                         Cancel
                     </Button>
-                    <Button className="w-32 p-2" type="primary">
+                    <Button className={`w-32 p-2 ${globalStyles.button.primary.base} ${
+                isDarkMode ? globalStyles.button.primary.dark : globalStyles.button.primary.light
+              }`} type="primary">
                         Save changes
                     </Button>
                 </div>
@@ -118,7 +127,16 @@ const PersonalInformationSettings = () => {
                         <Form.Item
                             style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
                             label="Last name" name="lastName">
-                            <Input size="large" placeholder="Enter your Last name" type="text"/>
+                            <Input placeholder="Enter your last name"
+                    size="large"
+                    className={`${
+                      isDarkMode
+                        ? "bg-transparent border-gray-700 text-white placeholder-white focus:ring-0 focus:border-blue-500"
+                        : "bg-transparent border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-0 focus:ring-blue-500"
+                    }`}
+                    style={{
+                      backgroundColor: "transparent", // Keeps the background transparent
+                    }}/>
                         </Form.Item>
                     </Form.Item>
                     <Form.Item className="">
@@ -140,22 +158,48 @@ const PersonalInformationSettings = () => {
                     </Form.Item>
                     <Form.Item className="my-24">
                         <Form.Item
-                            style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
+                            style={{display: 'inline-block', width: '50%', margin: '0'}}
                             label="Email address" name="email">
                             <Input
                                 size="large"
                                 placeholder="Enter your email"
+                                className={`${
+                                  isDarkMode
+                                    ? "bg-transparent border-gray-700 text-white placeholder-white focus:ring-0 focus:border-blue-500"
+                                    : "bg-transparent border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-0 focus:ring-blue-500"
+                                }`}
+                                style={{
+                                  backgroundColor: "transparent",
+                                }}
                                 type="email"
                             />
                         </Form.Item>
                         <Form.Item
                             style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
                             label="Phone number" name="phoneNumber">
-                            <Input size="large"/>
+                            <Input placeholder=""
+                    size="large"
+                    className={`${
+                      isDarkMode
+                        ? "bg-transparent border-gray-700 text-white placeholder-white focus:ring-0 focus:border-blue-500"
+                        : "bg-transparent border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-0 focus:ring-blue-500"
+                    }`}
+                    style={{
+                      backgroundColor: "transparent", // Keeps the background transparent
+                    }}/>
                         </Form.Item>
                     </Form.Item>
                     <Form.Item label="About me" className="my-24" name="bio">
-                        <TextArea placeholder="" allowClear/>
+                        <TextArea placeholder=""
+                    size="large"
+                    className={`${
+                      isDarkMode
+                        ? "bg-transparent border-gray-700 text-white placeholder-white focus:ring-0 focus:border-blue-500"
+                        : "bg-transparent border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-0 focus:ring-blue-500"
+                    }`}
+                    style={{
+                      backgroundColor: "transparent", // Keeps the background transparent
+                    }} allowClear/>
                     </Form.Item>
                 </Form>}
 
