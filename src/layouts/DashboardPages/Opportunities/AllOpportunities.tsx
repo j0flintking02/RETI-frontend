@@ -2,14 +2,14 @@ import { EditOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import { formatDistanceToNow } from 'date-fns';
 import { useNavigate } from "react-router-dom";
 import DeletePopconfirm from "../../../components/seconday/CustomDeletePopUp";
-import {  Modal } from "antd";
-import { useState } from "react";
-
-
+import { Modal } from "antd";
+import { useState, useContext } from "react";
+import { ThemeContext } from '../../../ThemeContext';
+import { globalStyles } from '../../../styles/globalStyles';
 
 const AllOpportunitiesPage = () => {
     const navigate = useNavigate();
-
+    const { isDarkMode } = useContext(ThemeContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = () => {
@@ -23,7 +23,6 @@ const AllOpportunitiesPage = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-
 
     const jobOpportunities = [
         {
@@ -78,68 +77,68 @@ const AllOpportunitiesPage = () => {
         },
     ];
 
-
-
     return (
         <>
-
             <div className="mt-8 grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
                 {jobOpportunities.map((job) => {
                     const jobCreatedDate = new Date(job.createdWhen);
-                    const isJustAdded =
-                        Date.now() - jobCreatedDate.getTime() < 3 * 24 * 60 * 60 * 1000; // Less than 3 days
+                    const isJustAdded = Date.now() - jobCreatedDate.getTime() < 3 * 24 * 60 * 60 * 1000;
 
                     return (
                         <div
                             key={job.id}
-
-                            className="h-34 relative flex flex-col p-1 border border-gray-300 rounded-lg bg-white hover:shadow-lg hover:bg-gray-50 cursor-pointer transition-all duration-200"
+                            className={`h-34 relative flex flex-col p-1 border rounded-lg cursor-pointer transition-all duration-200 ${
+                                isDarkMode
+                                    ? `${globalStyles.background.dark} border-gray-700 hover:bg-gray-800`
+                                    : 'bg-white border-gray-300 hover:shadow-lg hover:bg-gray-50'
+                            }`}
                         >
                             <div className="p-2">
                                 <div className="text-right mb-1">
-                                    <h3
-                                        className={`text-xs ${isJustAdded ? 'text-green-600' : 'text-gray-500'
-                                            }`}
-                                    >
+                                    <h3 className={`text-xs ${isJustAdded ? 'text-green-600' : isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
                                         {isJustAdded ? 'Just Added' : `${formatDistanceToNow(jobCreatedDate)} ago`}
                                     </h3>
                                     <div className="space-x-2 text-right pt-2">
-                                      
                                         <EditOutlined
                                             onClick={showModal}
-                                            className="text-blue-500 cursor-pointer"
-                                        // onClick={() => editInspiration(index)}
+                                            className={isDarkMode ? 'text-blue-400' : 'text-blue-500'}
                                         />
                                         <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                                           Edit job
+                                            Edit job
                                         </Modal>
                                         <DeletePopconfirm
                                             title="Delete"
                                             description="Are you sure to delete this job?"
-                                            // onConfirm={deleteTask}  // This is where the delete function is called
                                             onConfirmMessage="Task deleted successfully"
                                             onCancelMessage="Task deletion cancelled"
                                             okText="Yes"
                                             cancelText="No"
                                         />
-
                                     </div>
                                 </div>
 
                                 <div className="space-y-4" onClick={() => navigate(`/opportunities/${job.id}`)}>
-                                    <h3 className="text-lg capitalize truncate  text-gray-700">
+                                    <h3 className={`text-lg capitalize truncate ${
+                                        isDarkMode ? 'text-gray-100' : 'text-gray-700'
+                                    }`}>
                                         {job.title}
                                     </h3>
-                                    <p className="text-md truncate text-gray-500">{job.description}</p>
-                                    <p className="text-sm truncate text-gray-500 flex items-center gap-1">
-                                        <span className="text-gray-400">
+                                    <p className={`text-md truncate ${
+                                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                                    }`}>{job.description}</p>
+                                    <p className={`text-sm truncate flex items-center gap-1 ${
+                                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+                                    }`}>
+                                        <span className={isDarkMode ? 'text-gray-500' : 'text-gray-400'}>
                                             <EnvironmentOutlined />
                                         </span>
                                         {job.location}
                                     </p>
 
                                     <div className="mt-4">
-                                        <p className="py-2 text-sm font-semibold truncate">Posted by</p>
+                                        <p className={`py-2 text-sm font-semibold truncate ${
+                                            isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                                        }`}>Posted by</p>
 
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-x-2">
@@ -149,7 +148,9 @@ const AllOpportunitiesPage = () => {
                                                     className="w-10 h-10 rounded-full"
                                                 />
                                                 <div>
-                                                    <h3 className="text-base font-semibold tracking-tight text-gray-900">
+                                                    <h3 className={`text-base font-semibold tracking-tight ${
+                                                        isDarkMode ? 'text-gray-100' : 'text-gray-900'
+                                                    }`}>
                                                         {job.createdBy}
                                                     </h3>
                                                 </div>
@@ -163,7 +164,7 @@ const AllOpportunitiesPage = () => {
                 })}
             </div>
         </>
-    )
-}
+    );
+};
 
 export default AllOpportunitiesPage;

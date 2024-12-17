@@ -1,7 +1,7 @@
 import { Button, Form, Input, Layout } from "antd";
 
 import { Content } from "antd/es/layout/layout";
-
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { useContext } from "react";
 import { ThemeContext } from "../../../ThemeContext";
 import { globalStyles } from "../../../styles/globalStyles";
@@ -79,7 +79,7 @@ const ChangePasswordSettings = () => {
           className="sm:w-5/12 space-y-4"
         >
           <Form.Item
-            label="Current Password"
+            label={<span className={isDarkMode ? 'text-white' : ''}>Current Password</span>}
             name="oldPassword"
             rules={[
               { required: true, message: "Please input your password!" },
@@ -87,11 +87,22 @@ const ChangePasswordSettings = () => {
             ]}
             hasFeedback
           >
-            <Input.Password placeholder="Enter your password" />
+            <Input.Password 
+              size="large"
+              placeholder="Enter your current password"
+              className={`${
+                isDarkMode
+                  ? "bg-transparent border-gray-700 text-white placeholder-gray-400 focus:ring-0 focus:border-blue-500"
+                  : "bg-transparent border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-500 focus:ring-0 focus:ring-blue-500"
+              }`}
+              style={{
+                backgroundColor: "transparent",
+              }}
+            />
           </Form.Item>
 
           <Form.Item
-            label="New Password"
+            label={<span className={isDarkMode ? 'text-white' : ''}>New Password</span>}
             name="password"
             rules={[
               { required: true, message: "Please input your password!" },
@@ -99,7 +110,22 @@ const ChangePasswordSettings = () => {
             ]}
             hasFeedback
           >
-            <Input.Password placeholder="Enter your password" />
+            <Input.Password 
+              placeholder="Enter new password"
+              className={`ant-input-affix-wrapper ${
+                isDarkMode
+                  ? "!bg-transparent !border-gray-700 !text-white hover:!border-gray-600"
+                  : "!bg-transparent !border-gray-300 !text-gray-900 hover:!border-gray-400"
+              }`}
+              style={{
+                backgroundColor: "transparent",
+              }}
+              iconRender={(visible) => (
+                visible ? 
+                  <EyeOutlined className="!text-gray-400" /> : 
+                  <EyeInvisibleOutlined className="!text-gray-400" />
+              )}
+            />
           </Form.Item>
 
           <Form.Item
