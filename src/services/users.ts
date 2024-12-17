@@ -46,7 +46,7 @@ export const userApi = createApi({
                 response
             ) => response,
         }),
-        getUserProfile: query<ProfileResponseType, string>({
+        getUserProfile: query<ProfileResponseType, number>({
             query: (user_id) => ({
                 url: `/profiles/${user_id}`,
                 method: "GET",
