@@ -4,7 +4,6 @@ import {
     LoginResponseType,
     OpportunitiesResponseType,
     OpportunitiesType,
-    ProfileResponseType,
     OpportunitiesDetailsResponseType
 } from "./types.ts";
 import {getHeaders} from "../utils.ts";
@@ -45,18 +44,6 @@ export const opportunityApi = createApi({
                 method: "GET",
                 headers: getHeaders(),
             }),
-        }),
-        updateOpportunity: mutation<LoginResponseType, { data:OpportunitiesType, opportunityID:string }>({
-            query: (data) => ({
-                url: 'jobs',
-                method: 'POST',
-                headers: getHeaders(),
-                body: data,
-            }),
-            transformResponse: (response) => response,
-            transformErrorResponse: (
-                response
-            ) => response,
         }),
         updateOpportunity: mutation<OpportunitiesType, { payload:OpportunitiesType, jobID:string }>({
             query: ({body, jobID}) => ({
