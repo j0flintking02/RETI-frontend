@@ -19,8 +19,7 @@ const DeletePopconfirm: React.FC<ReusablePopconfirmProps> = ({
 
   // Handle confirm action
   const handleConfirm = () => {
-    onConfirm(); 
-    message.success(onConfirmMessage); // Show success message
+    onConfirm();
   };
 
   // Handle cancel action

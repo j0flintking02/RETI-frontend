@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Avatar, Layout, Menu } from "antd";
+import { Avatar, Layout, Menu, Tag } from "antd";
 import { Link } from "react-router-dom";
-import { HomeOutlined, LogoutOutlined, MessageOutlined, ProjectOutlined, QuestionCircleOutlined, SettingOutlined,  UsergroupAddOutlined, UserOutlined, } from "@ant-design/icons";
+import reti from "../../assets/reti.png";
+import { HomeOutlined, LogoutOutlined, MessageOutlined, PhoneOutlined, ProjectOutlined, QuestionCircleOutlined, SettingOutlined, UsergroupAddOutlined, UserOutlined, } from "@ant-design/icons";
 import { handleLogout, loginDetails } from "../../utils.ts";
 import HelpandsupportForm from "../../layouts/DashboardPages/Forms/HelpAndSupportForm.tsx";
 
@@ -101,9 +102,14 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
             theme="light"
             className="relative h-full border-r-2 border-gray-300"
         >
-            <div className="h-16 text-black py-4 px-8 bg-white">
-                <h4 className="font-bold text-lg"> Reti</h4>
-
+            <div className="h-16 text-black py-4 px-8 bg-white mb-10">
+                <h4 className="font-bold text-lg">
+                    <img
+                        alt="Your Company"
+                        src={reti}
+                        className="h-20 w-auto"
+                    />
+                </h4>
             </div>
             {/* Sidebar Menu */}
             <Menu
@@ -115,10 +121,15 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                 className="capitalize flex-1 text-md"
             />
             <div className="absolute bottom-0 w-full flex items-center p-4">
-                <Avatar size="default" icon={<UserOutlined />} className="mr-2" />
+                <Avatar size={64} icon={<UserOutlined />} className="mr-2" />
                 <div>
-                    <label className="block">{`${user.user.firstName} ${user.user.lastName}`}</label>
-                    <label className="block">{user.user.phoneNumber}</label>
+                    <Tag color="red">
+                        <label className="block">{`${user.user.firstName} ${user.user.lastName}`}</label>
+                    </Tag>
+                    <div className="flex items-center gap-2">
+                        <PhoneOutlined />
+                        <label>{user.user.phoneNumber}</label>
+                    </div>
                 </div>
             </div>
 
