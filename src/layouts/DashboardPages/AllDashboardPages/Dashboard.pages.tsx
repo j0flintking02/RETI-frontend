@@ -1,20 +1,25 @@
-import { Card, Calendar } from 'antd';
+import { Card, Calendar, Avatar } from 'antd';
 import 'tailwindcss/tailwind.css';
 
-import { LikeOutlined } from '@ant-design/icons';
+import { LikeOutlined, UserOutlined } from '@ant-design/icons';
 import Header from '../../../components/seconday/Header';
 import CustomDahboardLayout from '../../../components/seconday/CustomDashboardPagesLayout';
+import { useGetNotificationsQuery, useMarkAsReadMutation } from '../../../services/notifications';
+import { loginDetails} from '../../../utils';
 
 
 const DashboardPage = () => {
+    const { data: notificationsData, isLoading } = useGetNotificationsQuery();
+    const [markAsRead] = useMarkAsReadMutation();
+    const user = loginDetails();
 
-    const notifications = [
-        { title: "System Update", message: "Your system has been updated successfully.", time: "10:30 AM", unread: true },
-        { title: "New Message", message: "You have a new message from John.", time: "9:15 AM", unread: false },
-        { title: "Meeting Reminder", message: "Don't forget the meeting at 3 PM.", time: "8:45 AM", unread: true },
-        { title: "Account Activity", message: "Login from a new device detected.", time: "Yesterday", unread: false },
-    ];
-
+    const handleNotificationClick = async (notificationId: number) => {
+        try {
+            await markAsRead(notificationId).unwrap();
+        } catch (error) {
+            console.error('Failed to mark notification as read:', error);
+        }
+    };
 
     const inspirations = [
         { id: 1, text: "The only way to do great work is to love what you do.", createdAt: "2024-12-15", liked: false },
@@ -42,14 +47,19 @@ const DashboardPage = () => {
                         <Card className="shadow-sm text-black text-sm mb-1">
                             <div className="flex items-center space-x-6">
                                 <div className="shrink-0">
-                                    <img className="h-10 w-10 object-cover rounded-full" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1361&q=80" alt="Current profile photo" />
+                                <Avatar size="large" icon={<UserOutlined />} className="mr-2" />
                                 </div>
                                 <div className="flex-1">
-                                    <h2> Hi Nina</h2>
-                                    <div>Welcome to your dashboard</div>
+                                    <h2> Hi {user?.user.firstName}</h2>
+                                    <div className='text-gray-500'>You're amazing!</div>
                                 </div>
                                 <div>
-                                    Thursday 26th May , 2024
+                                    {new Date().toLocaleDateString('en-US', {
+                                        weekday: 'long',
+                                        day: 'numeric',
+                                        month: 'long',
+                                        year: 'numeric'
+                                    })}
                                 </div>
                             </div>
                         </Card>
@@ -57,28 +67,31 @@ const DashboardPage = () => {
                         {/*  recent notifications Quotes */}
                         <Card title="Recent Notifications" className="shadow-sm mb-1">
                             <div className="space-y-2 p-2 overflow-y-auto h-[230px]">
-                                <ul className="space-y-4">
-                                    {notifications.map((notification, index) => (
-                                        <li
-                                            key={index}
-                                            className="cursor-pointer flex justify-between items-center hover:bg-gray-100 p-2 rounded-md"
-                                        // onClick={() => handleNotificationClick(notification)}
-                                        >
-                                            <div>
-                                                <p
-                                                    className={`font-medium truncate ${notification.unread ? "text-blue-600" : "text-gray-800"
-                                                        }`}
-                                                >
-                                                    {notification.title}
+                                {isLoading ? (
+                                    <div>Loading notifications...</div>
+                                ) : (
+                                    <ul className="space-y-4">
+                                        {notificationsData?.data.map((notification) => (
+                                            <li
+                                                key={notification.id}
+                                                className="cursor-pointer flex justify-between items-center hover:bg-gray-100 p-2 rounded-md"
+                                                onClick={() => handleNotificationClick(notification.id)}
+                                            >
+                                                <div>
+                                                    <p className={`font-medium truncate ${!notification.isRead ? "text-blue-600" : "text-gray-800"}`}>
+                                                        {notification.title}
+                                                    </p>
+                                                    <p className="text-sm text-gray-600 truncate">
+                                                        {notification.message}
+                                                    </p>
+                                                </div>
+                                                <p className="text-xs text-gray-500">
+                                                    {new Date(notification.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </p>
-                                                <p className="text-sm text-gray-600 truncate">
-                                                    {notification.message}
-                                                </p>
-                                            </div>
-                                            <p className="text-xs text-gray-500">{notification.time}</p>
-                                        </li>
-                                    ))}
-                                </ul>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </div>
                         </Card>
 
