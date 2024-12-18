@@ -77,7 +77,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/opportunities",
-        // loader: protectedLoader,
+        loader: protectedLoader,
         element: (
             <CustomAppLayout>
                 <OpportunitiesPage />
