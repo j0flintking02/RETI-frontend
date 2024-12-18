@@ -1,7 +1,7 @@
 
-import {Form, Input, Select, DatePicker, Button, Row, Col, Modal, notification} from 'antd';
+import { Form, Input, Select, DatePicker, Button, Row, Col, Modal, notification } from 'antd';
 import 'antd/dist/reset.css';
-import {useAddOpportunityMutation} from "../../../services/opportunities.ts";
+import { useAddOpportunityMutation } from "../../../services/opportunities.ts";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -19,8 +19,8 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                 await addJob({
                     ...values,
                     salary: {
-                        min:values.maxSalary,
-                        max:values.minSalary
+                        min: values.maxSalary,
+                        max: values.minSalary
                     }
                 }).unwrap()
                 console.log('Form Values:', values); // Replace with actual submission logic
@@ -33,7 +33,7 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                 notification['error']({
                     message: info?.data?.error,
                     description:
-                    info?.data?.message,
+                        info?.data?.message,
                 });
                 console.log('Validation Failed:', info);
             });
@@ -72,7 +72,7 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                     >
                         <Row gutter={[16, 16]}>
                             {/* Job Title */}
-                            <Col xs={24} sm={12}>
+                            <Col span={8}>
                                 <Form.Item
                                     label="Job Title"
                                     name="title"
@@ -83,7 +83,7 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                             </Col>
 
                             {/* Job Category */}
-                            <Col  xs={24} sm={12}>
+                            <Col span={8}>
                                 <Form.Item
                                     label="Job Category"
                                     name="jobCategory"
@@ -97,11 +97,46 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                                     </Select>
                                 </Form.Item>
                             </Col>
+
+                            <Col span={8}>
+                                <Form.Item label="Qualifications">
+                                    <Form.List name="qualifications">
+                                        {(fields, { add, remove }) => (
+                                            <>
+                                                {fields.map(({ key, name, fieldKey, ...restField }) => (
+                                                    <Row key={key} gutter={[16, 16]}>
+                                                        <Col span={8}>
+                                                            <Form.Item
+                                                                {...restField}
+                                                                name={[name]}
+                                                                fieldKey={[fieldKey]}
+                                                                rules={[{ required: true, message: 'Please enter a qualification' }]}
+                                                            >
+                                                                <Input placeholder="e.g., BSc in Computer Science" />
+                                                            </Form.Item>
+                                                        </Col>
+                                                        <Col>
+                                                            <Button type="link" onClick={() => remove(name)}>
+                                                                Remove
+                                                            </Button>
+                                                        </Col>
+                                                    </Row>
+                                                ))}
+                                                <Form.Item>
+                                                    <Button type="dashed" onClick={() => add()} block>
+                                                        Add Qualification
+                                                    </Button>
+                                                </Form.Item>
+                                            </>
+                                        )}
+                                    </Form.List>
+                                </Form.Item>
+                            </Col>
                         </Row>
 
                         <Row gutter={[16, 16]}>
                             {/* Job Type */}
-                            <Col  xs={24} sm={12}>
+                            <Col span={8}>
                                 <Form.Item
                                     label="Job Type"
                                     name="jobType"
@@ -116,7 +151,7 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                             </Col>
 
                             {/* Location */}
-                            <Col  xs={24} sm={12}>
+                            <Col span={8}>
                                 <Form.Item
                                     label="Location"
                                     name="location"
@@ -125,28 +160,47 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                                     <Input placeholder="e.g., Remote or City Name" size='large' />
                                 </Form.Item>
                             </Col>
+                            <Col span={8}>
+                                <Form.Item
+                                    label="Positions"
+                                    name="positions"
+                                    rules={[{ required: true, message: 'Please enter your positions' }]}
+                                >
+                                    <Input placeholder="e.g., Software Engineer" size='large' />
+                                </Form.Item>
+                            </Col>
                         </Row>
 
 
                         <Row gutter={[16, 16]}>
                             {/* Minimum Salary */}
-                            <Col xs={24} sm={12}>
+                            <Col span={8}>
                                 <Form.Item label="Minimum Salary" name="minSalary">
                                     <Input placeholder="e.g., 50000" size='large' />
                                 </Form.Item>
                             </Col>
 
                             {/* Maximum Salary */}
-                            <Col xs={24} sm={12}>
+                            <Col span={8}>
                                 <Form.Item label="Maximum Salary" name="maxSalary">
                                     <Input placeholder="e.g., 100000" size='large' />
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item
+                                    label="Company Name"
+                                    name="companyName"
+                                    rules={[{ required: true, message: 'Please enter the company name' }]}
+                                >
+                                    <Input placeholder="e.g., ABC Corp" size='large' />
                                 </Form.Item>
                             </Col>
                         </Row>
 
                         <Row gutter={[16, 16]}>
                             {/* Application Deadline */}
-                            <Col xs={24} sm={12}>
+                            <Col span={8}>
                                 <Form.Item
                                     label="Application Deadline"
                                     name="applicationDeadline"
@@ -157,13 +211,23 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                             </Col>
 
                             {/* Contact Email */}
-                            <Col xs={24} sm={12}>
+                            <Col span={8}>
                                 <Form.Item
                                     label="Contact Email"
                                     name="contactEmail"
                                     rules={[{ required: true, type: 'email', message: 'Please enter a valid email' }]}
                                 >
                                     <Input placeholder="e.g., hr@example.com" size='large' />
+                                </Form.Item>
+                            </Col>
+
+                            <Col span={8}>
+                                <Form.Item
+                                    label="Experience"
+                                    name="experience"
+                                    rules={[{ required: true, message: 'Please enter your experience' }]}
+                                >
+                                    <Input placeholder="e.g., 5 years in software development" size='large' />
                                 </Form.Item>
                             </Col>
                         </Row>

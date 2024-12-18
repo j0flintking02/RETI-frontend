@@ -1,6 +1,6 @@
 import Sign from "../../components/seconday/LoginForm";
 import "tailwindcss/tailwind.css";
-import viteLogo from "/vite.svg";
+import reti from "../../assets/reti.png";
 import youth from '../../assets/youth.jpg';
 
 const LoginPage = () => {
@@ -14,8 +14,8 @@ const LoginPage = () => {
               <div>
                 <img
                   alt="Your Company"
-                  src={viteLogo}
-                  className="h-10 w-auto"
+                  src={reti}
+                  className="h-30 w-auto mx-auto"
                 />
                 <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">Login</h2>
                 <p className="mt-2 text-sm/6 text-gray-500">
