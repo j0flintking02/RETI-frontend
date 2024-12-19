@@ -80,11 +80,6 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                     </span>
                 ),
             },
-            //   {
-            //     key: "Help & Support",
-            //     icon: <HistoryOutlined />,
-            //     label: <Link to="/settings" onClick={closeDrawer}>Help & Support</Link>,
-            //   },
             {
                 key: "logout",
                 icon: <LogoutOutlined />,
@@ -121,7 +116,7 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                 className="capitalize flex-1 text-md"
             />
             <div className="absolute bottom-0 w-full flex items-center p-4">
-                <Avatar size={64} icon={<UserOutlined />} className="mr-2" />
+                <Avatar size={"large"} icon={<UserOutlined />} className="mr-2" />
                 <div>
                     <Tag color="red">
                         <label className="block">{`${user.user.firstName} ${user.user.lastName}`}</label>

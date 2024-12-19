@@ -72,6 +72,12 @@ export interface OpportunitiesResponseType {
   message: string;
   data: OpportunitiesType[];
 }
+
+export interface InspirationsResponseType {
+    status: number;
+    message: string;
+    data: InspirationsType[];
+}
 export interface OpportunitiesDetailsResponseType {
   status: number;
   message: string;
@@ -97,6 +103,15 @@ export interface OpportunitiesType {
   contactEmail: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface InspirationsType {
+    id: number,
+    title: string,
+    content: string,
+    mentor: User,
+    likes: number,
+    createdAt: string;
 }
 
 export interface Salary {

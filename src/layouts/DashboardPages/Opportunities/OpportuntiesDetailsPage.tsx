@@ -21,8 +21,6 @@ const OpportunitiesDetailsPage = () => {
 
   const jobCreatedDate = new Date(data?.data.createdAt);
 
-  console.log(data?.data, "data");
-
   return (
     <div>
       <Header pageTitle="Opportunity Details" />

@@ -1,4 +1,4 @@
-import { Card, Calendar, Avatar } from "antd";
+import { Card, Calendar, Avatar, Tag } from "antd";
 import { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
 
@@ -11,7 +11,8 @@ import {
 } from "../../../services/notifications";
 import { useGetUserConversationsQuery } from "../../../services/conversations";
 import { loginDetails } from "../../../utils";
-import { ConversationType } from "../../../services/types";
+import { ConversationType, InspirationsType } from "../../../services/types";
+import { useGetInspirationsQuery } from "../../../services/inspirations";
 
 const DashboardPage = () => {
   const { data: notificationsData, isLoading } = useGetNotificationsQuery();
@@ -22,6 +23,9 @@ const DashboardPage = () => {
 
   const [conversations, setConversations] = useState<ConversationType[]>([]);
 
+  const { data: inspirationsData } = useGetInspirationsQuery();
+  const [inspirations, setInspirations] = useState<InspirationsType[]>([]);
+
   const handleNotificationClick = async (notificationId: number) => {
     try {
       await markAsRead(notificationId).unwrap();
@@ -31,31 +35,11 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
-    if (data) {
-      setConversations(data.data);
+    if (data || inspirationsData) {
+      setConversations(data?.data);
+      setInspirations(inspirationsData?.data)
     }
-  }, [data]);
-
-  const inspirations = [
-    {
-      id: 1,
-      text: "The only way to do great work is to love what you do.",
-      createdAt: "2024-12-15",
-      liked: false,
-    },
-    {
-      id: 2,
-      text: "Success is not the key to happiness. Happiness is the key to success.",
-      createdAt: "2024-12-14",
-      liked: false,
-    },
-    {
-      id: 3,
-      text: "Believe you can and you're halfway there.",
-      createdAt: "2024-12-13",
-      liked: true,
-    },
-  ];
+  }, [data, inspirationsData]);
 
   const chatMessages =
     conversations.map((conversation) => {
@@ -90,7 +74,7 @@ const DashboardPage = () => {
                   />
                 </div>
                 <div className="flex-1">
-                  <h2> Hi {user?.user.firstName}</h2>
+                  <h2> Hi {user?.user.firstName} 👋</h2>
                   <div className="text-gray-500">You're amazing!</div>
                 </div>
                 <div>
@@ -119,11 +103,10 @@ const DashboardPage = () => {
                       >
                         <div>
                           <p
-                            className={`font-medium truncate ${
-                              !notification.isRead
-                                ? "text-blue-600"
-                                : "text-gray-800"
-                            }`}
+                            className={`font-medium truncate ${!notification.isRead
+                              ? "text-blue-600"
+                              : "text-gray-800"
+                              }`}
                           >
                             {notification.title}
                           </p>
@@ -149,11 +132,23 @@ const DashboardPage = () => {
               <div className="space-y-2 p-2 overflow-y-auto h-52">
                 {inspirations.map((inspiration) => (
                   <div key={inspiration.id} className="border-b p-3">
-                    <p className="text-gray-800 font-medium">
-                      {inspiration.text}
+                    <p className="text-red-500 font-medium">
+                      {inspiration.title}
                     </p>
+                    <div>
+                      <p className="text-sm text-gray-600 truncate">
+                        {inspiration.content}
+                      </p>
+                    </div>
                     <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
-                      <span>Created: {inspiration.createdAt}</span>
+                      <span>Posted At:   
+                        <Tag className="ml-2">
+                        {new Date(inspiration.createdAt).toLocaleTimeString(
+                        [],
+                        { hour: "2-digit", minute: "2-digit" }
+                        )}
+                        </Tag>                        
+                      </span>
                       <div
                       //  onClick={() => handleLike(inspiration.id)}
                       >
@@ -181,23 +176,21 @@ const DashboardPage = () => {
                     <li
                       key={index}
                       className="cursor-pointer hover:bg-gray-100 p-2 rounded-md"
-                      // onClick={() => handleChatClick(chat.id)}
+                    // onClick={() => handleChatClick(chat.id)}
                     >
                       <div>
                         <div className="flex justify-between gap-2">
                           <div
-                            className={`font-bold ${
-                              chat.unread ? "text-blue-600" : "text-gray-800"
-                            }`}
+                            className={`font-bold ${chat.unread ? "text-blue-600" : "text-gray-800"
+                              }`}
                           >
                             {chat.title}
                           </div>
                           <div
-                            className={`text-xs ${
-                              chat.status === "online"
-                                ? "text-green-500"
-                                : "text-gray-500"
-                            }`}
+                            className={`text-xs ${chat.status === "online"
+                              ? "text-green-500"
+                              : "text-gray-500"
+                              }`}
                           >
                             {chat.status === "online" ? "Online" : "Offline"}
                           </div>
