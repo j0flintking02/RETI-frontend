@@ -9,7 +9,8 @@ import Header from '../../../components/seconday/Header';
 import {useGetOpportunityDetailsQuery} from "../../../services/opportunities.ts";
 import DeletePopconfirm from '../../../components/seconday/CustomDeletePopUp';
 import { useState } from 'react';
-import EditOpportunitiesForm from '../Forms/EditOpportunityForm';
+import AddOpportunitiesForm  from '../Forms/AddOpportunityForm.tsx';
+import { loginDetails } from '../../../utils';
 
 const OpportunitiesDetailsPage = () => {
     const { id } = useParams();
@@ -74,7 +75,7 @@ const OpportunitiesDetailsPage = () => {
                                         <span className="text-gray-400">
                                             <MoneyCollectOutlined />
                                         </span>
-                                        UGX{data?.data.salary.min} - UGX{data?.data.salary.max}
+                                        UGX {data?.data.salary.min} - UGX {data?.data.salary.max}
                                     </p>
                                 </div>
 
@@ -127,31 +128,35 @@ const OpportunitiesDetailsPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="absolute bottom-4 right-4 space-y-2">
-                        <div>
-                            <DeletePopconfirm
-                                title="Delete"
-                                description="Are you sure to delete this job?"
-                                onConfirm={handleDeleteJob}
-                                onConfirmMessage="Job deleted successfully"
-                                onCancelMessage="Job deletion cancelled"
-                                okText="Yes"
-                                cancelText="No"
-                            />
+                    {loginDetails().user.role === 'employer' && (
+                        <div className="absolute bottom-4 right-4 space-y-2">
+                            <div>
+                                <DeletePopconfirm
+                                    title="Delete"
+                                    description="Are you sure to delete this job?"
+                                    onConfirm={handleDeleteJob}
+                                    onConfirmMessage="Job deleted successfully"
+                                    onCancelMessage="Job deletion cancelled"
+                                    okText="Yes"
+                                    cancelText="No"
+                                />
+                            </div>
+                            <div>
+                                <EditOutlined
+                                    onClick={() => setIsEditOpen(true)}
+                                    className="text-blue-500 cursor-pointer text-lg"
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <EditOutlined
-                                onClick={() => setIsEditOpen(true)}
-                                className="text-blue-500 cursor-pointer text-lg"
-                            />
-                        </div>
-                    </div>
-                    <EditOpportunitiesForm
-                        onCancel={handleCancel}
-                        onOk={() => setIsEditOpen(false)}
-                        open={isEditOpen}
-                        loading={false}
-                    />
+                    )}
+                    {loginDetails().user.role === 'employer' && (
+                        <AddOpportunitiesForm
+                            onCancel={handleCancel}
+                            onOk={() => setIsEditOpen(false)}
+                            open={isEditOpen}
+                            loading={false}
+                        />
+                    )}
                 </Content>
             </CustomDahboardLayout>
         </div>
