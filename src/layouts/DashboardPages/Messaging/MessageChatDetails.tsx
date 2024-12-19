@@ -1,70 +1,146 @@
-'use client'
+"use client";
 
-import { CaretRightOutlined, FileAddOutlined } from "@ant-design/icons"
-import { Badge, Button, } from "antd"
-import TextArea from "antd/es/input/TextArea"
+import { CaretRightOutlined, FileAddOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import TextArea from "antd/es/input/TextArea";
+import { useEffect, useState } from "react";
+import { useGetUserProfileQuery } from "../../../services/users";
+import { ConversationType, Message } from "../../../services/types";
 
+const MessagingChatDetails = ({
+  conversation,
+  socket,
+  userId,
+  online,
+}: {
+  conversation: ConversationType | null;
+  socket: any;
+  userId: number | null;
+  online: boolean;
+}) => {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [newMessage, setNewMessage] = useState<string>("");
 
+  useEffect(() => {
+    if (conversation) {
+      setMessages(conversation?.messages || []);
+    }
+    if (socket) {
+      socket.on("receiveMessage", (updatedConversation: any) => {
+        if (updatedConversation.id === conversation.id) {
+          setMessages(updatedConversation.messages);
+        }
+      });
+      return () => {
+        socket.off("receiveMessage");
+      };
+    }
+  }, [conversation, socket]);
 
-export default function MessagingChatDetails() {
+  const receiverId = conversation?.messages?.find(
+    (msg: Message) => Number(msg.senderId) !== userId
+  )?.senderId;
+  const { data } = useGetUserProfileQuery(Number(receiverId));
 
+  const handleSendMessage = () => {
+    if (newMessage.trim() === "") return;
 
-    return (
-        <>
-            {/* typing */}
-            <div className="sm:w-11/12">
-                <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-                    <h2 className="text-lg/6 truncate font-semibold text-gray-900">
-                        Leslie Alexander
-                    </h2>
-                    <div className="flex items-center justify-center gap-x-1.5">
-                        <p className="text-xs/5 text-green-500">Online</p>
-                        
-                        {/* <Badge status="success"  size="small"/> */}
-                    </div>
+    const message = {
+      senderId: Number(userId), 
+      receiverId: Number(receiverId), 
+      content: newMessage,
+      createdAt: new Date().toISOString(),
+      isRead: false,
+    };
 
-                </div>
+    setMessages((prevMessages) => [...prevMessages, message]);
 
+    if (socket) {
+      socket.emit("sendMessage", { messages: [message] });
+    }
 
-                {/* Chat Area */}
-                <div className="p-4 h-[550px] xl:h-screen overflow-y-auto bg-gray-50">
-                    {/* Example messages */}
-                    <h2 className="pb-8 text-xs flex items-center justify-center">Today 12:00pm</h2>
+    setNewMessage("");
+  };
 
-                    {/* received */}
-                    <div className="mb-4">
-                        <div className=" bg-blue-500 max-w-xs p-3 rounded-lg shadow-sm text-white">
-                            Maiores, id accusantium vel dicta at ratione repellat reprehenderit iusto hic.
-                        </div>
-                    </div>
+  const sortedMessages = [...messages].sort(
+    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  );
 
-                    {/* sent */}
-                    <div className="mb-4 text-right">
-                        <div className="bg-gray-200 max-w-xs p-3 rounded-lg shadow-sm text-gray-900 inline-block">
-                            Quidem exercitationem vero. Possimus doloribus quam placeat tempore laborum rem repudiandae.
-                        </div>
-                    </div>
-                    <div className="mb-4 text-right">
-                        <div className="bg-gray-200 max-w-xs p-3 rounded-lg shadow-sm text-gray-900 inline-block">
-                            Quidem exercitationem vero. Possimus doloribus quam placeat tempore laborum rem repudiandae.
-                        </div>
-                    </div>
-                </div>
+  return (
+    <>
+      {/* typing */}
+      <div className="sm:w-11/12">
+        <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+          <h2 className="text-lg/6 truncate font-semibold text-gray-900">
+            {data?.data?.user?.firstName
+              ? `${data.data.user.firstName} ${data.data.user.lastName}`
+              : " "}
+          </h2>
+          <div className="flex items-center justify-center gap-x-1.5">
+            {online ? (
+              <p className="text-xs/5 text-green-500">online</p>
+            ) : (
+              <p className="text-xs/5 text-red-500">offline</p>
+            )}
+          </div>
+        </div>
 
-                {/* Input Area */}
-                <div className="p-2 border-t border-gray-200 flex items-center justify-between">
+        {/* Chat Area */}
+        <div className="p-4 h-[550px] xl:h-screen overflow-y-auto bg-gray-50">
+          {/* Example messages */}
+          <h2 className="pb-8 text-xs flex items-center justify-center">
+            Today
+          </h2>
 
-                    <Button className="px-4 py-2" type="link" icon={<FileAddOutlined />} size="large" />
-
-
-                    <TextArea className="p-2 mr-2 ml-2" placeholder="Type a message" autoSize />
-
-
-                    <div>
-                        <Button className="px-4 py-2" type="primary" icon={<CaretRightOutlined />} size="large" />
-                    </div>
-                </div>
+          {/* Display messages */}
+          {sortedMessages.map((msg, index) => (
+            <div
+              key={index}
+              className={`mb-4 ${
+                Number(msg.senderId) === userId ? "text-right" : "text-left"
+              }`}
+            >
+              <div
+                className={`${
+                  Number(msg.senderId) === userId
+                    ? "bg-gray-200 text-gray-900"
+                    : "bg-blue-500 text-white"
+                } max-w-xs p-3 rounded-lg shadow-sm inline-block`}
+              >
+                {msg.content}
+              </div>
             </div>
-        </>
-    )
-}
+          ))}
+        </div>
+
+        {/* Input Area */}
+        <div className="p-2 border-t border-gray-200 flex items-center justify-between">
+          <Button
+            className="px-4 py-2"
+            type="link"
+            icon={<FileAddOutlined />}
+            size="large"
+          />
+          <TextArea
+            className="p-2 mr-2 ml-2"
+            placeholder="Type a message"
+            autoSize
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+          <div>
+            <Button
+              className="px-4 py-2"
+              type="primary"
+              icon={<CaretRightOutlined />}
+              size="large"
+              onClick={handleSendMessage}
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default MessagingChatDetails;
