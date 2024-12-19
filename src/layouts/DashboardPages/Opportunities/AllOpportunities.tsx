@@ -1,4 +1,5 @@
 import {
+  ClockCircleOutlined,
   DeleteOutlined,
   EditOutlined,
   EnvironmentOutlined,
@@ -19,6 +20,7 @@ import {
   Row,
   Col,
   DatePicker,
+  Tag,
 } from "antd";
 import { useState } from "react";
 import {
@@ -75,9 +77,12 @@ const AllOpportunitiesPage = () => {
               key={job.id}
               className="h-34 relative flex flex-col p-1 border border-gray-300 rounded-lg bg-white hover:shadow-lg hover:bg-gray-50 cursor-pointer transition-all duration-200"
             >
-              <div className="p-2">
+              <div className="p-4">
                 <div className="text-right mb-1">
-                  <DateCheckComponent date={job.createdAt} />
+                  <div className="flex justify-end items-center space-x-2">
+                    <ClockCircleOutlined /> 
+                    <DateCheckComponent date={job.createdAt} />
+                  </div>
                   <div
                     className={`space-x-2 text-right pt-2 ${
                       loginDetails().user.role !== "employer" && "hidden"
@@ -123,12 +128,17 @@ const AllOpportunitiesPage = () => {
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-x-2">
-                        <Avatar>{job.companyName[0]}</Avatar>
+                        <Avatar>{job?.employer?.firstName[0]}</Avatar>
                         <div>
                           <Typography.Text type="secondary">
-                            {moment(job.createdAt).format("YYYY-MM-DD")}
+                            {job?.employer?.firstName} {job?.employer?.lastName}
                           </Typography.Text>
                         </div>
+                      </div>
+                      <div>
+                        <Tag color='red'>
+                            Disqualified 
+                        </Tag>
                       </div>
                     </div>
                   </div>

@@ -19,7 +19,6 @@ export const userApi = createApi({
 
         {
             baseUrl: `${import.meta.env.VITE_BASE_URL}/v1/`
-            //  baseUrl: 'http://reti-backend-production.up.railway.app/v1/'
         }
     ) as BaseQueryFn<string | FetchArgs, unknown, customError>,
     tagTypes: ['Users'],

@@ -10,8 +10,8 @@ const  DateCheckComponent = ({ date }) => {
             throw new Error("Invalid date");
         }
 
-        const threeDaysFromNow = now.clone().add(3, 'days');
-        const isJustAdded = targetDate.isBefore(threeDaysFromNow);
+        const oneDayFromNow = now.clone().add(1, 'day');
+        const isJustAdded = targetDate.isBefore(oneDayFromNow);
         const durationFromNow = targetDate.fromNow();
 
         return { isJustAdded, durationFromNow };
