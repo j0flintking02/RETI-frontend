@@ -5,6 +5,7 @@ import {opportunityApi} from './src/services/opportunities.ts'
 import {notificationApi} from './src/services/notifications.ts'
 import { conversationApi } from './src/services/conversations.ts'
 import { inspirationApi } from './src/services/inspirations.ts'
+import { productApi } from './src/services/products.ts'
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
         [opportunityApi.reducerPath]: opportunityApi.reducer,
         [notificationApi.reducerPath]: notificationApi.reducer,
         [conversationApi.reducerPath]: conversationApi.reducer,
-        [inspirationApi.reducerPath]: inspirationApi.reducer
+        [inspirationApi.reducerPath]: inspirationApi.reducer,
+        [productApi.reducerPath]: productApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(
@@ -21,6 +23,7 @@ export const store = configureStore({
             notificationApi.middleware,
             conversationApi.middleware,
             inspirationApi.middleware,
+            productApi.middleware,
         ),
 })
 

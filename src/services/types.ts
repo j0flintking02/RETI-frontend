@@ -147,3 +147,49 @@ export interface MessagesResponseType {
   status: string;
   data: Message[];
 }
+
+export interface ProductDto {
+  id: number;
+  name: string;
+  category: string;
+  description: string;
+  price: number;
+  stockQuantity: number;
+  imageUrl?: string;
+  createdAt: string;
+}
+
+export interface CreateProductDto {
+  name: string;
+  category: string;
+  description: string;
+  price: number;
+  stockQuantity: number;
+  imageUrl?: string;
+}
+
+export interface ProductsResponseType {
+  success: boolean;
+  message: string;
+  data: ProductDto[];
+}
+
+export interface ProductDetailsResponseType {
+  success: boolean;
+  message: string;
+  data: ProductDto;
+}
+
+export interface ProductType {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  category: string;
+  status: string;
+  sellerId: number;
+  quantity: number;
+  images: string[];
+  createdAt: string;
+  updatedAt: string;
+}
