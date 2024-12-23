@@ -30,7 +30,7 @@ const MessagesPage = () => {
     });
     socket.on("receiveMessage", (conversation: ConversationType) => {
       setConversations((prevConversations) => {
-        const updatedConversations = prevConversations.map((conv) => {
+        const updatedConversations = prevConversations?.map((conv) => {
           if (conv.id === conversation.id) {
             return { ...conv, messages: conversation.messages };
           }
@@ -71,7 +71,7 @@ const MessagesPage = () => {
                 userId={userId}
                 online={online}
               />
-              <MessagingItemDetails />
+              {/* <MessagingItemDetails /> */}
             </div>
           </Content>
         </Layout>

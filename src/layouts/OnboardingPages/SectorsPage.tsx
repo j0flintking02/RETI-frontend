@@ -31,7 +31,7 @@ const SectionsPage: React.FC<SectionsPageProps> = ({ sectionsData, setSectionsDa
 
             <div className="mt-6 p-2 overflow-y-auto h-[400px]">
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    {options.map((option) => (
+                    {options?.map((option) => (
                         <label
                             key={option.id}
                             className={` cursor-pointer border rounded-lg shadow-md overflow-hidden transition transform ${ sectionsData === option.value

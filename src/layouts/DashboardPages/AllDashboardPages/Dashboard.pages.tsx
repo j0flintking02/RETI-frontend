@@ -42,7 +42,7 @@ const DashboardPage = () => {
   }, [data, inspirationsData]);
 
   const chatMessages =
-    conversations.map((conversation) => {
+    conversations?.map((conversation) => {
       const lastMessage =
         conversation.messages[conversation.messages.length - 1];
 
@@ -130,7 +130,7 @@ const DashboardPage = () => {
             {/*recent inspirations Quotes */}
             <Card title="Inspiration Quotations" className="shadow-sm">
               <div className="space-y-2 p-2 overflow-y-auto h-52">
-                {inspirations.map((inspiration) => (
+                {inspirations?.map((inspiration) => (
                   <div key={inspiration.id} className="border-b p-3">
                     <p className="text-red-500 font-medium">
                       {inspiration.title}
@@ -172,7 +172,7 @@ const DashboardPage = () => {
             <Card title="Chats" className="shadow-sm">
               <div className="overflow-y-auto h-52">
                 <ul className="space-y-2">
-                  {chatMessages.map((chat, index) => (
+                  {chatMessages?.map((chat, index) => (
                     <li
                       key={index}
                       className="cursor-pointer hover:bg-gray-100 p-2 rounded-md"

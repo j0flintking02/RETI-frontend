@@ -91,7 +91,7 @@ export default function MentorshipDates() {
 
           {/* Inspirations List */}
           <div className="mt-6 space-y-2 overflow-y-auto h-screen">
-            {meetings.map((meeting) => (
+            {meetings?.map((meeting) => (
               <div key={meeting.id}>
                 <div className="flex w-full items-center justify-between space-x-2 py-2">
                   <img
@@ -194,7 +194,7 @@ export default function MentorshipDates() {
 
           {/* Inspirations List */}
           <div className="space-y-4 overflow-y-auto max-h-screen px-4">
-            {inspirations.map((inspiration, index) => (
+            {inspirations?.map((inspiration, index) => (
               <div key={index} className="boarder border-b">
                 <div className="text-sm py-2">{inspiration}</div>
                 <div className="space-x-2 text-right pb-2">

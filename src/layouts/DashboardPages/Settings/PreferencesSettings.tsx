@@ -57,7 +57,7 @@ const PreferencesSettings = () => {
                     {/* prefernces */}
                     <div className="py-4">
                         <div>
-                            {notificationSections.map((section) => (
+                            {notificationSections?.map((section) => (
                                 <div
                                     key={section.id}
                                     className="sm:flex sm:justify-between border-b border-gray-900/10 py-4"
@@ -68,7 +68,7 @@ const PreferencesSettings = () => {
                                     </div>
 
                                     <div className="sm:w-6/12 space-y-2">
-                                        {section.options.map((option) => (
+                                        {section?.options.map((option) => (
                                             <div key={option.id} className="flex items-center gap-x-3 pt-2">
                                                 <Switch
                                                     defaultChecked
