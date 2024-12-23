@@ -103,7 +103,7 @@ const AddOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
                                     <Form.List name="qualifications">
                                         {(fields, { add, remove }) => (
                                             <>
-                                                {fields.map(({ key, name, fieldKey, ...restField }) => (
+                                                {fields?.map(({ key, name, fieldKey, ...restField }) => (
                                                     <Row key={key} gutter={[16, 16]}>
                                                         <Col span={8}>
                                                             <Form.Item

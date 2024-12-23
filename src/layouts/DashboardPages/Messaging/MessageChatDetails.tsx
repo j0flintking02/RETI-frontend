@@ -93,7 +93,7 @@ const MessagingChatDetails = ({
           </h2>
 
           {/* Display messages */}
-          {sortedMessages.map((msg, index) => (
+          {sortedMessages?.map((msg, index) => (
             <div
               key={index}
               className={`mb-4 ${
