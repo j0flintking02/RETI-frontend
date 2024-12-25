@@ -26,6 +26,7 @@ import SettingsPage from "./layouts/DashboardPages/Settings/Settings.page.tsx";
 import OpportunitiesPage from "./layouts/DashboardPages/Opportunities/Opportunities.page.tsx";
 import OpportunitiesDetailsPage from "./layouts/DashboardPages/Opportunities/OpportuntiesDetailsPage.tsx";
 import MentorshipPage from "./layouts/DashboardPages/Mentorship/Mentorship.page.tsx";
+import UsersPage from "./layouts/DashboardPages/Users/UsersTable.tsx";
 
 function protectedLoader({ request }: LoaderFunctionArgs) {
   const loginDetails = localStorage.getItem("loginDetails");
@@ -125,6 +126,19 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [],
   },
+
+  {
+    path: "/users",
+    loader: protectedLoader,
+    element: (
+      <CustomAppLayout>
+        <UsersPage />
+      </CustomAppLayout>
+    ),
+    errorElement: <ErrorPage />,
+    children: [],
+  },
+
 
   {
     path: "/forgot-password",
