@@ -21,8 +21,8 @@ const ProductStockStatistics = () => {
       {
         label: 'Out of Stock',
         data: [30],  // Example data for Out of Stock products
-        backgroundColor: '#FF9800', // Orange for Out of Stock
-        borderColor: '#F57C00',
+        backgroundColor: '#FF3300', // Red for Out of Stock
+        borderColor: '#CC2900', // Darker red for the border
         borderWidth: 1,
       },
       {
