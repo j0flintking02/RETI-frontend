@@ -5,6 +5,7 @@ import reti from "../../assets/reti.png";
 import { HomeOutlined, LogoutOutlined, MessageOutlined, PhoneOutlined, ProjectOutlined, QuestionCircleOutlined, SettingOutlined, UsergroupAddOutlined, UserOutlined, } from "@ant-design/icons";
 import { handleLogout, loginDetails } from "../../utils.ts";
 import HelpandsupportForm from "../../layouts/DashboardPages/Forms/HelpAndSupportForm.tsx";
+import { ShoppingOutlined } from "@ant-design/icons";
 
 interface MenuItem {
     key: string;
@@ -41,7 +42,6 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
     };
 
 
-
     // Function to generate menu items
 
     const getMenuItems = (closeDrawer: () => void): MenuItem[] => {
@@ -55,6 +55,11 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                 key: "opportunities",
                 icon: <ProjectOutlined />,
                 label: <Link to="/opportunities" onClick={closeDrawer}>Opportunities</Link>,
+            },
+            {
+                key: "products",
+                icon: <ShoppingOutlined />,
+                label: <Link to="/products" onClick={closeDrawer}>Products</Link>,
             },
             {
                 key: "messages",
@@ -92,7 +97,6 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
             },
         ];
     };
-
 
 
     return (
@@ -143,5 +147,3 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
 };
 
 export default SiderTwo;
-
-

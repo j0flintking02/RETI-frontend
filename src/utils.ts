@@ -30,6 +30,7 @@ export const formatDistanceToNow = (date) => {
     }
     return `${Math.floor(seconds)} seconds ago`;
 };
+
 export const loginDetails = () => {
     return JSON.parse(localStorage.getItem('loginDetails'));
 }
@@ -38,8 +39,33 @@ export const userDetails = () => {
     return JSON.parse(localStorage.getItem('userDetails'));
 }
 
+export const getAccessToken = () => {
+    const details = loginDetails();
+    return details?.access_token;
+}
+
+export const getRefreshToken = () => {
+    const details = loginDetails();
+    return details?.refresh_token;
+}
+
+export const updateTokens = (access_token: string, refresh_token: string) => {
+    const details = loginDetails();
+    if (details) {
+        const updatedDetails = {
+            ...details,
+            access_token,
+            refresh_token
+        };
+        localStorage.setItem('loginDetails', JSON.stringify(updatedDetails));
+    }
+}
+
 export const getHeaders = () => {
     const myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${loginDetails().access_token}`)
+    const token = getAccessToken();
+    if (token) {
+        myHeaders.append("Authorization", `Bearer ${token}`);
+    }
     return myHeaders;
 }

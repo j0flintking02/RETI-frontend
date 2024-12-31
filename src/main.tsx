@@ -27,6 +27,8 @@ import OpportunitiesPage from "./layouts/DashboardPages/Opportunities/Opportunit
 import OpportunitiesDetailsPage from "./layouts/DashboardPages/Opportunities/OpportuntiesDetailsPage.tsx";
 import MentorshipPage from "./layouts/DashboardPages/Mentorship/Mentorship.page.tsx";
 import UsersPage from "./layouts/DashboardPages/Users/UsersTable.tsx";
+import ProductsPage from "./layouts/DashboardPages/Products/Products.page.tsx";
+import ProductDetailsPage from "./layouts/DashboardPages/Products/ProductDetails.page.tsx";
 
 function protectedLoader({ request }: LoaderFunctionArgs) {
   const loginDetails = localStorage.getItem("loginDetails");
@@ -125,6 +127,26 @@ const router = createBrowserRouter([
     ),
     errorElement: <ErrorPage />,
     children: [],
+  },
+  {
+    path: "/products",
+    loader: protectedLoader,
+    element: (
+      <CustomAppLayout>
+        <ProductsPage />
+      </CustomAppLayout>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/products/:id",
+    loader: protectedLoader,
+    element: (
+      <CustomAppLayout>
+        <ProductDetailsPage />
+      </CustomAppLayout>
+    ),
+    errorElement: <ErrorPage />,
   },
 
   {
