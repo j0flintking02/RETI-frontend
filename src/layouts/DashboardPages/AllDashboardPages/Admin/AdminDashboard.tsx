@@ -20,7 +20,7 @@ const AdminDashboardPage = () => {
 
       <CustomDahboardLayout>
      
-        <div className="sm:w-6/12">
+        <div className="w-full">
           {/* banner */}
           <Card className="shadow-sm text-black text-sm mb-1">
             <div className="flex items-center space-x-6">
