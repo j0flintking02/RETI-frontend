@@ -72,6 +72,11 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                 label: <Link to="/settings" onClick={closeDrawer}>Settings</Link>,
             },
             {
+                key: "Users",
+                icon: <UserOutlined />,
+                label: <Link to="/users" onClick={closeDrawer}>Users</Link>,
+            },
+            {
                 key: "help-support",
                 icon: <QuestionCircleOutlined />,
                 label: (
