@@ -1,169 +1,222 @@
+import { Form, Modal, Button, Select, Input, DatePicker, notification } from 'antd';
+import { useEffect } from 'react';
+import { useUpdateOpportunityMutation } from '../../../services/opportunities';
+import moment from 'moment';
 
-import { Form, Input, Select, DatePicker, Button, Row, Col, Modal } from 'antd';
-import 'antd/dist/reset.css';
-
-const { TextArea } = Input;
 const { Option } = Select;
 
-
-const EditOpportunitiesForm = ({ onOk, onCancel, open, loading }) => {
-
+const EditOpportunityForm = ({ onOk, onCancel, open, loading, initialData }) => {
     const [form] = Form.useForm();
+    const [updateJob] = useUpdateOpportunityMutation();
+
+    // Set initial form values when the form opens
+    useEffect(() => {
+        if (initialData && open) {
+            form.setFieldsValue({
+                title: initialData.title,
+                description: initialData.description,
+                jobType: initialData.jobType,
+                jobCategory: initialData.jobCategory,
+                location: initialData.location,
+                companyName: initialData.companyName,
+                contactEmail: initialData.contactEmail,
+                positions: initialData.positions,
+                experience: initialData.experience,
+                minSalary: initialData.salary?.min,
+                maxSalary: initialData.salary?.max,
+                applicationDeadline: moment(initialData.applicationDeadline)
+            });
+        }
+    }, [initialData, open, form]);
 
     const handleSubmit = () => {
         form
-            .validateFields() // Validate form fields
-            .then((values) => {
-                console.log('Form Values:', values); // Replace with actual submission logic
-                onOk(); // close modal
+            .validateFields()
+            .then(async (values) => {
+                try {
+                    const formattedData = {
+                        id: initialData.id,
+                        title: values.title?.trim(),
+                        description: values.description?.trim(),
+                        jobType: values.jobType,
+                        jobCategory: values.jobCategory,
+                        location: values.location?.trim(),
+                        companyName: values.companyName?.trim(),
+                        contactEmail: values.contactEmail?.trim().toLowerCase(),
+                        positions: parseInt(values.positions),
+                        experience: values.experience?.trim(),
+                        salary: {
+                            min: parseInt(values.minSalary),
+                            max: parseInt(values.maxSalary)
+                        },
+                        applicationDeadline: values.applicationDeadline.format('YYYY-MM-DD')
+                    };
+
+                    await updateJob(formattedData).unwrap();
+                    
+                    notification.success({
+                        message: 'Success',
+                        description: 'Job updated successfully'
+                    });
+                    
+                    form.resetFields();
+                    onOk();
+                    
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } catch (error) {
+                    notification.error({
+                        message: 'Error',
+                        description: error?.data?.message || 'Failed to update job'
+                    });
+                }
             })
             .catch((info) => {
-                console.log('Validation Failed:', info);
+                notification.error({
+                    message: 'Validation Error',
+                    description: 'Please check all required fields'
+                });
             });
     };
 
     return (
-        <div className="space-y-4">
-            <Modal
-                open={open}
-                onOk={onOk}
-                onCancel={onCancel}
-                width={600}
-                title={
-                    <div>
-                        <h2 className="text-lg font-semibold">Edit your job post</h2>
-                        <p className="text-sm font-normal text-gray-500">
-                            Please fill in the form below to create a new opportunity. <br />
-                            <span className="font-normal text-blue-500">Jobs will be seen by youth.</span>
-                        </p>
-                    </div>
-                }
-                footer={[
-                    <Button key="back" onClick={onCancel}>
-                        Cancel
-                    </Button>,
-                    <Button key="submit" type="primary" loading={loading} onClick={handleSubmit}>
-                        Submit
-                    </Button>
-                ]}
+        <Modal
+            open={open}
+            onOk={onOk}
+            onCancel={onCancel}
+            width={600}
+            title="Edit job"
+            footer={[
+                <Button key="back" onClick={onCancel}>
+                    Cancel
+                </Button>,
+                <Button 
+                    key="submit" 
+                    type="primary" 
+                    loading={loading} 
+                    onClick={handleSubmit}
+                >
+                    Save Changes
+                </Button>
+            ]}
+        >
+            <Form
+                form={form}
+                layout="vertical"
             >
-                <div className="mt-4 p-2">
-                    <Form
-                        form={form}
-                        layout="vertical"
-                    >
-                        <Row gutter={[16, 16]}>
-                            {/* Job Title */}
-                            <Col xs={24} sm={24}>
-                                <Form.Item
-                                    label="Job Title"
-                                    name="jobTitle"
-                                    rules={[{ required: true, message: 'Please enter the job title' }]}
-                                >
-                                    <Input placeholder="e.g., Sales Person" size='large' />
-                                </Form.Item>
-                            </Col>
-                        </Row>
+                <Form.Item
+                    label="Job Title"
+                    name="title"
+                    rules={[{ required: true, message: 'Please enter job title' }]}
+                >
+                    <Input placeholder="Enter job title" />
+                </Form.Item>
 
-                        <Row gutter={[16, 16]}>
-                            {/* Job Category */}
-                            <Col  xs={24} sm={12}>
-                                <Form.Item
-                                    label="Job Category"
-                                    name="jobCategory"
-                                    rules={[{ required: true, message: 'Please select a job category' }]}
-                                >
-                                    <Select placeholder="Select a category" size='large'>
-                                        <Option value="it">IT</Option>
-                                        <Option value="marketing">Marketing</Option>
-                                        <Option value="finance">Finance</Option>
-                                        <Option value="finance">Skill</Option>
-                                    </Select>
-                                </Form.Item>
-                            </Col>
-                            {/* Job Type */}
-                            <Col  xs={24} sm={12}>
-                                <Form.Item
-                                    label="Job Type"
-                                    name="jobType"
-                                    rules={[{ required: true, message: 'Please select a job type' }]}
-                                >
-                                    <Select placeholder="Select job type" size='large'>
-                                        <Option value="full-time">Full-Time</Option>
-                                        <Option value="part-time">Part-Time</Option>
-                                        <Option value="freelance">Freelance</Option>
-                                    </Select>
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row gutter={[16, 16]}>
-                            {/* Location */}
-                            <Col  xs={24} sm={24}>
-                                <Form.Item
-                                    label="Location"
-                                    name="location"
-                                    rules={[{ required: true, message: 'Please enter the job location' }]}
-                                >
-                                    <Input placeholder="e.g., Remote or City Name" size='large' />
-                                </Form.Item>
-                            </Col>
-                        </Row>
+                <Form.Item
+                    label="Job Description"
+                    name="description"
+                    rules={[{ required: true, message: 'Please enter job description' }]}
+                >
+                    <Input.TextArea rows={4} placeholder="Enter job description" />
+                </Form.Item>
 
-                        <Row gutter={[16, 16]}>
-                            {/* Minimum Salary */}
-                            <Col xs={24} sm={12}>
-                                <Form.Item label="Minimum Salary" name="minSalary">
-                                    <Input placeholder="e.g., 50000" size='large' />
-                                </Form.Item>
-                            </Col>
+                <Form.Item
+                    label="Job Type"
+                    name="jobType"
+                    rules={[{ required: true, message: 'Please select job type' }]}
+                >
+                    <Select placeholder="Select job type">
+                        <Option value="full-time">Full Time</Option>
+                        <Option value="part-time">Part Time</Option>
+                        <Option value="contract">Contract</Option>
+                    </Select>
+                </Form.Item>
 
-                            {/* Maximum Salary */}
-                            <Col xs={24} sm={12}>
-                                <Form.Item label="Maximum Salary" name="maxSalary">
-                                    <Input placeholder="e.g., 100000" size='large' />
-                                </Form.Item>
-                            </Col>
-                        </Row>
+                <Form.Item
+                    label="Job Category"
+                    name="jobCategory"
+                    rules={[{ required: true, message: 'Please select job category' }]}
+                >
+                    <Select placeholder="Select job category">
+                        <Option value="it">IT</Option>
+                        <Option value="marketing">Marketing</Option>
+                        <Option value="finance">Finance</Option>
+                        <Option value="skill">Skill</Option>
+                        <Option value="sales">Sales</Option>
+                    </Select>
+                </Form.Item>
 
-                        <Row gutter={[16, 16]}>
-                            {/* Application Deadline */}
-                            <Col xs={24} sm={12}>
-                                <Form.Item
-                                    label="Application Deadline"
-                                    name="applicationDeadline"
-                                    rules={[{ required: true, message: 'Please select a deadline' }]}
-                                >
-                                    <DatePicker className="w-full" size='large' />
-                                </Form.Item>
-                            </Col>
+                <Form.Item
+                    label="Location"
+                    name="location"
+                    rules={[{ required: true, message: 'Please enter location' }]}
+                >
+                    <Input placeholder="Enter location" />
+                </Form.Item>
 
-                            {/* Contact Email */}
-                            <Col xs={24} sm={12}>
-                                <Form.Item
-                                    label="Contact Email"
-                                    name="contactEmail"
-                                    rules={[{ required: true, type: 'email', message: 'Please enter a valid email' }]}
-                                >
-                                    <Input placeholder="e.g., hr@example.com" size='large' />
-                                </Form.Item>
-                            </Col>
-                        </Row>
+                <Form.Item
+                    label="Company Name"
+                    name="companyName"
+                    rules={[{ required: true, message: 'Please enter company name' }]}
+                >
+                    <Input placeholder="Enter company name" />
+                </Form.Item>
 
-                        {/* Job Description */}
-                        <Form.Item
-                            label="Job Description"
-                            name="jobDescription"
-                            rules={[{ required: true, message: 'Please enter the job description' }]}
-                        >
-                            <TextArea rows={4} placeholder="Describe the responsibilities and expectations" />
-                        </Form.Item>
+                <Form.Item
+                    label="Contact Email"
+                    name="contactEmail"
+                    rules={[
+                        { required: true, message: 'Please enter contact email' },
+                        { type: 'email', message: 'Please enter a valid email' }
+                    ]}
+                >
+                    <Input placeholder="Enter contact email" />
+                </Form.Item>
 
-                    </Form>
-                </div>
-            </Modal>
-        </div>
-    )
-}
+                <Form.Item
+                    label="Positions Available"
+                    name="positions"
+                    rules={[{ required: true, message: 'Please enter number of positions' }]}
+                >
+                    <Input type="number" min={1} placeholder="Enter number of positions" />
+                </Form.Item>
 
-export default EditOpportunitiesForm;
+                <Form.Item
+                    label="Experience Required"
+                    name="experience"
+                    rules={[{ required: true, message: 'Please enter required experience' }]}
+                >
+                    <Input placeholder="Enter required experience" />
+                </Form.Item>
+
+                <Form.Item
+                    label="Minimum Salary"
+                    name="minSalary"
+                    rules={[{ required: true, message: 'Please enter minimum salary' }]}
+                >
+                    <Input type="number" placeholder="Enter minimum salary" />
+                </Form.Item>
+
+                <Form.Item
+                    label="Maximum Salary"
+                    name="maxSalary"
+                    rules={[{ required: true, message: 'Please enter maximum salary' }]}
+                >
+                    <Input type="number" placeholder="Enter maximum salary" />
+                </Form.Item>
+
+                <Form.Item
+                    label="Application Deadline"
+                    name="applicationDeadline"
+                    rules={[{ required: true, message: 'Please select application deadline' }]}
+                >
+                    <DatePicker className="w-full" />
+                </Form.Item>
+            </Form>
+        </Modal>
+    );
+};
+
+export default EditOpportunityForm;
 

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import CustomAppTitle from '../../../components/seconday/CustomAppTitle';
 import {Avatar, Button} from 'antd';
 import { Content } from 'antd/es/layout/layout';
@@ -6,26 +6,60 @@ import { formatDistanceToNow } from '../../../utils';
 import { EditOutlined, EnvironmentOutlined, MailOutlined, MoneyCollectOutlined, PhoneOutlined, ScheduleOutlined } from '@ant-design/icons';
 import CustomDahboardLayout from '../../../components/seconday/CustomDashboardPagesLayout';
 import Header from '../../../components/seconday/Header';
-import {useGetOpportunityDetailsQuery} from "../../../services/opportunities.ts";
+import {useGetOpportunityDetailsQuery, useDeleteOpportunityMutation} from "../../../services/opportunities.ts";
 import DeletePopconfirm from '../../../components/seconday/CustomDeletePopUp';
 import { useState } from 'react';
 import AddOpportunitiesForm  from '../Forms/AddOpportunityForm.tsx';
 import { loginDetails } from '../../../utils';
+import { notification } from 'antd';
+import moment from 'moment';
 
 const OpportunitiesDetailsPage = () => {
     const { id } = useParams();
     const [isEditOpen, setIsEditOpen] = useState(false);
     const {data} = useGetOpportunityDetailsQuery(id);
+    const [deleteJob] = useDeleteOpportunityMutation();
+    const navigate = useNavigate();
     const jobCreatedDate = new Date(data?.data.createdAt);
 
     const handleDeleteJob = async () => {
-        // Implement delete logic here
-        console.log('Deleting job:', id);
+        try {
+            await deleteJob(Number(id)).unwrap();
+            notification.success({
+                message: 'Job deleted successfully'
+            });
+            navigate('/opportunities');
+        } catch (error) {
+            notification.error({
+                message: 'Failed to delete job',
+                description: error.message
+            });
+        }
     };
 
     const handleCancel = () => {
         setIsEditOpen(false);
     };
+
+    // Format the initial data for the form
+    const formattedInitialData = data?.data ? {
+        id: data.data.id,
+        title: data.data.title,
+        description: data.data.description,
+        jobType: data.data.jobType,
+        jobCategory: data.data.jobCategory,
+        location: data.data.location,
+        companyName: data.data.companyName,
+        contactEmail: data.data.contactEmail,
+        positions: data.data.positions,
+        experience: data.data.experience,
+        minSalary: data.data.salary.min,
+        maxSalary: data.data.salary.max,
+        applicationDeadline: moment(data.data.applicationDeadline),
+        qualifications: data.data.qualifications || []
+    } : null;
+
+    console.log('Formatted Initial Data:', formattedInitialData); // Debug log
 
     return (
         <div>
@@ -155,6 +189,8 @@ const OpportunitiesDetailsPage = () => {
                             onOk={() => setIsEditOpen(false)}
                             open={isEditOpen}
                             loading={false}
+                            initialData={formattedInitialData}
+                            isEdit={true}
                         />
                     )}
                 </Content>

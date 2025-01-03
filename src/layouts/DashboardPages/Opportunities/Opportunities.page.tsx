@@ -8,20 +8,15 @@ import CustomDahboardLayout from "../../../components/seconday/CustomDashboardPa
 import { loginDetails } from "../../../utils";
 
 const OpportunitiesPage = () => {
-    const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
 
   const showModal = () => {
     setOpen(true);
   };
 
-  const handleOk = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setOpen(false);
-    }, 3000);
-  };
+    const handleOk = () => {
+        setOpen(false);
+    };
 
   const handleCancel = () => {
     setOpen(false);
@@ -33,7 +28,7 @@ const OpportunitiesPage = () => {
 
             <CustomDahboardLayout>
                 {loginDetails().user.role === 'employer' && (
-                    <div className="flex items-center justify-end">
+                    <div className="flex items-center justify-end mb-4">
                         <div>
                             <Button type="primary" onClick={showModal}>
                                 Create a job
@@ -42,7 +37,7 @@ const OpportunitiesPage = () => {
                                 onOk={handleOk}
                                 onCancel={handleCancel} 
                                 open={open} 
-                                loading={loading} 
+                                loading={false} 
                             />
                         </div>
                     </div>
