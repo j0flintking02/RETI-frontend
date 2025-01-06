@@ -1,8 +1,8 @@
-import { Card, Calendar, Avatar, Tag } from "antd";
+import { Card, Calendar, Avatar, Tag, Badge } from "antd";
 import { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
 
-import { LikeOutlined, UserOutlined } from "@ant-design/icons";
+import { LikeOutlined, UserOutlined, MessageOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import {
   useGetNotificationsQuery,
@@ -12,6 +12,7 @@ import { useGetUserConversationsQuery } from "../../../services/conversations";
 import { loginDetails } from "../../../utils";
 import { ConversationType, InspirationsType } from "../../../services/types";
 import { useGetInspirationsQuery } from "../../../services/inspirations";
+import Loader from "../../loader";
 
 const YouthDashboardPage = () => {
   const { data: notificationsData, isLoading } = useGetNotificationsQuery();
@@ -24,6 +25,8 @@ const YouthDashboardPage = () => {
 
   const { data: inspirationsData } = useGetInspirationsQuery();
   const [inspirations, setInspirations] = useState<InspirationsType[]>([]);
+
+  const [isChatsVisible, setIsChatsVisible] = useState(false);
 
   const handleNotificationClick = async (notificationId: number) => {
     try {
@@ -91,7 +94,7 @@ const YouthDashboardPage = () => {
             <Card title="Recent Notifications" className="shadow-sm mb-1">
               <div className="space-y-2 p-2 overflow-y-auto h-[230px]">
                 {isLoading ? (
-                  <div>Loading notifications...</div>
+                   <Loader />
                 ) : (
                   <ul className="space-y-4">
                     {notificationsData?.data?.map((notification) => (
@@ -128,6 +131,9 @@ const YouthDashboardPage = () => {
 
             {/*recent inspirations Quotes */}
             <Card title="Inspiration Quotations" className="shadow-sm">
+            {isLoading ? (
+                   <Loader />
+                ) : (
               <div className="space-y-2 p-2 overflow-y-auto h-52">
                 {inspirations?.map((inspiration) => (
                   <div key={inspiration.id} className="border-b p-3">
@@ -157,6 +163,7 @@ const YouthDashboardPage = () => {
                   </div>
                 ))}
               </div>
+                )}
             </Card>
           </div>
 
@@ -166,30 +173,60 @@ const YouthDashboardPage = () => {
             <Card title="Activity Calendar" className="shadow-sm mb-1">
               <Calendar fullscreen={false} />
             </Card>
+          </div>
+        </div>
 
-            {/*  chats */}
-            <Card title="Chats" className="shadow-sm">
-              <div className="overflow-y-auto h-52">
-                <ul className="space-y-2">
+        {/* Fixed Chat Widget */}
+        <div className="fixed bottom-0 right-0 sm:right-4 z-50 w-full sm:w-auto">
+          <div 
+            className="bg-white shadow-lg cursor-pointer w-full sm:w-[750px]"
+            style={{ 
+              borderTopLeftRadius: '12px',
+              borderTopRightRadius: '12px',
+              border: '1px solid #e5e7eb'
+            }}
+          >
+            <div 
+              className="flex items-center justify-between p-3 border-b bg-gray-50"
+              onClick={() => setIsChatsVisible(!isChatsVisible)}
+              style={{
+                borderTopLeftRadius: '12px',
+                borderTopRightRadius: '12px'
+              }}
+            >
+              <div className="flex items-center gap-2">
+                <MessageOutlined />
+                <span className="font-semibold">Chats</span>
+                <Badge count={chatMessages.filter(msg => msg.unread).length} />
+              </div>
+              <div>
+                {isChatsVisible ? (
+                  <DownOutlined className="text-gray-600" />
+                ) : (
+                  <UpOutlined className="text-gray-600" />
+                )}
+              </div>
+            </div>
+
+            {isChatsVisible && (
+              <div className="h-52 overflow-y-auto">
+                <ul className="space-y-2 p-2">
                   {chatMessages?.map((chat, index) => (
                     <li
                       key={index}
                       className="cursor-pointer hover:bg-gray-100 p-2 rounded-md"
-                    // onClick={() => handleChatClick(chat.id)}
                     >
                       <div>
                         <div className="flex justify-between gap-2">
                           <div
-                            className={`font-bold ${chat.unread ? "text-blue-600" : "text-gray-800"
-                              }`}
+                            className={`font-bold ${chat.unread ? "text-blue-600" : "text-gray-800"}`}
                           >
                             {chat.title}
                           </div>
                           <div
-                            className={`text-xs ${chat.status === "online"
-                              ? "text-green-500"
-                              : "text-gray-500"
-                              }`}
+                            className={`text-xs ${
+                              chat.status === "online" ? "text-green-500" : "text-gray-500"
+                            }`}
                           >
                             {chat.status === "online" ? "Online" : "Offline"}
                           </div>
@@ -202,7 +239,7 @@ const YouthDashboardPage = () => {
                   ))}
                 </ul>
               </div>
-            </Card>
+            )}
           </div>
         </div>
       </CustomDashboardLayout>

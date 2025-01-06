@@ -8,6 +8,7 @@ import CustomDashboardLayout from '../../../components/secondary/CustomDashboard
 import AddProductForm from '../Forms/AddProductForm';
 import DeletePopconfirm from '../../../components/secondary/CustomDeletePopUp';
 import DateCheckComponent from '../../../components/primary/dataChecker';
+import Loader from '../../loader.tsx';
 import { loginDetails } from '../../../utils';
 
 const ProductsPage: React.FC = () => {
@@ -48,26 +49,6 @@ const ProductsPage: React.FC = () => {
         }
     };
 
-    if (isLoading) {
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <Spin size="large" />
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="flex flex-col items-center justify-center h-screen">
-                <h2 className="text-xl font-semibold mb-4">Error loading products</h2>
-                <p className="text-gray-600">{error.data?.message || 'An unexpected error occurred'}</p>
-                <Button className="mt-4" onClick={() => window.location.reload()}>
-                    Try Again
-                </Button>
-            </div>
-        );
-    }
-
     return (
         <>
             <Header pageTitle="Products" />
@@ -88,6 +69,9 @@ const ProductsPage: React.FC = () => {
                 </div>
 
                 <Layout>
+                {isLoading ? (
+                    <Loader />
+                ) : (
                     <div className="mt-8 grid grid-cols-1 gap-x-4 gap-y-4 sm:grid-cols-2 lg:grid-cols-3">
                         {productsResponse?.data?.map((product) => (
                             <div
@@ -154,6 +138,7 @@ const ProductsPage: React.FC = () => {
                             </div>
                         ))}
                     </div>
+                )}
                 </Layout>
             </CustomDashboardLayout>
         </>

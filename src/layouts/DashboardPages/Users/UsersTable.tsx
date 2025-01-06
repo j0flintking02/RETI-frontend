@@ -1,10 +1,15 @@
-import { Space, Spin, Table, Tag, notification } from "antd";
+import { Space, Spin, Table, Tag, notification, Input, Select } from "antd";
 import type { TableProps } from "antd";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import Header from "../../../components/secondary/Header";
 import { useGetAllUsersQuery, useDeleteUserMutation } from "../../../services/users";
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import DeletePopconfirm from "../../../components/secondary/CustomDeletePopUp";
+import { useState } from "react";
+import Loader from '../../loader.tsx';
+
+const { Search } = Input;
+const { Option } = Select;
 
 interface User {
   id: string;
@@ -19,6 +24,8 @@ interface User {
 const UsersPage = () => {
   const { data, isLoading } = useGetAllUsersQuery();
   const [deleteUser] = useDeleteUserMutation();
+  const [searchText, setSearchText] = useState('');
+  const [roleFilter, setRoleFilter] = useState('all');
 
   const handleDeleteUser = async (userId: string) => {
     try {
@@ -35,6 +42,17 @@ const UsersPage = () => {
     }
   };
 
+  const filteredData = data?.data?.filter((user: User) => {
+    const matchesSearch =
+      user.firstName.toLowerCase().includes(searchText.toLowerCase()) ||
+      user.lastName.toLowerCase().includes(searchText.toLowerCase()) ||
+      user.phoneNumber.includes(searchText);
+
+    const matchesRole = roleFilter === 'all' || user.role === roleFilter;
+
+    return matchesSearch && matchesRole;
+  });
+
   const columns: TableProps<User>['columns'] = [
     {
       title: 'Id',
@@ -45,6 +63,7 @@ const UsersPage = () => {
       title: 'Name',
       key: 'name',
       render: (_, record) => `${record.firstName} ${record.lastName}`,
+      sorter: (a, b) => a.firstName.localeCompare(b.firstName),
     },
     {
       title: 'Phone',
@@ -60,6 +79,13 @@ const UsersPage = () => {
           {role.toUpperCase()}
         </Tag>
       ),
+      filters: [
+        { text: 'Admin', value: 'admin' },
+        { text: 'Youth', value: 'youth' },
+        { text: 'Mentor', value: 'mentor' },
+        { text: 'Employer', value: 'employer' },
+      ],
+      onFilter: (value, record) => record.role === value,
     },
     {
       title: 'Action',
@@ -82,24 +108,39 @@ const UsersPage = () => {
     },
   ];
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Spin size="large" />
-      </div>
-    );
-  }
-
   return (
     <>
       <Header pageTitle="Users" />
       <CustomDashboardLayout>
-        <Table
-          columns={columns}
-          dataSource={data?.data}
-          loading={isLoading}
-          rowKey="id"
-        />
+        <div className="mb-4 flex gap-4">
+          <Search
+            placeholder="Search by name or phone"
+            onChange={(e) => setSearchText(e.target.value)}
+            style={{ width: 300 }}
+            prefix={<SearchOutlined />}
+          />
+          <Select
+            defaultValue="all"
+            style={{ width: 120 }}
+            onChange={setRoleFilter}
+          >
+            <Option value="all">All Roles</Option>
+            <Option value="admin">Admin</Option>
+            <Option value="youth">Youth</Option>
+            <Option value="mentor">Mentor</Option>
+            <Option value="employer">Employer</Option>
+          </Select>
+        </div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <Table
+            columns={columns}
+            dataSource={filteredData}
+            loading={isLoading}
+            rowKey="id"
+          />
+        )}
       </CustomDashboardLayout>
     </>
   );
