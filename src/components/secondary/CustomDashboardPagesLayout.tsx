@@ -6,7 +6,7 @@ interface LayoutProps {
     children?: React.ReactNode;
 }
 
-const CustomDahboardLayout: React.FC<LayoutProps> = ({ children, }) => {
+const CustomDashboardLayout: React.FC<LayoutProps> = ({ children, }) => {
 
     return (
         <div className="sm:px-6 sm:py-8 p-4 max-w-screen relative">
@@ -15,4 +15,4 @@ const CustomDahboardLayout: React.FC<LayoutProps> = ({ children, }) => {
     );
 };
 
-export default CustomDahboardLayout;
+export default CustomDashboardLayout;

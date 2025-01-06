@@ -6,7 +6,7 @@ import ChangePasswordSettings from "./ChangePasswordSettings";
 import PreferencesSettings from "./PreferencesSettings";
 import MyDataSettings from "./MyDataSettings";
 import Header from "../../../components/secondary/Header";
-import CustomDahboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
+import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 
 const SettingsPage = () => {
   const items: TabsProps["items"] = [
@@ -36,11 +36,11 @@ const SettingsPage = () => {
     <>
       <Header pageTitle="Settings" />
 
-      <CustomDahboardLayout>
+      <CustomDashboardLayout>
         <Layout>
           <Tabs defaultActiveKey="1" items={items} />
         </Layout>
-      </CustomDahboardLayout>
+      </CustomDashboardLayout>
     </>
   );
 };

@@ -87,7 +87,7 @@ const router = createBrowserRouter([
     children: [],
   },
   {
-    path: "/opportunities/:id", // Route for Job Details by ID
+    path: "/opportunities/:id",
     element: (
       <CustomAppLayout>
         <OpportunitiesDetailsPage />

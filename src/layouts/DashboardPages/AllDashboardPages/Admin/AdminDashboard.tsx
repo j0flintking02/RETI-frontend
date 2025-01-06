@@ -2,7 +2,7 @@ import { Card, Avatar } from "antd";
 
 import { UserOutlined } from "@ant-design/icons";
 import { loginDetails } from "../../../../utils";
-import CustomDahboardLayout from "../../../../components/secondary/CustomDashboardPagesLayout";
+import CustomDashboardLayout from "../../../../components/secondary/CustomDashboardPagesLayout";
 import UserStatistics from "./UsersGraph";
 import JobOpportunitiesStatistics from "./OpportunitiesGraph";
 import ProductStockStatistics from "./ProductsGraph";
@@ -18,7 +18,7 @@ const AdminDashboardPage = () => {
     <>
    
 
-      <CustomDahboardLayout>
+      <CustomDashboardLayout>
      
         <div className="w-full">
           {/* banner */}
@@ -76,7 +76,7 @@ const AdminDashboardPage = () => {
           </div>
         </div>
       
-      </CustomDahboardLayout>
+      </CustomDashboardLayout>
     </>
   );
 };

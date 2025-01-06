@@ -4,23 +4,19 @@ import { Button } from "antd";
 import { useState } from "react";
 import AddOpportunitiesForm from "../Forms/AddOpportunityForm";
 import Header from "../../../components/secondary/Header";
-import CustomDahboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
+import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
+import { loginDetails } from "../../../utils";
 
 const OpportunitiesPage = () => {
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
 
   const showModal = () => {
     setOpen(true);
   };
 
-  const handleOk = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setOpen(false);
-    }, 3000);
-  };
+    const handleOk = () => {
+        setOpen(false);
+    };
 
   const handleCancel = () => {
     setOpen(false);
@@ -29,28 +25,30 @@ const OpportunitiesPage = () => {
   return (
     <>
       <Header pageTitle="Opportunities" />
+            <CustomDashboardLayout>
+                {loginDetails().user.role === 'employer' && (
+                    <div className="flex items-center justify-end mb-4">
+                        <div>
+                            <Button type="primary" onClick={showModal}>
+                                Create a job
+                            </Button>
+                            <AddOpportunitiesForm 
+                                onOk={handleOk}
+                                onCancel={handleCancel} 
+                                open={open} 
+                                loading={false} 
+                                isEdit={false}
+                            />
+                        </div>
+                    </div>
+                )}
 
-      <CustomDahboardLayout>
-        <div className="flex items-center justify-end">
-          <div>
-            <Button type="primary" onClick={showModal}>
-              Create a job
-            </Button>
-            <AddOpportunitiesForm
-              onOk={handleOk}
-              onCancel={handleCancel}
-              open={open}
-              loading={loading}
-            />
-          </div>
-        </div>
-
-        <Layout>
-          <AllOpportunitiesPage />
-        </Layout>
-      </CustomDahboardLayout>
-    </>
-  );
-};
+                <Layout>
+                    <AllOpportunitiesPage />
+                </Layout>
+            </CustomDashboardLayout>
+        </>
+    )
+}
 
 export default OpportunitiesPage;

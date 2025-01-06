@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
 
 import { LikeOutlined, UserOutlined } from "@ant-design/icons";
-import Header from "../../../components/secondary/Header";
-import CustomDahboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
+import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import {
   useGetNotificationsQuery,
   useMarkAsReadMutation,
@@ -59,7 +58,7 @@ const YouthDashboardPage = () => {
     <>
       {/* <Header pageTitle="Dashboard" /> */}
 
-      <CustomDahboardLayout>
+      <CustomDashboardLayout>
         <div className="sm:flex items-center justify-between gap-2">
           {/* one */}
           <div className="sm:w-8/12">
@@ -95,7 +94,7 @@ const YouthDashboardPage = () => {
                   <div>Loading notifications...</div>
                 ) : (
                   <ul className="space-y-4">
-                    {notificationsData?.data.map((notification) => (
+                    {notificationsData?.data?.map((notification) => (
                       <li
                         key={notification.id}
                         className="cursor-pointer flex justify-between items-center hover:bg-gray-100 p-2 rounded-md"
@@ -206,7 +205,7 @@ const YouthDashboardPage = () => {
             </Card>
           </div>
         </div>
-      </CustomDahboardLayout>
+      </CustomDashboardLayout>
     </>
   );
 };

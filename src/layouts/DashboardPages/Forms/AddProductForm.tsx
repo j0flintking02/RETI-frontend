@@ -28,7 +28,6 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
       };
       
       const response = await createProduct(productData).unwrap();
-      console.log('Product creation response:', response);
       
       notification.success({
         message: 'Product created successfully',
@@ -36,7 +35,6 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
       form.resetFields();
       onOk();
     } catch (error) {
-      console.error('Product creation error:', error);
       notification.error({
         message: 'Failed to create product',
         description: error.data?.message || 'An error occurred while creating the product',

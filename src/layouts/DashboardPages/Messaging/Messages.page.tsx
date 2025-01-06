@@ -4,7 +4,7 @@ import MessagingChats from "./MessagesChats";
 import MessagingChatDetails from "./MessageChatDetails";
 import MessagingItemDetails from "./MessageItemDetails";
 import Header from "../../../components/secondary/Header";
-import CustomDahboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
+import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import io from "socket.io-client";
 import { useGetUserConversationsQuery } from "../../../services/conversations";
 import { ConversationType } from "../../../services/types";
@@ -56,7 +56,7 @@ const MessagesPage = () => {
     <>
       <Header pageTitle="Messaging" />
 
-      <CustomDahboardLayout>
+      <CustomDashboardLayout>
         <Layout>
           <Content className="bg-white mt-2 border border-gray-900/10 rounded-lg">
             <div className="sm:flex">
@@ -75,7 +75,7 @@ const MessagesPage = () => {
             </div>
           </Content>
         </Layout>
-      </CustomDahboardLayout>
+      </CustomDashboardLayout>
     </>
   );
 };

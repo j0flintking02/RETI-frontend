@@ -45,7 +45,7 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
     // Function to generate menu items
 
     const getMenuItems = (closeDrawer: () => void): MenuItem[] => {
-        return [
+        const menuItems = [
             {
                 key: "dashboard",
                 icon: <HomeOutlined />,
@@ -77,27 +77,20 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                 label: <Link to="/settings" onClick={closeDrawer}>Settings</Link>,
             },
             {
-                key: "Users",
-                icon: <UserOutlined />,
-                label: <Link to="/users" onClick={closeDrawer}>Users</Link>,
-            },
-            {
-                key: "help-support",
-                icon: <QuestionCircleOutlined />,
-                label: (
-                    <span onClick={showModal}>
-                        Help & Support
-                    </span>
-                ),
-            },
-            {
                 key: "logout",
                 icon: <LogoutOutlined />,
                 label: <Link type="link" onClick={handleLogout} to={""}>Log Out</Link>
             },
         ];
+        if (user?.user?.role === 'admin') {
+            menuItems.push({
+                key: "Users",
+                icon: <UserOutlined />,
+                label: <Link to="/users" onClick={closeDrawer}>Users</Link>,
+            });
+        }
+        return menuItems;
     };
-
 
     return (
 

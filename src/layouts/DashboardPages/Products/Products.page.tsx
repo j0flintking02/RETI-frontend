@@ -16,13 +16,6 @@ const ProductsPage: React.FC = () => {
     const [open, setOpen] = useState(false);
     const { data: productsResponse, isLoading, error } = useGetProductsQuery();
 
-    // Log error for debugging
-    React.useEffect(() => {
-        if (error) {
-            console.error('Products API Error:', error);
-        }
-    }, [error]);
-
     const [deleteProduct] = useDeleteProductMutation();
 
     const showModal = () => {

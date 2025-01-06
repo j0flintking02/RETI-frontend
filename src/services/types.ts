@@ -1,6 +1,8 @@
 export interface customError {
-  data: string;
-  status: string | number;
+    data: {
+        message: string | string[];
+    };
+    status: number;
 }
 export interface User {
   bio: any;
@@ -192,4 +194,20 @@ export interface ProductType {
   images: string[];
   createdAt: string;
   updatedAt: string;
+}
+export interface Notification {
+    id: number;
+    title: string;
+    message: string;
+    isRead: boolean;
+    createdAt: string;
+}
+
+export interface NotificationResponse {
+    data: Notification[];
+}
+
+export interface CreateNotificationRequest {
+    title: string;
+    message: string;
 }
