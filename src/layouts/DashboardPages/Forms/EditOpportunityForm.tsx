@@ -35,7 +35,6 @@ const EditOpportunityForm = ({ onOk, onCancel, open, loading, initialData }) => 
             .then(async (values) => {
                 try {
                     const formattedData = {
-                        id: initialData.id,
                         title: values.title?.trim(),
                         description: values.description?.trim(),
                         jobType: values.jobType,
@@ -52,7 +51,8 @@ const EditOpportunityForm = ({ onOk, onCancel, open, loading, initialData }) => 
                         applicationDeadline: values.applicationDeadline.format('YYYY-MM-DD')
                     };
 
-                    await updateJob(formattedData).unwrap();
+                    
+                    await updateJob({payload: formattedData, jobID: initialData.id}).unwrap();
                     
                     notification.success({
                         message: 'Success',
