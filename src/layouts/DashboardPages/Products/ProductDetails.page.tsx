@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGetProductDetailsQuery, useDeleteProductMutation } from '../../../services/products';
 import { Button, Card, Descriptions, Spin, Tag, Modal } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, EditOutlined } from '@ant-design/icons';
+import EditProductForm from '../Forms/EditProductForm'; 
 
 const { confirm } = Modal;
 
@@ -10,7 +11,9 @@ const ProductDetailsPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const { data: productResponse, isLoading } = useGetProductDetailsQuery(id || '');
-    const [deleteProduct] = useDeleteProductMutation();
+    const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
+    const [editModalVisible, setEditModalVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleDelete = () => {
         confirm({
@@ -20,18 +23,36 @@ const ProductDetailsPage: React.FC = () => {
             okText: 'Yes',
             okType: 'danger',
             cancelText: 'No',
+            okButtonProps: { loading: isDeleting },
             onOk: async () => {
                 try {
-                    await deleteProduct(id || '');
-                    navigate('/products');
-                } catch (error) {
+                    await deleteProduct(id || '').unwrap();
+                    Modal.success({
+                        title: 'Success',
+                        content: 'Product deleted successfully',
+                        onOk: () => navigate('/products')
+                    });
+                } catch (error: any) {
                     Modal.error({
                         title: 'Error',
-                        content: 'Failed to delete product',
+                        content: error?.data?.message || 'Failed to delete product. Please try again.',
                     });
                 }
             },
         });
+    };
+
+    const handleEdit = () => {
+        setEditModalVisible(true);
+    };
+
+    const handleEditCancel = () => {
+        setEditModalVisible(false);
+    };
+
+    const handleEditSuccess = () => {
+        setEditModalVisible(false);
+        setLoading(false);
     };
 
     if (isLoading) {
@@ -42,19 +63,24 @@ const ProductDetailsPage: React.FC = () => {
         );
     }
 
-    const product = productResponse?.data;
-
-    if (!product) {
+    if (!productResponse?.data) {
         return <div>Product not found</div>;
     }
 
+    const product = productResponse.data;
+
     return (
-        <div className="p-6">
-            <Card 
+        <div style={{ padding: '24px' }}>
+            <Card
                 title={<h1 className="text-2xl font-bold">{product.name}</h1>}
                 extra={
-                    <div className="space-x-4">
-                        <Button type="primary" onClick={() => navigate(`/products/${id}/edit`)}>
+                    <div>
+                        <Button
+                            type="primary"
+                            icon={<EditOutlined />}
+                            onClick={handleEdit}
+                            style={{ marginRight: '8px' }}
+                        >
                             Edit
                         </Button>
                         <Button type="primary" danger onClick={handleDelete}>
@@ -80,6 +106,15 @@ const ProductDetailsPage: React.FC = () => {
                     </Descriptions.Item>
                 </Descriptions>
             </Card>
+
+            <EditProductForm
+                open={editModalVisible}
+                loading={loading}
+                initialValues={product}
+                productId={id || ''}
+                onOk={handleEditSuccess}
+                onCancel={handleEditCancel}
+            />
         </div>
     );
 };

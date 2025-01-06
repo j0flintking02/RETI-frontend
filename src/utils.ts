@@ -62,10 +62,11 @@ export const updateTokens = (access_token: string, refresh_token: string) => {
 }
 
 export const getHeaders = () => {
-    const myHeaders = new Headers();
     const token = getAccessToken();
-    if (token) {
-        myHeaders.append("Authorization", `Bearer ${token}`);
-    }
-    return myHeaders;
+    return token ? {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+    } : {
+        "Content-Type": "application/json"
+    };
 }

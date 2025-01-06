@@ -24,9 +24,12 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
     try {
       const productData = {
         ...values,
+        price: Number(values.price),
+        stockQuantity: Number(values.stockQuantity),
         imageUrl: values.imageUrl || 'https://via.placeholder.com/300x200'
       };
       
+      console.log('Sending product data:', productData);
       const response = await createProduct(productData).unwrap();
       console.log('Product creation response:', response);
       
@@ -35,11 +38,16 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
       });
       form.resetFields();
       onOk();
-    } catch (error) {
-      console.error('Product creation error:', error);
+    } catch (error: any) {
+      console.error('Product creation error:', {
+        error,
+        data: error.data,
+        status: error.status,
+        message: error.message
+      });
       notification.error({
         message: 'Failed to create product',
-        description: error.data?.message || 'An error occurred while creating the product',
+        description: error.data?.message || error.message || 'An error occurred while creating the product',
       });
     }
   };
@@ -76,53 +84,47 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
         <Form.Item
           name="name"
           label="Product Name"
-          rules={[{ required: true, message: 'Please enter product name' }]}
-        >
+          rules={[{ required: true, message: 'Please enter product name' }]}>
           <Input />
         </Form.Item>
 
         <Form.Item
           name="category"
           label="Category"
-          rules={[{ required: true, message: 'Please select category' }]}
-        >
+          rules={[{ required: true, message: 'Please select category' }]}>
           <Input />
         </Form.Item>
 
         <Form.Item
           name="description"
           label="Description"
-          rules={[{ required: true, message: 'Please enter description' }]}
-        >
+          rules={[{ required: true, message: 'Please enter description' }]}>
           <Input.TextArea rows={4} />
         </Form.Item>
 
         <Form.Item
           name="price"
           label="Price"
-          rules={[{ required: true, message: 'Please enter price' }]}
-        >
+          rules={[{ required: true, message: 'Please enter price' }]}>
           <InputNumber
             min={0}
             precision={2}
             style={{ width: '100%' }}
             formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-            parser={value => value!.replace(/\$\s?|(,*)/g, '')}
+            parser={value => Number(value!.replace(/\$\s?|(,*)/g, ''))}
           />
         </Form.Item>
 
         <Form.Item
           name="stockQuantity"
           label="Stock Quantity"
-          rules={[{ required: true, message: 'Please enter stock quantity' }]}
-        >
+          rules={[{ required: true, message: 'Please enter stock quantity' }]}>
           <InputNumber min={0} style={{ width: '100%' }} />
         </Form.Item>
 
         <Form.Item
           name="imageUrl"
-          label="Image URL"
-        >
+          label="Image URL">
           <Input placeholder="https://example.com/image.jpg" />
         </Form.Item>
       </Form>

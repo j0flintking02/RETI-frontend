@@ -26,6 +26,7 @@ export const productApi = createApi({
                 url: '/products',
                 method: 'POST',
                 body: data,
+                headers: getHeaders(),
             }),
             invalidatesTags: ['Products']
         }),
@@ -56,6 +57,7 @@ export const productApi = createApi({
             query: (productId) => ({
                 url: `/products/${productId}`,
                 method: "DELETE",
+                headers: getHeaders(),
             }),
             invalidatesTags: ['Products']
         }),
