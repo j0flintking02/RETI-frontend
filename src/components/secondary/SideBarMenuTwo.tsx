@@ -82,7 +82,7 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                 label: <Link type="link" onClick={handleLogout} to={""}>Log Out</Link>
             },
         ];
-        if (user?.user?.role === 'admin') {
+        if (user?.user?.role !== 'admin') {
             menuItems.push({
                 key: "Users",
                 icon: <UserOutlined />,
