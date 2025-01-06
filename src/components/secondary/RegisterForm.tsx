@@ -1,7 +1,7 @@
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Input, notification, Form, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { useGoogleAuthMutation, useRegisterMutation } from "../../services/users.ts";
+import { useRegisterMutation } from "../../services/users.ts";
 import { useNavigate } from "react-router-dom";
 
 // const { Title, Text, Link } = Typography;
@@ -12,7 +12,6 @@ const RegisterForm = () => {
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const [registerUser, { isLoading, isSuccess, data, isError }] = useRegisterMutation()
-    const [googleAuth] = useGoogleAuthMutation()
     const [form] = Form.useForm();
 
     const navigate = useNavigate();
@@ -139,16 +138,6 @@ const RegisterForm = () => {
                         Sign up
                     </Button>
                 </div>
-                {/* <div className='mt-4'>
-                    <Button
-                        size='large'
-                        onClick={handleGoogleAuth}
-                        className="flex items-center w-full justify-center px-3 py-4 text-sm font-semibold  text-gray-700 hover:bg-gray-100">
-                        <img className="w-4 h-4 mr-2" src='images/gogole.svg' alt="google"/>
-                        Sign up with Google
-                    </Button>
-                </div> */}
-
             </Form>
 
             <p className="mt-6 text-center text-sm text-gray-500">
