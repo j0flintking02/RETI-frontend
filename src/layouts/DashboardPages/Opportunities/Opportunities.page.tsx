@@ -3,8 +3,8 @@ import AllOpportunitiesPage from "./AllOpportunities";
 import { Button } from "antd";
 import { useState } from "react";
 import AddOpportunitiesForm from "../Forms/AddOpportunityForm";
-import Header from "../../../components/seconday/Header";
-import CustomDahboardLayout from "../../../components/seconday/CustomDashboardPagesLayout";
+import Header from "../../../components/secondary/Header";
+import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import { loginDetails } from "../../../utils";
 
 const OpportunitiesPage = () => {
@@ -25,8 +25,7 @@ const OpportunitiesPage = () => {
   return (
     <>
       <Header pageTitle="Opportunities" />
-
-            <CustomDahboardLayout>
+            <CustomDashboardLayout>
                 {loginDetails().user.role === 'employer' && (
                     <div className="flex items-center justify-end mb-4">
                         <div>
@@ -38,6 +37,7 @@ const OpportunitiesPage = () => {
                                 onCancel={handleCancel} 
                                 open={open} 
                                 loading={false} 
+                                isEdit={false}
                             />
                         </div>
                     </div>
@@ -46,7 +46,7 @@ const OpportunitiesPage = () => {
                 <Layout>
                     <AllOpportunitiesPage />
                 </Layout>
-            </CustomDahboardLayout>
+            </CustomDashboardLayout>
         </>
     )
 }

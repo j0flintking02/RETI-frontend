@@ -4,7 +4,7 @@ import { Button } from "antd";
 import { useState } from "react";
 import MentorshipDates from "./Mentorship.dates.page";
 import Header from "../../../components/secondary/Header";
-import CustomDahboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
+import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import AddInspirationsForm from "../Forms/AddGuidanceForm";
 
 const MentorshipPage = () => {
@@ -31,7 +31,7 @@ const MentorshipPage = () => {
     <>
       <Header pageTitle="Community Guidance" />
 
-      <CustomDahboardLayout>
+      <CustomDashboardLayout>
         <div className="flex items-center justify-end">
           <div>
             <Button type="primary" onClick={showModal}>
@@ -49,7 +49,7 @@ const MentorshipPage = () => {
         <Layout>
           <MentorshipDates />
         </Layout>
-      </CustomDahboardLayout>
+      </CustomDashboardLayout>
     </>
   );
 };

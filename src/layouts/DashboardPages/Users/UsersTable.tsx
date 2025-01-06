@@ -1,5 +1,5 @@
 import { Space, Table, Tag } from "antd";
-import CustomDahboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
+import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import Header from "../../../components/secondary/Header";
 
 
@@ -12,9 +12,9 @@ const UsersPage = () => {
     <>
       <Header pageTitle="All Users" />
 
-      <CustomDahboardLayout>
+      <CustomDashboardLayout>
       <Table<DataType> columns={columns} dataSource={data} />
-      </CustomDahboardLayout>
+      </CustomDashboardLayout>
     </>
   );
 };

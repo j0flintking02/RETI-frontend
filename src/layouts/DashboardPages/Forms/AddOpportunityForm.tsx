@@ -32,7 +32,6 @@ const AddOpportunitiesForm = ({
   const [updateJob] = useUpdateOpportunityMutation();
 
   useEffect(() => {
-    console.log("Initial Data:", initialData); // Debug log
     if (initialData && open && isEdit) {
       form.setFieldsValue({
         title: initialData.title,

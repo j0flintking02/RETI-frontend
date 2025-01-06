@@ -1,13 +1,13 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import CustomAppTitle from '../../../components/seconday/CustomAppTitle';
+import CustomAppTitle from '../../../components/secondary/CustomAppTitle';
 import {Avatar, Button} from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import { formatDistanceToNow } from '../../../utils';
 import { EditOutlined, EnvironmentOutlined, MailOutlined, MoneyCollectOutlined, PhoneOutlined, ScheduleOutlined } from '@ant-design/icons';
-import CustomDahboardLayout from '../../../components/seconday/CustomDashboardPagesLayout';
-import Header from '../../../components/seconday/Header';
+import CustomDashboardLayout from '../../../components/secondary/CustomDashboardPagesLayout';
+import Header from '../../../components/secondary/Header';
 import {useGetOpportunityDetailsQuery, useDeleteOpportunityMutation} from "../../../services/opportunities.ts";
-import DeletePopconfirm from '../../../components/seconday/CustomDeletePopUp';
+import DeletePopconfirm from '../../../components/secondary/CustomDeletePopUp';
 import { useState } from 'react';
 import AddOpportunitiesForm  from '../Forms/AddOpportunityForm.tsx';
 import { loginDetails } from '../../../utils';
@@ -59,13 +59,11 @@ const OpportunitiesDetailsPage = () => {
         qualifications: data.data.qualifications || []
     } : null;
 
-    console.log('Formatted Initial Data:', formattedInitialData); // Debug log
-
     return (
         <div>
             <Header pageTitle="Opportunity Details" />
             <CustomAppTitle showBackButton={true}></CustomAppTitle>
-            <CustomDahboardLayout>
+            <CustomDashboardLayout>
                 <Content className="bg-white mt-2 border border-gray-900/10 rounded-lg relative">
                     <div className='sm:flex  justify-between'>
                         <div className="sm:w-8/12 border-r border-gray-200 p-6">
@@ -194,7 +192,7 @@ const OpportunitiesDetailsPage = () => {
                         />
                     )}
                 </Content>
-            </CustomDahboardLayout>
+            </CustomDashboardLayout>
         </div>
     );
 };

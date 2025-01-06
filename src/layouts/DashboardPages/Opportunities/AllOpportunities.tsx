@@ -2,27 +2,26 @@ import {EnvironmentOutlined} from "@ant-design/icons";
 import {useNavigate} from "react-router-dom";
 import {
     Avatar,
+    Spin,
     Typography,
-    Form,
-    Select,
-    Row,
-    Col,
-    DatePicker
 } from "antd";
-import { useState } from "react";
 import {
-  useDeleteOpportunityMutation,
-  useDeleteOpportunityQuery,
   useGetOpportunitiesQuery,
 } from "../../../services/opportunities.ts";
 import moment from "moment";
 import DateCheckComponent from "../../../components/primary/dataChecker.tsx";
-import {loginDetails} from "../../../utils.ts";
-
 
 const AllOpportunitiesPage = () => {
     const navigate = useNavigate();
-    const {data} = useGetOpportunitiesQuery()
+    const {data, isLoading} = useGetOpportunitiesQuery()
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <Spin size="large" />
+            </div>
+        );
+    }
 
     return (
         <>
