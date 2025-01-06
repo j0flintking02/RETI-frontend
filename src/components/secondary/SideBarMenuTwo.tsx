@@ -97,9 +97,10 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
         <Sider
             width={250}
             theme="light"
-            className="relative h-full border-r-2 border-gray-300"
+            className="relative h-full border-gray-300"
+            style={{ backgroundColor: 'rgb(6, 46, 100)' }}
         >
-            <div className="h-16 text-black py-4 px-8 bg-white mb-10">
+            <div className="h-16 text-white py-4 px-8 mb-10" style={{ backgroundColor: 'rgb(6, 46, 100)' }}>
                 <h4 className="font-bold text-lg">
                     <img
                         alt="Your Company"
@@ -110,21 +111,25 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
             </div>
             {/* Sidebar Menu */}
             <Menu
-                theme="light"
+                theme="dark"
                 mode="inline"
                 selectedKeys={[selectedKey]}
                 items={getMenuItems(closeDrawer)}
                 onClick={handleMenuClick}
                 className="capitalize flex-1 text-md"
+                style={{
+                    backgroundColor: 'rgb(6, 46, 100)',
+                    color: 'white',
+                }}
             />
-            <div className="absolute bottom-0 w-full flex items-center p-4">
+            <div className="absolute bottom-0 w-full flex items-center p-4 text-white">
                 <Avatar size={"large"} icon={<UserOutlined />} className="mr-2" />
                 <div>
-                    <Tag color="red">
-                        <label className="block">{`${user.user.firstName} ${user.user.lastName}`}</label>
+                    <Tag color="#f50">
+                        <label className="block text-white">{`${user.user.firstName} ${user.user.lastName}`}</label>
                     </Tag>
-                    <div className="flex items-center gap-2">
-                        <PhoneOutlined />
+                    <div className="flex items-center gap-2 text-white">
+                        <PhoneOutlined className="text-white" />
                         <label>{user.user.phoneNumber}</label>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery, BaseQueryFn, FetchArgs} from "@reduxjs/toolkit/query/react"
 import {customError, LoginResponseType, ProfileResponseType} from "./types.ts";
-import {getAccessToken, getRefreshToken, updateTokens, handleLogout} from "../utils.ts";
+import {getAccessToken, getRefreshToken, updateTokens, handleLogout, getHeaders} from "../utils.ts";
 
 interface User {
     firstName?: string;
@@ -91,14 +91,21 @@ export const userApi = createApi({
             query: (user_id) => ({
                 url: `/profiles/${user_id}`,
                 method: "GET",
-                headers: getAccessToken() ? { Authorization: `Bearer ${getAccessToken()}` } : {},
+                headers: getHeaders(),
             }),
         }),
         getAllUsers: query<ProfileResponseType, void>({
             query: () => ({
                 url: `/users/`,
                 method: "GET",
-                headers: getAccessToken() ? { Authorization: `Bearer ${getAccessToken()}` } : {},
+                headers: getHeaders(),
+            }),
+        }),
+        deleteUser: mutation<ProfileResponseType, number>({
+            query: (userId) => ({
+                url: `/users/${userId}`,
+                method: "DELETE",
+                headers: getHeaders(),
             }),
         }),
         updateProfile: mutation<LoginResponseType, { data:User; user_id: string }>({
@@ -106,18 +113,7 @@ export const userApi = createApi({
                 url: `profiles/${user_id}`,
                 method: 'POST',
                 body: data,
-                headers: getAccessToken() ? { Authorization: `Bearer ${getAccessToken()}` } : {},
-            }),
-            transformResponse: (response) => response,
-            transformErrorResponse: (
-                response
-            ) => response,
-        }),
-        googleAuth: mutation<LoginResponseType, void>({
-            query: (data) => ({
-                url: 'auth/login/google',
-                method: 'POST',
-                body: data,
+                headers: getHeaders(),
             }),
             transformResponse: (response) => response,
             transformErrorResponse: (
@@ -130,8 +126,8 @@ export const userApi = createApi({
 export const {
     useLoginMutation,
     useRegisterMutation,
-    useGoogleAuthMutation,
     useUpdateProfileMutation,
     useGetAllUsersQuery,
-    useGetUserProfileQuery
+    useGetUserProfileQuery,
+    useDeleteUserMutation
 } = userApi
