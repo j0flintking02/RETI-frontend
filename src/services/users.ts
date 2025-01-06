@@ -94,6 +94,13 @@ export const userApi = createApi({
                 headers: getAccessToken() ? { Authorization: `Bearer ${getAccessToken()}` } : {},
             }),
         }),
+        getAllUsers: query<ProfileResponseType, void>({
+            query: () => ({
+                url: `/users/`,
+                method: "GET",
+                headers: getAccessToken() ? { Authorization: `Bearer ${getAccessToken()}` } : {},
+            }),
+        }),
         updateProfile: mutation<LoginResponseType, { data:User; user_id: string }>({
             query: ({data, user_id}) => ({
                 url: `profiles/${user_id}`,
@@ -125,5 +132,6 @@ export const {
     useRegisterMutation,
     useGoogleAuthMutation,
     useUpdateProfileMutation,
+    useGetAllUsersQuery,
     useGetUserProfileQuery
 } = userApi
