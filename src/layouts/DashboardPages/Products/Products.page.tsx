@@ -50,19 +50,21 @@ const ProductsPage: React.FC = () => {
             <Header pageTitle="Products" />
 
             <CustomDashboardLayout>
-                <div className="flex items-center justify-end">
-                    <div>
-                        <Button type="primary" onClick={showModal}>
-                            Add New Product
-                        </Button>
-                        <AddProductForm
-                            onOk={handleOk}
-                            onCancel={handleCancel}
-                            open={open}
-                            loading={loading}
-                        />
+                {loginDetails().user.role === 'employer' && (
+                    <div className="flex items-center justify-end">
+                        <div>
+                            <Button type="primary" onClick={showModal}>
+                                Add New Product
+                            </Button>
+                            <AddProductForm
+                                onOk={handleOk}
+                                onCancel={handleCancel}
+                                open={open}
+                                loading={loading}
+                            />
+                        </div>
                     </div>
-                </div>
+                )}
 
                 <Layout>
                 {isLoading ? (
@@ -105,30 +107,6 @@ const ProductsPage: React.FC = () => {
                                                 </span>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div className="mt-4 flex justify-end space-x-2">
-                                        <EditOutlined
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                navigate(`/products/${product.id}/edit`);
-                                            }}
-                                            className="text-blue-500 cursor-pointer"
-                                        />
-                                        <DeletePopconfirm
-                                            title="Delete Product"
-                                            description="Are you sure you want to delete this product?"
-                                            onConfirm={(e) => {
-                                                e.stopPropagation();
-                                                handleDeleteProduct(product.id);
-                                            }}
-                                            onConfirmMessage="Product deleted successfully"
-                                            onCancelMessage="Product deletion cancelled"
-                                            okText="Yes"
-                                            cancelText="No"
-                                        >
-                                            <DeleteOutlined className="text-red-500 cursor-pointer" />
-                                        </DeletePopconfirm>
                                     </div>
                                 </div>
                             </div>
