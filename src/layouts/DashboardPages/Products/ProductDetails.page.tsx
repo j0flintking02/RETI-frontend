@@ -121,7 +121,7 @@ const ProductDetailsPage: React.FC = () => {
                         </div>
                     </div>
 
-                    {loginDetails().user.role === 'employer' && (
+                    {loginDetails().user.role === 'youth' && (
                         <div className="absolute bottom-4 right-4 space-y-2">
                             <div>
                                 <DeletePopconfirm
@@ -143,7 +143,7 @@ const ProductDetailsPage: React.FC = () => {
                         </div>
                     )}
 
-                    {loginDetails().user.role === 'employer' && (
+                    {loginDetails().user.role === 'youth' && (
                         <AddProductForm
                             onCancel={handleCancel}
                             onOk={() => setIsEditOpen(false)}
