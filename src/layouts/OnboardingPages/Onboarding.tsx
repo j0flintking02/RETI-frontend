@@ -5,7 +5,7 @@ import WelcomePage from './WelcomePage';
 import InformationPage from './InformationPage';
 import SectionsPage from './SectorsPage';
 import AdditionalInformationPage from './AdditionalInformationPage';
-import {useUpdateProfileMutation} from "../../services/users.ts";
+import {useUpdateProfileMutation} from "../../services/profiles.ts";
 import {userDetails} from "../../utils.ts";
 import {useNavigate} from "react-router-dom";
 

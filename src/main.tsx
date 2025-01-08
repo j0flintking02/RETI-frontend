@@ -29,6 +29,8 @@ import MentorshipPage from "./layouts/DashboardPages/Mentorship/Mentorship.page.
 import UsersPage from "./layouts/DashboardPages/Users/UsersTable.tsx";
 import ProductsPage from "./layouts/DashboardPages/Products/Products.page.tsx";
 import ProductDetailsPage from "./layouts/DashboardPages/Products/ProductDetails.page.tsx";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function protectedLoader({ request }: LoaderFunctionArgs) {
   const loginDetails = localStorage.getItem("loginDetails");
@@ -223,6 +225,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         }}
       >
         <RouterProvider router={router} />
+        <ToastContainer position="top-center" />
       </ConfigProvider>
     </React.StrictMode>
   </Provider>

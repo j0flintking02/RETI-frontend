@@ -1,14 +1,11 @@
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Input, notification, Form, Typography } from "antd";
+import { Button, Input, Form, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useRegisterMutation } from "../../services/users.ts";
-import { useNavigate } from "react-router-dom";
-
-// const { Title, Text, Link } = Typography;
-
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const RegisterForm = () => {
-    const [api, contextHolder] = notification.useNotification();
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const [registerUser, { isLoading, isSuccess, data, isError }] = useRegisterMutation()
@@ -19,7 +16,7 @@ const RegisterForm = () => {
     const onFinish = async (values: never) => {
         try {
             const fullPhoneNumber = `+256${values.phoneNumber.replace(/^0/, '')}`;
-            await registerUser({ phoneNumber: fullPhoneNumber, password: values.password, firstName: values.firstName, lastName: values.lastName}).unwrap()
+            await registerUser({ phoneNumber: fullPhoneNumber, password: values.password, firstName: values.firstName, lastName: values.lastName }).unwrap()
         } catch (e) {
             let message = 'Try again'
             if (typeof e.data.message === "string") {
@@ -27,11 +24,7 @@ const RegisterForm = () => {
             } else {
                 message = e.data.message[0]
             }
-            notification['error']({
-                message: 'Something went wrong',
-                description:
-                    message,
-            });
+            toast.error('Something went wrong');
         }
     }
     const onFinishFailed = (errorInfo: never) => {
@@ -45,10 +38,7 @@ const RegisterForm = () => {
         if (isSuccess) {
             const results = JSON.stringify(data)
             localStorage.setItem('userDetails', results)
-
-            notification["success"]({
-                message: 'Account created successfully',
-            })
+            toast.success('Account created successfully')
             navigate("/login");
         }
     }, [isSuccess, data]);
@@ -123,18 +113,15 @@ const RegisterForm = () => {
                         }
                     />
                 </Form.Item>
-
-                {/* <Form.Item name="remember" valuePropName="checked">
-                    <Checkbox className="text-sm">Remember me</Checkbox>
-                </Form.Item> */}
-
                 <div>
                     <Button
                         block
                         htmlType="submit"
                         type="primary"
                         size='large'
-                        loading={isLoading}>
+                        loading={isLoading}
+                        style={{ backgroundColor: '#FF0000' }}
+                        >
                         Sign up
                     </Button>
                 </div>
@@ -142,8 +129,8 @@ const RegisterForm = () => {
 
             <p className="mt-6 text-center text-sm text-gray-500">
                 Already have an account? {' '}
-                <Typography.Link className="text-[#5B9BD5] hover:text-[#5B9BD5] hover:underline" href="/login">Sign
-                    in</Typography.Link>
+                <Link className="text-red-500 hover:text-red-700 hover:underline" to="/login">Sign
+                    in</Link>
             </p>
         </>
     )

@@ -1,6 +1,6 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { Badge, Button } from "antd";
-import { useGetUserProfileQuery } from "../../../services/users";
+import { useGetUserProfileQuery } from "../../../services/profiles";
 import { ConversationType } from "../../../services/types";
 
 const MessagingChats = ({

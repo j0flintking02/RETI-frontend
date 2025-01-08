@@ -16,6 +16,7 @@ export interface User {
   role: string;
   password: string;
   createdAt: string;
+  isOnboarded: boolean;
 }
 
 export interface UserDataType {
@@ -85,7 +86,10 @@ export interface OpportunitiesDetailsResponseType {
   message: string;
   data: OpportunitiesType;
 }
-
+export interface employerType {
+  firstName: string;
+  lastName: string;
+}
 export interface OpportunitiesType {
   id: number;
   title: string;
@@ -105,6 +109,7 @@ export interface OpportunitiesType {
   contactEmail: string;
   createdAt: string;
   updatedAt: string;
+  employer: employerType;
 }
 
 export interface InspirationsType {

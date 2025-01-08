@@ -22,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({ pageTitle }) => {
     return (
         <div className="h-16 bg-white flex justify-between items-center px-4 border-b border-gray-300 shadow-sm">
             <h2 className="hidden text-xl font-medium lg:block px-4">{pageTitle}</h2>
-            <div className="text-lg font-bold block lg:hidden">Reti</div>
+            {/* <div className="text-lg font-bold block lg:hidden">Reti</div> */}
 
             {/* Notifications and Avatar */}
             <div className="flex items-center space-x-4 mr-2">

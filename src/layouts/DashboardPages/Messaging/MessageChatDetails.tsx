@@ -4,7 +4,7 @@ import { CaretRightOutlined, FileAddOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useEffect, useState } from "react";
-import { useGetUserProfileQuery } from "../../../services/users";
+import { useGetUserProfileQuery } from "../../../services/profiles";
 import { ConversationType, Message } from "../../../services/types";
 
 const MessagingChatDetails = ({

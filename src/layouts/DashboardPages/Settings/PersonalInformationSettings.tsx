@@ -2,7 +2,7 @@ import {EditOutlined, UserOutlined} from "@ant-design/icons";
 import {Alert, Avatar, Button, Input, Spin, Form, DatePicker, Select, notification} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import {Content} from "antd/es/layout/layout";
-import {useGetUserProfileQuery, useUpdateProfileMutation} from "../../../services/users.ts";
+import {useGetUserProfileQuery, useUpdateProfileMutation} from "../../../services/profiles.ts";
 import {loginDetails} from "../../../utils.ts";
 import {useEffect} from "react";
 import moment from "moment";

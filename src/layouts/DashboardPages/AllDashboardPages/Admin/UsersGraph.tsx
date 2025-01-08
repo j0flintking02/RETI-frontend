@@ -1,46 +1,55 @@
-
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import 'tailwindcss/tailwind.css';
+import { useGetAllUsersQuery } from '../../../../services/users';
+import Loader from '../../../loader';
 
-
-// Register ChartJS components
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 const UserStatistics = () => {
-  // Sample data
+  const { data: usersData, isLoading } = useGetAllUsersQuery();
+
+  const users = usersData?.data || [];
+
+  // Count users by role
+  const userCounts = {
+    mentors: users.filter(user => user.role === 'mentor').length,
+    youth: users.filter(user => user.role === 'youth').length,
+    employers: users.filter(user => user.role === 'employer').length
+  };
+
   const data = {
-    labels: [ 'Users', ],
+    labels: ['Users'],
     datasets: [
       {
         label: 'Mentors',
-        data: [5000], // Example data for mentors, users, employees
-        backgroundColor: '#4CAF50', // Green for Mentors
+        data: [userCounts.mentors],
+        backgroundColor: '#4CAF50',
         borderColor: '#388E3C',
         borderWidth: 1,
       },
       {
         label: 'Youth',
-        data: [6000], // Example data for Users
-        backgroundColor: '#FF9800', // Orange for Users
+        data: [userCounts.youth],
+        backgroundColor: '#FF9800',
         borderColor: '#F57C00',
         borderWidth: 1,
       },
       {
-        label: 'Employees',
-        data: [900], // Example data for Employees
-        backgroundColor: '#2196F3', // Blue for Employees
+        label: 'Employers',
+        data: [userCounts.employers],
+        backgroundColor: '#2196F3',
         borderColor: '#1976D2',
         borderWidth: 1,
       },
     ],
   };
 
-  const options:any = {
+  const options: any = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'bottom',
+        position: 'bottom' as const,
       },
       title: {
         display: true,
@@ -50,11 +59,15 @@ const UserStatistics = () => {
   };
 
   return (
-    <div className="p-4">
-     
-        <Bar data={data} options={options} />
-      
-    </div>
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="p-4">
+          <Bar data={data} options={options} />
+        </div>
+      )}
+    </>
   );
 };
 

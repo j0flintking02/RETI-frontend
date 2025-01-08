@@ -87,13 +87,6 @@ export const userApi = createApi({
                 response
             ) => response,
         }),
-        getUserProfile: query<ProfileResponseType, number>({
-            query: (user_id) => ({
-                url: `/profiles/${user_id}`,
-                method: "GET",
-                headers: getHeaders(),
-            }),
-        }),
         getAllUsers: query<ProfileResponseType, void>({
             query: () => ({
                 url: `/users/`,
@@ -108,26 +101,12 @@ export const userApi = createApi({
                 headers: getHeaders(),
             }),
         }),
-        updateProfile: mutation<LoginResponseType, { data:User; user_id: string }>({
-            query: ({data, user_id}) => ({
-                url: `profiles/${user_id}`,
-                method: 'POST',
-                body: data,
-                headers: getHeaders(),
-            }),
-            transformResponse: (response) => response,
-            transformErrorResponse: (
-                response
-            ) => response,
-        }),
     })
 })
 
 export const {
     useLoginMutation,
     useRegisterMutation,
-    useUpdateProfileMutation,
     useGetAllUsersQuery,
-    useGetUserProfileQuery,
     useDeleteUserMutation
 } = userApi
