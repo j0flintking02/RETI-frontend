@@ -1,10 +1,10 @@
-import { useEffect } from "react"
-import { Form, Input, Button, Typography, notification, Tag } from 'antd';
+import { useEffect, useState } from "react"
+import { Form, Input, Button, Tag } from 'antd';
 import { useLoginMutation } from "../../services/users.ts";
 import { Link, useNavigate } from "react-router-dom";
-import { userDetails } from "../../utils.ts";
+import { loginDetails } from "../../utils.ts";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { toast } from 'react-toastify';
 import HelpandsupportForm from "../../layouts/DashboardPages/Forms/HelpAndSupportForm.tsx";
 
 const LoginForm = () => {
@@ -28,38 +28,29 @@ const LoginForm = () => {
     const onFinish = async (values: { phoneNumber: string; password: string }) => {
         try {
             const fullPhoneNumber = `+256${values.phoneNumber.replace(/^0/, '')}`;
-            await login({ phoneNumber: fullPhoneNumber, password: values.password }).unwrap()
+            await login({ phoneNumber: fullPhoneNumber, password: values.password }).unwrap();
         } catch (error) {
-            notification.error({
-                message: error.message,
-                description: "Something went wrong"
-            })
+            toast.error("Login failed: " + error.message);
         }
     }
     const onFinishFailed = (errorInfo: any) => {
-        notification.error({
-            message: 'Unable to log in with provided credentials.',
-            description: 'Please check your phone number and password and try again.'
-        });
-        console.log('Failed:', errorInfo);
+        toast.error(`Unable to log in with provided credentials. ${errorInfo}`);
     };
     useEffect(() => {
         if (isSuccess) {
-            const results = JSON.stringify(data)
-            localStorage.setItem('loginDetails', results)
-            if (userDetails()){
-                notification["success"]({
-                    message: `Let's complete your onboarding`,
-                })
-                navigate("/onboarding");
-            }else {
-                notification["success"]({
-                    message: `Welcome Back, ${data?.user.firstName}`,
-                })
+            const results = JSON.stringify(data);
+            localStorage.setItem('loginDetails', results);
+            const user = data?.user || loginDetails()?.user;
+            const isOnboarded = user?.isOnboarded;
+            if (isOnboarded) {
+                toast.info(`Welcome back, ${user?.firstName}`);
                 navigate("/");
+            } else {
+                toast.info(`Let's complete your onboarding`);
+                navigate("/onboarding"); //navigation is not redirecting to that route
             }
         }
-    }, [isSuccess, data]);
+    }, [isSuccess, navigate, data]);
     return (
         <>
             <Form
@@ -114,8 +105,8 @@ const LoginForm = () => {
 
                 <p className="mt-6 text-center text-sm text-gray-500">
                     Don't have an account?{" "}
-                    <Link 
-                        to="/register" 
+                    <Link
+                        to="/register"
                         className="text-red-500 hover:text-red-700 hover:underline"
                     >
                         Sign up

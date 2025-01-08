@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGetProductsQuery, useDeleteProductMutation } from '../../../services/products';
-import { Button, notification, Layout, Spin } from 'antd';
-import { DeleteOutlined, EditOutlined, ClockCircleOutlined, ShoppingOutlined } from '@ant-design/icons';
+import { Button, Layout } from 'antd';
+import { DeleteOutlined, EditOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../../components/secondary/Header';
 import CustomDashboardLayout from '../../../components/secondary/CustomDashboardPagesLayout';
@@ -10,6 +10,7 @@ import DeletePopconfirm from '../../../components/secondary/CustomDeletePopUp';
 import DateCheckComponent from '../../../components/primary/dataChecker';
 import Loader from '../../loader.tsx';
 import { loginDetails } from '../../../utils';
+import { toast } from 'react-toastify';
 
 const ProductsPage: React.FC = () => {
     const navigate = useNavigate();
@@ -38,14 +39,9 @@ const ProductsPage: React.FC = () => {
     const handleDeleteProduct = async (productId: string) => {
         try {
             await deleteProduct(productId).unwrap();
-            notification.success({
-                message: 'Product deleted successfully.',
-            });
+            toast.success('Product deleted successfully.');
         } catch (error) {
-            notification.error({
-                message: 'Failed to delete product',
-                description: error.data?.message || 'An error occurred',
-            });
+            toast.error('Failed to delete product');
         }
     };
 

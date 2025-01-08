@@ -1,8 +1,9 @@
 import React from 'react';
-import { Modal, Form, Input, InputNumber, Upload, Button, notification } from 'antd';
+import { Modal, Form, Input, InputNumber, Upload, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useCreateProductMutation } from '../../../services/products';
 import { CreateProductDto } from '../../../services/types';
+import { toast } from 'react-toastify';
 
 interface AddProductFormProps {
   open: boolean;
@@ -29,16 +30,11 @@ const AddProductForm: React.FC<AddProductFormProps> = ({
       
       const response = await createProduct(productData).unwrap();
       
-      notification.success({
-        message: 'Product created successfully',
-      });
+      toast.success('Product created successfully');
       form.resetFields();
       onOk();
     } catch (error) {
-      notification.error({
-        message: 'Failed to create product',
-        description: error.data?.message || 'An error occurred while creating the product',
-      });
+      toast.error(`Failed to create product ${error.data?.message}`);
     }
   };
 

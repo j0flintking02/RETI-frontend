@@ -16,9 +16,7 @@ import Loader from "../../loader.tsx";
 const AllOpportunitiesPage = () => {
     const navigate = useNavigate();
     const { data, isLoading } = useGetOpportunitiesQuery();
-    console.log(data?.data[0]);
     
-
     return (
         <>
             {isLoading ? (

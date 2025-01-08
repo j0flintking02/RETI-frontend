@@ -11,9 +11,9 @@ import DeletePopconfirm from '../../../components/secondary/CustomDeletePopUp';
 import { useState } from 'react';
 import AddOpportunitiesForm from '../Forms/AddOpportunityForm.tsx';
 import { loginDetails } from '../../../utils';
-import { notification } from 'antd';
 import moment from 'moment';
 import Loader from '../../loader.tsx';
+import { toast } from 'react-toastify';
 
 const OpportunitiesDetailsPage = () => {
     const { id } = useParams();
@@ -26,15 +26,10 @@ const OpportunitiesDetailsPage = () => {
     const handleDeleteJob = async () => {
         try {
             await deleteJob(Number(id)).unwrap();
-            notification.success({
-                message: 'Job deleted successfully'
-            });
+            toast.success("Job deleted successfully!");
             navigate('/opportunities');
         } catch (error) {
-            notification.error({
-                message: 'Failed to delete job',
-                description: error.message
-            });
+            toast.error("Failed to delete job: " + error.message);
         }
     };
 

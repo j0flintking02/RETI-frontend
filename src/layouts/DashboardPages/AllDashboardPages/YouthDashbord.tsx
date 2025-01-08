@@ -59,13 +59,9 @@ const YouthDashboardPage = () => {
 
   return (
     <>
-      {/* <Header pageTitle="Dashboard" /> */}
-
       <CustomDashboardLayout>
-        <div className="sm:flex items-center justify-between gap-2">
-          {/* one */}
-          <div className="sm:w-8/12">
-            {/* banner */}
+        <div className="sm:flex items-start justify-between gap-2">
+          <div className="flex flex-col flex-1 space-y-4">
             <Card className="shadow-sm text-black text-sm mb-1">
               <div className="flex items-center space-x-6">
                 <div className="shrink-0">

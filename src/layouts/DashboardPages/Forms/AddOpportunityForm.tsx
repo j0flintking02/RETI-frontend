@@ -7,7 +7,6 @@ import {
   Row,
   Col,
   Modal,
-  notification,
 } from "antd";
 import { useEffect } from "react";
 import {
@@ -15,6 +14,7 @@ import {
   useUpdateOpportunityMutation,
 } from "../../../services/opportunities";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -66,10 +66,10 @@ const AddOpportunitiesForm = ({
 
       if (isEdit) {
         await updateJob({ ...formattedData, id: initialData.id }).unwrap();
-        notification.success({ message: "Job updated successfully" });
+        toast.success({ message: "Job updated successfully" });
       } else {
         await addJob(formattedData).unwrap();
-        notification.success({ message: "Job created successfully" });
+        toast.success({ message: "Job created successfully" });
       }
 
       form.resetFields();
@@ -79,7 +79,7 @@ const AddOpportunitiesForm = ({
         window.location.reload();
       }, 1500);
     } catch (error) {
-      notification.error({
+      toast.error({
         message: error?.data?.message || "Operation failed",
       });
     }

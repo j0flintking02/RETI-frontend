@@ -16,6 +16,7 @@ export interface User {
   role: string;
   password: string;
   createdAt: string;
+  isOnboarded: boolean;
 }
 
 export interface UserDataType {

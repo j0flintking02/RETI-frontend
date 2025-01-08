@@ -1,4 +1,4 @@
-import { Space, Spin, Table, Tag, notification, Input, Select } from "antd";
+import { Space, Table, Tag, Input, Select } from "antd";
 import type { TableProps } from "antd";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import Header from "../../../components/secondary/Header";
@@ -7,6 +7,7 @@ import { DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import DeletePopconfirm from "../../../components/secondary/CustomDeletePopUp";
 import { useState } from "react";
 import Loader from '../../loader.tsx';
+import { toast } from "react-toastify";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -30,15 +31,9 @@ const UsersPage = () => {
   const handleDeleteUser = async (userId: string) => {
     try {
       await deleteUser(userId).unwrap();
-      notification.success({
-        message: 'Success',
-        description: 'User deleted successfully',
-      });
+      toast.success('User deleted successfully');
     } catch (error) {
-      notification.error({
-        message: 'Error',
-        description: error.data?.message || 'Failed to delete user',
-      });
+      toast.error(`Failed to delete user ${error.data?.message}`);
     }
   };
 

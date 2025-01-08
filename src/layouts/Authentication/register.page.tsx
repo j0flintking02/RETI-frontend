@@ -19,7 +19,7 @@ export default function RegisterPage() {
                 <h2 className="mt-4 text-2xl/9 font-bold tracking-tight text-gray-900">
                   JOIN RETi
                 </h2>
-                <p className="mt-2 text-sm/6 text-gray-500">
+                <p className="mt-2 text-sm/6 text-gray-500 mb-4">
                   Unlock a world of opportunities by joining the RETi community.
                 </p>
               </div>

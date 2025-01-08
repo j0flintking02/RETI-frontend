@@ -1,8 +1,10 @@
+import { toast } from "react-toastify";
 import {
   useGetNotificationsQuery,
   useMarkAsReadMutation,
 } from "../../services/notifications";
 import { Button } from "antd";
+import Loader from "../../layouts/loader";
 
 const NotificationComponent = () => {
   const { data: notifications, isLoading } = useGetNotificationsQuery();
@@ -12,35 +14,38 @@ const NotificationComponent = () => {
     try {
       await markAsRead(notificationId).unwrap();
     } catch (error) {
-      console.error("Failed to mark notification as read:", error);
+      toast.error("Failed to mark notification as read:", error);
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
-
   return (
-    <div className="max-h-96 overflow-y-auto">
-      {notifications?.data.map((notification) => (
-        <div
-          key={notification.id}
-          className="p-4 border-b border-gray-200 hover:bg-gray-50"
-        >
-          <h3 className="text-lg font-semibold text-gray-900">
-            {notification.title}
-          </h3>
-          <p className="text-sm text-gray-600">{notification.message}</p>
-          {!notification.isRead && (
-            <Button
-              type="link"
-              onClick={() => handleMarkAsRead(notification.id)}
-              className="text-sm text-blue-600 hover:text-blue-800"
+    <>{
+      isLoading ? <Loader /> :
+        <div className="max-h-96 overflow-y-auto">
+          {notifications?.data.map((notification) => (
+            <div
+              key={notification.id}
+              className="p-4 border-b border-gray-200 hover:bg-gray-50"
             >
-              Mark as read
-            </Button>
-          )}
+              <h3 className="text-lg font-semibold text-gray-900">
+                {notification.title}
+              </h3>
+              <p className="text-sm text-gray-600">{notification.message}</p>
+              {!notification.isRead && (
+                <Button
+                  type="link"
+                  onClick={() => handleMarkAsRead(notification.id)}
+                  className="text-sm text-blue-600 hover:text-blue-800"
+                >
+                  Mark as read
+                </Button>
+              )}
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+    }
+    </>
+
   );
 };
 
