@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal, Form, Input, InputNumber, Upload, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { useCreateProductMutation } from '../../../services/products';
+import { useCreateProductMutation, useUpdateProductMutation } from '../../../services/products';
 import { CreateProductDto } from '../../../services/types';
 import { toast } from 'react-toastify';
 
@@ -31,23 +31,21 @@ const AddProductForm = ({
       form.resetFields();
     }
   }, [form, initialData, open, isEdit]);
-  const handleSubmit = async (values: CreateProductDto) => {
+
+  const handleSubmit = async () => {
     try {
+      const values = await form.validateFields();
       const productData = {
         ...values,
         imageUrl: values.imageUrl || "https://via.placeholder.com/300x200",
       };
 
-      const formattedData = {
-        ...values,
-      };
-
       if (isEdit) {
-        await updateProduct({ ...formattedData, id: initialData.id }).unwrap();
-        toast.success("product updated successfully");
+        await updateProduct({ data: productData, productId: initialData.id }).unwrap();
+        toast.success("Product updated successfully");
       } else {
         await createProduct(productData).unwrap();
-        toast.success("product created successfully");
+        toast.success("Product created successfully");
       }
 
       form.resetFields();
@@ -57,29 +55,44 @@ const AddProductForm = ({
     }
   };
 
-  // Sample product data for quick testing
-  const fillSampleProduct = () => {
-    form.setFieldsValue({
-      name: "Sample Product",
-      category: "Electronics",
-      description: "This is a sample product description",
-      price: 99.99,
-      stockQuantity: 10,
-      imageUrl: "https://via.placeholder.com/300x200",
-    });
-  };
-
   return (
+    <div className="space-y-4">
     <Modal
-      open={open}
-      productName="Add New Product"
-      onOk={form.submit}
+      onOk={onOk}
       onCancel={onCancel}
+      width={600}
+      open={open}
       confirmLoading={loading}
+      title={
+        <div>
+          <h2 className="text-lg font-semibold">
+            {isEdit ? "Edit Product" : "Add a Product"}
+          </h2>
+          <p className="text-sm font-normal text-gray-500">
+            {isEdit
+              ? "Update the Product details below."
+              : "Please fill in the form below to create a new Product."}{" "}
+            <br />
+            <span className="font-normal text-blue-500">
+              Product will be seen by everyone.
+            </span>
+          </p>
+        </div>
+      }
+      footer={[
+        <Button key="back" onClick={onCancel}>
+          Cancel
+        </Button>,
+        <Button
+          key="submit"
+          type="primary"
+          loading={loading}
+          onClick={handleSubmit}
+        >
+          {isEdit ? "Save Changes" : "Submit"}
+        </Button>,
+      ]}
     >
-      <Button onClick={fillSampleProduct} style={{ marginBottom: 16 }}>
-        Fill Sample Data
-      </Button>
 
       <Form form={form} layout="vertical" onFinish={handleSubmit}>
         <Form.Item
@@ -116,7 +129,7 @@ const AddProductForm = ({
             precision={2}
             style={{ width: "100%" }}
             formatter={(value) =>
-              `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
             }
             parser={(value) => value!.replace(/\$\s?|(,*)/g, "")}
           />
@@ -135,6 +148,7 @@ const AddProductForm = ({
         </Form.Item>
       </Form>
     </Modal>
+    </div>
   );
 };
 

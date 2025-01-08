@@ -47,7 +47,7 @@ export const opportunityApi = createApi({
         }),
         updateOpportunity: mutation<OpportunitiesType, { payload:OpportunitiesType, jobID:number }>({
             query: ({payload, jobID}) => ({
-                url: `/jobs/${jobID}`,
+                url: `jobs/${jobID}`,
                 method: "PATCH",
                 body: payload,
                 headers: getHeaders(),
@@ -55,7 +55,7 @@ export const opportunityApi = createApi({
         }),
         deleteOpportunity: mutation<OpportunitiesType, number>({
             query: (jobID) => ({
-                url: `/jobs/${jobID}`,
+                url: `jobs/${jobID}`,
                 method: "DELETE",
                 headers: getHeaders(),
             }),

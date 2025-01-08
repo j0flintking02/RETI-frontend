@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import CustomAppTitle from '../../../components/secondary/CustomAppTitle';
-import { Avatar, Button, notification } from 'antd';
+import { Avatar, Button } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import { formatDistanceToNow } from '../../../utils';
 import { EditOutlined, ShoppingOutlined, MoneyCollectOutlined, TagOutlined } from '@ant-design/icons';
@@ -11,27 +11,24 @@ import DeletePopconfirm from '../../../components/secondary/CustomDeletePopUp';
 import { useState } from 'react';
 import AddProductForm from '../Forms/AddProductForm';
 import { loginDetails } from '../../../utils';
+import { toast } from 'react-toastify';
+import Loader from '../../loader';
 
-const ProductDetailsPage: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
+const ProductDetailsPage = () => {
+    const { id } = useParams();
     const [isEditOpen, setIsEditOpen] = useState(false);
-    const { data: productResponse, isLoading } = useGetProductDetailsQuery(id || '');
+    const { data, isLoading } = useGetProductDetailsQuery(id);
     const [deleteProduct] = useDeleteProductMutation();
     const navigate = useNavigate();
-    const productCreatedDate = new Date(productResponse?.data.createdAt);
+    const productCreatedDate = new Date(data?.data.createdAt);
 
     const handleDeleteProduct = async () => {
         try {
             await deleteProduct(id || '').unwrap();
-            notification.success({
-                message: 'Product deleted successfully'
-            });
+            toast.success('Product deleted successfully');
             navigate('/products');
         } catch (error) {
-            notification.error({
-                message: 'Failed to delete product',
-                description: error.message
-            });
+            toast.error(`Failed to delete product ${error.message}`);
         }
     };
 
@@ -39,14 +36,14 @@ const ProductDetailsPage: React.FC = () => {
         setIsEditOpen(false);
     };
 
-    const formattedInitialData = productResponse?.data ? {
-        id: productResponse.data.id,
-        name: productResponse.data.name,
-        category: productResponse.data.category,
-        description: productResponse.data.description,
-        price: productResponse.data.price,
-        stockQuantity: productResponse.data.stockQuantity,
-        imageUrl: productResponse.data.imageUrl,
+    const formattedInitialData = data?.data ? {
+        id: data.data.id,
+        name: data.data.name,
+        category: data.data.category,
+        description: data.data.description,
+        price: data.data.price,
+        stockQuantity: data.data.stockQuantity,
+        imageUrl: data.data.imageUrl,
     } : null;
 
     return (
@@ -54,42 +51,45 @@ const ProductDetailsPage: React.FC = () => {
             <Header pageTitle="Product Details" />
             <CustomAppTitle showBackButton={true}></CustomAppTitle>
             <CustomDashboardLayout>
+            {isLoading ? (
+                    <Loader />
+                ) : (
                 <Content className="bg-white mt-2 border border-gray-900/10 rounded-lg relative">
                     <div className='sm:flex justify-between'>
                         <div className="sm:w-8/12 border-r border-gray-200 p-6">
                             <div>
-                                <h1 className="text-2xl font-bold text-gray-800 mb-4">{productResponse?.data.name}</h1>
+                                <h1 className="text-2xl font-bold text-gray-800 mb-4">{data?.data.name}</h1>
 
                                 <div className="mb-4">
                                     <img
-                                        src={productResponse?.data.imageUrl || 'https://via.placeholder.com/300x200'}
-                                        alt={productResponse?.data.name}
+                                        src={data?.data?.imageUrl || 'https://via.placeholder.com/300x200'}
+                                        alt={data?.data?.name}
                                         className="w-full max-w-md rounded-lg"
                                     />
                                 </div>
 
-                                <p className="text-md text-gray-700 mb-6">{productResponse?.data.description}</p>
+                                <p className="text-md text-gray-700 mb-6">{data?.data.description}</p>
 
                                 <div className="space-y-4">
                                     <p className="text-sm text-gray-500 flex items-center gap-2">
                                         <span className="text-gray-400">
                                             <TagOutlined />
                                         </span>
-                                        Category: {productResponse?.data.category}
+                                        Category: {data?.data.category}
                                     </p>
 
                                     <p className="text-sm text-gray-500 flex items-center gap-2">
                                         <span className="text-gray-400">
                                             <MoneyCollectOutlined />
                                         </span>
-                                        Price: ${productResponse?.data.price}
+                                        Price: {data?.data.price} shs
                                     </p>
 
                                     <p className="text-sm text-gray-500 flex items-center gap-2">
                                         <span className="text-gray-400">
                                             <ShoppingOutlined />
                                         </span>
-                                        Stock: {productResponse?.data.stockQuantity} units
+                                        Stock: {data?.data.stockQuantity} units
                                     </p>
                                 </div>
 
@@ -103,7 +103,7 @@ const ProductDetailsPage: React.FC = () => {
                                 <div className="flex items-center gap-x-3">
                                     <Avatar icon={<ShoppingOutlined />} />
                                     <div>
-                                        <h4 className="text-lg font-semibold text-gray-900">{productResponse?.data.name}</h4>
+                                        <h4 className="text-lg font-semibold text-gray-900">{data?.data.name}</h4>
                                         <p className="text-md text-gray-600">
                                             Posted {formatDistanceToNow(productCreatedDate)}
                                         </p>
@@ -112,9 +112,9 @@ const ProductDetailsPage: React.FC = () => {
 
                                 <div className="mt-4">
                                     <span className={`px-2 py-1 rounded-full text-sm ${
-                                        productResponse?.data.stockQuantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                        data?.data.stockQuantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                                     }`}>
-                                        {productResponse?.data.stockQuantity > 0 ? 'In Stock' : 'Out of Stock'}
+                                        {data?.data.stockQuantity > 0 ? 'In Stock' : 'Out of Stock'}
                                     </span>
                                 </div>
                             </div>
@@ -154,6 +154,7 @@ const ProductDetailsPage: React.FC = () => {
                         />
                     )}
                 </Content>
+                )}
             </CustomDashboardLayout>
         </div>
     );

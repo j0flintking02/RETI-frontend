@@ -65,23 +65,17 @@ const AddOpportunitiesForm = ({
       };
 
       if (isEdit) {
-        await updateJob({ ...formattedData, id: initialData.id }).unwrap();
-        toast.success({ message: "Job updated successfully" });
+        await updateJob({data: formattedData, id: initialData.id }).unwrap();
+        toast.success( "Job updated successfully");
       } else {
         await addJob(formattedData).unwrap();
-        toast.success({ message: "Job created successfully" });
+        toast.success("Job created successfully");
       }
 
       form.resetFields();
       onOk();
-
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
     } catch (error) {
-      toast.error({
-        message: error?.data?.message || "Operation failed",
-      });
+      toast.error(`Operation failed ${error?.data?.message}`);
     }
   };
 
