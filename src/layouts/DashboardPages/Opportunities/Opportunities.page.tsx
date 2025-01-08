@@ -10,21 +10,21 @@ import { loginDetails } from "../../../utils";
 const OpportunitiesPage = () => {
     const [open, setOpen] = useState(false);
 
-  const showModal = () => {
-    setOpen(true);
-  };
+    const showModal = () => {
+        setOpen(true);
+    };
 
     const handleOk = () => {
         setOpen(false);
     };
 
-  const handleCancel = () => {
-    setOpen(false);
-  };
+    const handleCancel = () => {
+        setOpen(false);
+    };
 
-  return (
-    <>
-      <Header pageTitle="Opportunities" />
+    return (
+        <>
+            <Header pageTitle="Opportunities" />
             <CustomDashboardLayout>
                 {loginDetails().user.role === 'employer' && (
                     <div className="flex items-center justify-end mb-4">
@@ -32,11 +32,11 @@ const OpportunitiesPage = () => {
                             <Button type="primary" onClick={showModal}>
                                 Create a job
                             </Button>
-                            <AddOpportunitiesForm 
+                            <AddOpportunitiesForm
                                 onOk={handleOk}
-                                onCancel={handleCancel} 
-                                open={open} 
-                                loading={false} 
+                                onCancel={handleCancel}
+                                open={open}
+                                loading={false}
                                 isEdit={false}
                             />
                         </div>

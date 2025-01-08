@@ -23,8 +23,9 @@ export const productApi = createApi({
     endpoints: (builder) => ({
         createProduct: builder.mutation<ProductDetailsResponseType, CreateProductDto>({
             query: (data) => ({
-                url: '/products',
+                url: 'products',
                 method: 'POST',
+                headers: getHeaders(),
                 body: data,
             }),
             invalidatesTags: ['Products']
@@ -39,25 +40,26 @@ export const productApi = createApi({
         }),
         getProductDetails: builder.query<ProductDetailsResponseType, string>({
             query: (productId) => ({
-                url: `/products/${productId}`,
+                url: `products/${productId}`,
                 method: "GET",
+                headers: getHeaders(),
             }),
             providesTags: ['Products']
         }),
         updateProduct: builder.mutation<ProductDetailsResponseType, { productId: string, data: Partial<CreateProductDto> }>({
             query: ({ productId, data }) => ({
-                url: `/products/${productId}`,
+                url: `products/${productId}`,
                 method: "PATCH",
                 body: data,
+                headers: getHeaders(),
             }),
-            invalidatesTags: ['Products']
         }),
         deleteProduct: builder.mutation<void, string>({
             query: (productId) => ({
-                url: `/products/${productId}`,
+                url: `products/${productId}`,
                 method: "DELETE",
+                headers: getHeaders(),
             }),
-            invalidatesTags: ['Products']
         }),
     })
 })
