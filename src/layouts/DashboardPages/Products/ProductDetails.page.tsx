@@ -40,10 +40,7 @@ const ProductDetailsPage = () => {
             ...prev,
             [productId]: ((prev[productId] || 0) - 1 + maxLength) % maxLength,
         }));
-    };
-    
-    console.log(data?.data?.imageUrl);
-    
+    };    
 
     const handleDeleteProduct = async () => {
         try {

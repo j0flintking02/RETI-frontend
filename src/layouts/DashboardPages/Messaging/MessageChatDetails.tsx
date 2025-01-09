@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { useGetUserProfileQuery } from "../../../services/profiles";
 import { Message } from "../../../services/types";
 
-
 const MessagingChatDetails = ({
   conversation,
   socket,
@@ -39,6 +38,8 @@ const MessagingChatDetails = ({
   )?.senderId;
 
   const { data } = useGetUserProfileQuery(receiverId, {skip: !receiverId});
+
+  console.log("receiver", receiverId);
 
   const handleSendMessage = () => {
     if (newMessage.trim() === "") return;
