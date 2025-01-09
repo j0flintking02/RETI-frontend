@@ -65,7 +65,7 @@ const AddOpportunitiesForm = ({
       };
 
       if (isEdit) {
-        await updateJob({data: formattedData, id: initialData.id }).unwrap();
+        await updateJob({payload: formattedData, jobID: initialData.id }).unwrap();
         toast.success( "Job updated successfully");
       } else {
         await addJob(formattedData).unwrap();
