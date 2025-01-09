@@ -170,6 +170,7 @@ export interface ProductDto {
   stockQuantity: number;
   imageUrl?: string;
   createdAt: string;
+  userId: number;
 }
 
 export interface CreateProductDto {

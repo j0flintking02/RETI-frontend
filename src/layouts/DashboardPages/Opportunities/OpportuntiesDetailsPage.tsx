@@ -23,6 +23,7 @@ const OpportunitiesDetailsPage = () => {
     const [deleteJob] = useDeleteOpportunityMutation();
     const navigate = useNavigate();
     const jobCreatedDate = new Date(data?.data.createdAt);
+    const user = loginDetails();
 
     const handleDeleteJob = async () => {
         try {
@@ -162,7 +163,7 @@ const OpportunitiesDetailsPage = () => {
                                 </div>
                             </div>
                         </div>
-                        {loginDetails().user.role === 'employer' && (
+                        {user?.user?.id === data?.data?.employer.id && user?.user?.role === 'employer' && (
                             <div className="absolute bottom-4 right-4 space-y-2">
                                 <div>
                                     <DeletePopconfirm
@@ -183,7 +184,7 @@ const OpportunitiesDetailsPage = () => {
                                 </div>
                             </div>
                         )}
-                        {loginDetails().user.role === 'employer' && (
+                        {user?.user?.role === 'employer' && (
                             <AddOpportunitiesForm
                                 onCancel={handleCancel}
                                 onOk={() => setIsEditOpen(false)}
