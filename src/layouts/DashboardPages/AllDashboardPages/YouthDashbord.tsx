@@ -1,9 +1,7 @@
 import { Card, Calendar, Avatar, Tag } from "antd";
 import { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
-import io from "socket.io-client";
-
-import { LikeOutlined, UserOutlined, MessageOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
+import { LikeOutlined, UserOutlined } from "@ant-design/icons";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import {
   useGetNotificationsQuery,
@@ -14,7 +12,6 @@ import { InspirationsType } from "../../../services/types";
 import { useGetInspirationsQuery } from "../../../services/inspirations";
 import Loader from "../../loader";
 import { useGetUserProfileQuery } from "../../../services/profiles";
-import { useGetUserConversationsQuery } from "../../../services/conversations";
 import Chat from "../../../components/secondary/Chat";
 import { toast } from "react-toastify";
 
@@ -22,12 +19,6 @@ const YouthDashboardPage = () => {
   const { data: notificationsData, isLoading } = useGetNotificationsQuery();
   const [markAsRead] = useMarkAsReadMutation();
   const user = loginDetails();
-  const userId = user.user.id;
-  const { data } = useGetUserConversationsQuery(userId);
-
-  const [conversations, setConversations] = useState<any>([]);
-  const [selectedConversation, setSelectedConversation] = useState(null);
-  const [socket, setSocket] = useState(null);
 
   const { data: inspirationsData } = useGetInspirationsQuery();
   const { data: userProfile } = useGetUserProfileQuery(user?.user?.id);
@@ -42,19 +33,15 @@ const YouthDashboardPage = () => {
   };
 
   useEffect(() => {
-    if (data || inspirationsData) {
-      setConversations(data?.data);
+    if (inspirationsData) {
       setInspirations(inspirationsData?.data)
     }
-  }, [data, inspirationsData, user.access_token, userId]);
-
-  const handleConversationClick = (conversation) => {
-    setSelectedConversation(conversation);
-  };
-
+  }, [inspirationsData]);
+  
   return (
     <CustomDashboardLayout>
       <div className="sm:flex items-start justify-between gap-2">
+        {/* User Greeting Card */}
         <div className="flex flex-col flex-1 space-y-4">
           <Card className="shadow-sm text-black text-sm mb-1">
             <div className="flex items-center space-x-6">
