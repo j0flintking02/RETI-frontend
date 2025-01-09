@@ -26,10 +26,7 @@ export const opportunityApi = createApi({
                 headers: getHeaders(),
                 body: data,
             }),
-            transformResponse: (response) => response,
-            transformErrorResponse: (
-                response
-            ) => response,
+            invalidatesTags: ['Opportunities']
         }),
         getOpportunities: query<OpportunitiesResponseType, void>({
             query: () => ({
@@ -37,6 +34,7 @@ export const opportunityApi = createApi({
                 method: "GET",
                 headers: getHeaders(),
             }),
+            providesTags: ['Opportunities']
         }),
         getOpportunityDetails: query<OpportunitiesDetailsResponseType, string>({
             query: (jobId) => ({
@@ -44,6 +42,7 @@ export const opportunityApi = createApi({
                 method: "GET",
                 headers: getHeaders(),
             }),
+            providesTags: ['Opportunities']
         }),
         updateOpportunity: mutation<OpportunitiesType, { payload:OpportunitiesType, jobID:number }>({
             query: ({payload, jobID}) => ({
@@ -52,6 +51,7 @@ export const opportunityApi = createApi({
                 body: payload,
                 headers: getHeaders(),
             }),
+            invalidatesTags: ['Opportunities']
         }),
         deleteOpportunity: mutation<OpportunitiesType, number>({
             query: (jobID) => ({
@@ -59,6 +59,7 @@ export const opportunityApi = createApi({
                 method: "DELETE",
                 headers: getHeaders(),
             }),
+            invalidatesTags: ['Opportunities']
         }),
     })
 })
