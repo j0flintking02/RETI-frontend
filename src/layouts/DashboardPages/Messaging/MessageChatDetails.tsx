@@ -28,8 +28,6 @@ const MessagingChatDetails = ({
           setMessages(updatedConversation.messages);
         }
       });
-
-      
       return () => {
         socket.off("receiveMessage");
       };
@@ -41,8 +39,6 @@ const MessagingChatDetails = ({
   )?.senderId;
 
   const { data } = useGetUserProfileQuery(receiverId, {skip: !receiverId});
-
-  console.log("receiver", receiverId);
 
   const handleSendMessage = () => {
     if (newMessage.trim() === "") return;
