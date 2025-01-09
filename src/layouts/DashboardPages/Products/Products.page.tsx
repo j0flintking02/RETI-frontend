@@ -12,6 +12,7 @@ import Loader from '../../loader.tsx';
 import { loginDetails } from '../../../utils';
 import { toast } from 'react-toastify';
 import AllProductsPage from './AllProducts.tsx';
+import Chat from '../../../components/secondary/Chat.tsx';
 
 const ProductsPage = () => {
     const navigate = useNavigate();
@@ -69,6 +70,7 @@ const ProductsPage = () => {
                     <AllProductsPage />
                 </Layout>
             </CustomDashboardLayout>
+            <Chat />
         </>
     )
 }

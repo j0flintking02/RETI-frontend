@@ -14,6 +14,7 @@ import { loginDetails } from '../../../utils';
 import moment from 'moment';
 import Loader from '../../loader.tsx';
 import { toast } from 'react-toastify';
+import Chat from '../../../components/secondary/Chat.tsx';
 
 const OpportunitiesDetailsPage = () => {
     const { id } = useParams();
@@ -195,6 +196,7 @@ const OpportunitiesDetailsPage = () => {
                     </Content>
                 )}
             </CustomDashboardLayout>
+            <Chat />
         </div>
     );
 };

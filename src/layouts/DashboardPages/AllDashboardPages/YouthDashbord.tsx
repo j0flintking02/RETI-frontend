@@ -1,37 +1,27 @@
-import { Card, Calendar, Avatar, Tag, Badge } from "antd";
+import { Card, Calendar, Avatar, Tag} from "antd";
 import { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
-import io from "socket.io-client";
-
-import { LikeOutlined, UserOutlined, MessageOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
+import { LikeOutlined, UserOutlined } from "@ant-design/icons";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import {
   useGetNotificationsQuery,
   useMarkAsReadMutation,
 } from "../../../services/notifications";
-import { useGetUserConversationsQuery } from "../../../services/conversations";
 import { loginDetails } from "../../../utils";
 import { InspirationsType } from "../../../services/types";
 import { useGetInspirationsQuery } from "../../../services/inspirations";
 import Loader from "../../loader";
 import { useGetUserProfileQuery } from "../../../services/profiles";
+import Chat from "../../../components/secondary/Chat";
 
 const YouthDashboardPage = () => {
   const { data: notificationsData, isLoading } = useGetNotificationsQuery();
   const [markAsRead] = useMarkAsReadMutation();
   const user = loginDetails();
   const userId = user.user.id;
-  const { data } = useGetUserConversationsQuery(userId);
   const { data: userProfile } = useGetUserProfileQuery(userId);
-
-  const [conversations, setConversations] = useState<any>([]);
-  const [selectedConversation, setSelectedConversation] = useState(null);
-  const [socket, setSocket] = useState(null);
-
   const { data: inspirationsData } = useGetInspirationsQuery();
   const [inspirations, setInspirations] = useState<InspirationsType[]>([]);
-
-  const [isChatsVisible, setIsChatsVisible] = useState(false);
 
   const handleNotificationClick = async (notificationId: number) => {
     try {
@@ -41,29 +31,11 @@ const YouthDashboardPage = () => {
     }
   };
 
- 
-
-
-
   useEffect(() => {
-    if (data || inspirationsData) {
-      setConversations(data?.data);
-      console.log("Conversations", conversations)
+    if (inspirationsData) {
       setInspirations(inspirationsData?.data)
     }
-    const newSocket = io(`${import.meta.env.VITE_BASE_URL}`, {
-      query: { token: user.access_token, userId },
-    });
-
-    setSocket(newSocket);
-    return () => newSocket.disconnect();
-  }, [data, inspirationsData, user.access_token, userId]);
-
-  const handleConversationClick = (conversation) => {
-    setSelectedConversation(conversation);
-  };
-
-  
+  }, [inspirationsData]);
 
   return (
     <CustomDashboardLayout>
@@ -99,12 +71,25 @@ const YouthDashboardPage = () => {
               {isLoading ? (
                 <Loader />
               ) : (
-                notificationsData?.data?.map((notification) => (
-                  <div key={notification.id} onClick={() => handleNotificationClick(notification.id)}>
-                    <p>{notification.title}</p>
-                    <p>{notification.message}</p>
-                  </div>
-                ))
+                <ul className="space-y-4">
+                  {notificationsData?.data?.map((notification) => (
+                    <li
+                      key={notification.id}
+                      className="cursor-pointer flex justify-between items-center hover:bg-gray-100 p-2 rounded-md"
+                      onClick={() => handleNotificationClick(notification.id)}
+                    >
+                      <div>
+                        <p className={`font-medium truncate ${!notification.isRead ? "text-blue-600" : "text-gray-800"}`}>
+                          {notification.title}
+                        </p>
+                        <p className="text-sm text-gray-600 truncate">{notification.message}</p>
+                      </div>
+                      <p className="text-xs text-gray-500">
+                        {new Date(notification.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
           </Card>
@@ -115,7 +100,9 @@ const YouthDashboardPage = () => {
               {inspirations?.map((inspiration) => (
                 <div key={inspiration.id} className="border-b p-3">
                   <p className="text-red-500 font-medium">{inspiration.title}</p>
-                  <p className="text-sm text-gray-600 truncate">{inspiration.content}</p>
+                  <div>
+                    <p className="text-sm text-gray-600 truncate">{inspiration.content}</p>
+                  </div>
                   <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
                     <span>
                       Posted At:
@@ -140,7 +127,7 @@ const YouthDashboardPage = () => {
           </Card>
 
           {/* Chats */}
-          {isChatsVisible && <Chat />}
+          <Chat />
         </div>
       </div>
     </CustomDashboardLayout>
