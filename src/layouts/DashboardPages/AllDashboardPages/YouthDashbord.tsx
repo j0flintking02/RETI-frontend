@@ -19,7 +19,6 @@ const YouthDashboardPage = () => {
   const { data: notificationsData, isLoading } = useGetNotificationsQuery();
   const [markAsRead] = useMarkAsReadMutation();
   const user = loginDetails();
-
   const { data: inspirationsData } = useGetInspirationsQuery();
   const { data: userProfile } = useGetUserProfileQuery(user?.user?.id);
   const [inspirations, setInspirations] = useState<InspirationsType[]>([]);

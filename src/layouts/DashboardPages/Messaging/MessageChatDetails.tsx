@@ -39,8 +39,6 @@ const MessagingChatDetails = ({
 
   const { data } = useGetUserProfileQuery(receiverId, {skip: !receiverId});
 
-  console.log("receiver", receiverId);
-
   const handleSendMessage = () => {
     if (newMessage.trim() === "") return;
     const message = {
