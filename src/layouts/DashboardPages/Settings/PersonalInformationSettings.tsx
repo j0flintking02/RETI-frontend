@@ -4,14 +4,19 @@ import TextArea from "antd/es/input/TextArea";
 import {Content} from "antd/es/layout/layout";
 import {useGetUserProfileQuery, useUpdateProfileMutation} from "../../../services/profiles.ts";
 import {loginDetails} from "../../../utils.ts";
-import {useEffect} from "react";
+import {useEffect, useState, useRef} from "react";
 import moment from "moment";
-
+import axios from "axios";
 
 const PersonalInformationSettings = () => {
     const {data, isLoading, isError, error, } = useGetUserProfileQuery(loginDetails().user.id)
     const [updateUser, {isSuccess}] = useUpdateProfileMutation()
     const [form] = Form.useForm();
+    const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+    const [avatarUrl, setAvatarUrl] = useState<string>('');
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const MAX_IMAGES = 3;
+
     useEffect(() => {
         if (isError) {
             notification['error']({
@@ -20,6 +25,13 @@ const PersonalInformationSettings = () => {
             })
         }
     }, [isError, error]);
+
+    useEffect(() => {
+        if (data?.data.user.profilePicture) {
+            setAvatarUrl(data.data.user.profilePicture);
+        }
+    }, [data]);
+
     const handleFinish = async (values)=> {
         try {
             await updateUser({data:values, user_id: loginDetails().user.id}).unwrap()
@@ -45,6 +57,88 @@ const PersonalInformationSettings = () => {
         }
     }, [isSuccess]);
 
+    const validateFile = (file: File) => {
+        const isImage = file.type.startsWith('image/');
+        const isSizeValid = file.size / 1024 / 1024 < 5; // Less than 5MB
+        
+        if (!isImage) {
+            notification.error({
+                message: 'Invalid file type',
+                description: 'Please upload only image files.'
+            });
+            return false;
+        }
+        
+        if (!isSizeValid) {
+            notification.error({
+                message: 'File too large',
+                description: 'Image size should be less than 5MB.'
+            });
+            return false;
+        }
+        
+        return true;
+    };
+
+    const uploadImage = async (file: File) => {
+        if (uploadedImages.length >= MAX_IMAGES) {
+            notification.error({
+                message: 'Upload limit reached',
+                description: `Maximum ${MAX_IMAGES} images allowed.`
+            });
+            return null;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", "reti_frontend");
+
+        try {
+            const response = await axios.post(
+                "https://api.cloudinary.com/v1_1/dtyyy5fp6/image/upload",
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
+            return response.data.secure_url;
+        } catch (error) {
+            console.error('Error uploading to Cloudinary:', error);
+            throw new Error('Failed to upload image to Cloudinary');
+        }
+    };
+
+    const handleAvatarClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        if (!validateFile(file)) return;
+
+        try {
+            const imageUrl = await uploadImage(file);
+            if (imageUrl) {
+                setUploadedImages(prev => [...prev, imageUrl]);
+                setAvatarUrl(imageUrl);
+                form.setFieldsValue({ profilePicture: imageUrl });
+                notification.success({
+                    message: 'Success',
+                    description: 'Image uploaded successfully!'
+                });
+            }
+        } catch (error) {
+            notification.error({
+                message: 'Upload failed',
+                description: error instanceof Error ? error.message : 'Failed to upload image'
+            });
+        }
+    };
+
     return (
         <Content className="px-4 py-4 space-y-4 bg-white border border-gray-900/10 rounded-lg">
             <div className="sm:flex sm:justify-between">
@@ -66,9 +160,27 @@ const PersonalInformationSettings = () => {
             <div className="sm:flex gap-2 border-b border-gray-900/10 py-8">
                 <div className="sm:w-3/12 text-center text-gray-900 mb-8">
                     <div>
-                        <Avatar size={80} icon={<UserOutlined/>}/>
-                        <p className="text-md font-semibold mt-2">{data&&`${data?.data.user.firstName} ${data?.data.user.lastName}`}</p>
-                        <Button type="text" icon={<EditOutlined/>} className="text-blue-500 mt-2">
+                        <Avatar 
+                            size={80} 
+                            icon={<UserOutlined/>}
+                            src={avatarUrl}
+                        />
+                        <p className="text-md font-semibold mt-2">
+                            {data&&`${data?.data.user.firstName} ${data?.data.user.lastName}`}
+                        </p>
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleImageChange}
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                        />
+                        <Button 
+                            type="text" 
+                            icon={<EditOutlined/>} 
+                            className="text-blue-500 mt-2"
+                            onClick={handleAvatarClick}
+                        >
                             Change avatar
                         </Button>
                     </div>
@@ -85,6 +197,7 @@ const PersonalInformationSettings = () => {
                     gender: data?.data.gender,
                     bio: data?.data.bio,
                     dateOfBirth: moment(data?.data.dateOfBirth),
+                    profilePicture: data?.data.user.profilePicture,
                     "prefix": "256",
                 }} onFinish={handleFinish} className="sm:w-9/12 space-y-4">
                     <Form.Item>
@@ -140,7 +253,6 @@ const PersonalInformationSettings = () => {
                         <TextArea placeholder="" allowClear/>
                     </Form.Item>
                 </Form>}
-
             </div>
 
             <div className="mt-10">
