@@ -33,12 +33,13 @@ const OpportunitiesDetailsPage = () => {
         }
     };
 
-    const handleCancel = () => {
-        setIsEditOpen(false);
-    };
+  const handleCancel = () => {
+    setIsEditOpen(false);
+  };
 
-    // Format the initial data for the form
-    const formattedInitialData = data?.data ? {
+  // Format the initial data for the form
+  const formattedInitialData = data?.data
+    ? {
         id: data.data.id,
         title: data.data.title,
         description: data.data.description,
@@ -52,8 +53,9 @@ const OpportunitiesDetailsPage = () => {
         minSalary: data.data.salary.min,
         maxSalary: data.data.salary.max,
         applicationDeadline: moment(data.data.applicationDeadline),
-        qualifications: data.data.qualifications || []
-    } : null;
+        qualifications: data.data.qualifications || [],
+      }
+    : null;
 
     return (
         <div>

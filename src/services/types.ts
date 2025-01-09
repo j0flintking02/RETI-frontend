@@ -87,10 +87,7 @@ export interface OpportunitiesDetailsResponseType {
   message: string;
   data: OpportunitiesType;
 }
-export interface employerType {
-  firstName: string;
-  lastName: string;
-}
+
 export interface OpportunitiesType {
   id: number;
   title: string;
@@ -100,7 +97,7 @@ export interface OpportunitiesType {
   qualifications: string[];
   status: string;
   interested: any[];
-  employerId: number;
+  employer: Employer;
   positions: number;
   experience: string;
   jobCategory: string;
@@ -110,7 +107,6 @@ export interface OpportunitiesType {
   contactEmail: string;
   createdAt: string;
   updatedAt: string;
-  employer: employerType;
 }
 
 export interface InspirationsType {
@@ -120,6 +116,15 @@ export interface InspirationsType {
     mentor: User,
     likes: number,
     createdAt: string;
+}
+
+export interface Employer{
+    id: number;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    email?: string;
+    role: string;
 }
 
 export interface Salary {

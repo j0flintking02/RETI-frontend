@@ -1,6 +1,7 @@
 import { Card, Calendar, Avatar, Tag, Badge } from "antd";
 import { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
+import io from "socket.io-client";
 
 import { LikeOutlined, UserOutlined, MessageOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
@@ -24,6 +25,8 @@ const YouthDashboardPage = () => {
   const { data: userProfile } = useGetUserProfileQuery(userId);
 
   const [conversations, setConversations] = useState<any>([]);
+  const [selectedConversation, setSelectedConversation] = useState(null);
+  const [socket, setSocket] = useState(null);
 
   const { data: inspirationsData } = useGetInspirationsQuery();
   const [inspirations, setInspirations] = useState<InspirationsType[]>([]);
@@ -38,26 +41,29 @@ const YouthDashboardPage = () => {
     }
   };
 
+ 
+
+
+
   useEffect(() => {
     if (data || inspirationsData) {
       setConversations(data?.data);
+      console.log("Conversations", conversations)
       setInspirations(inspirationsData?.data)
     }
-  }, [data, inspirationsData]);
+    const newSocket = io(`${import.meta.env.VITE_BASE_URL}`, {
+      query: { token: user.access_token, userId },
+    });
 
-  const chatMessages =
-    conversations?.map((conversation) => {
-      const lastMessage =
-        conversation.messages[conversation.messages.length - 1];
+    setSocket(newSocket);
+    return () => newSocket.disconnect();
+  }, [data, inspirationsData, user.access_token, userId]);
 
-      return {
-        id: conversation.id,
-        title: `User ${conversation.id}`,
-        message: lastMessage.content,
-        unread: !lastMessage.isRead,
-        status: "online",
-      };
-    }) || [];
+  const handleConversationClick = (conversation) => {
+    setSelectedConversation(conversation);
+  };
+
+  
 
   return (
     <CustomDashboardLayout>

@@ -7,16 +7,21 @@ import { useEffect, useState } from "react";
 import { useGetUserProfileQuery } from "../../../services/profiles";
 import { ConversationType, Message } from "../../../services/types";
 
-const MessagingChatDetails = ({
+
+
+interface MessagingChatDetailsProps {
+  conversation?: ConversationType | null; // Optional if using receiverId
+  socket: any;
+  userId: number | null;
+  online: boolean;
+  receiverId?: number; // Add receiverId as an optional prop
+}
+const MessagingChatDetails: React.FC<MessagingChatDetailsProps> = ({
   conversation,
   socket,
   userId,
   online,
-}: {
-  conversation: ConversationType | null;
-  socket: any;
-  userId: number | null;
-  online: boolean;
+  receiverId: propReceiverId,
 }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
@@ -31,27 +36,33 @@ const MessagingChatDetails = ({
           setMessages(updatedConversation.messages);
         }
       });
+
+      
       return () => {
         socket.off("receiveMessage");
       };
     }
   }, [conversation, socket]);
 
-  const receiverId = conversation?.messages?.find(
+  const receiverId = propReceiverId  || conversation?.messages?.find(
     (msg: Message) => Number(msg.senderId) !== userId
   )?.senderId;
   const { data } = useGetUserProfileQuery(Number(receiverId));
+
+  console.log("receiver", receiverId);
 
   const handleSendMessage = () => {
     if (newMessage.trim() === "") return;
 
     const message = {
-      senderId: Number(userId), 
-      receiverId: Number(receiverId), 
+      senderId: Number(userId),
+      receiverId: Number(receiverId),
       content: newMessage,
       createdAt: new Date().toISOString(),
       isRead: false,
     };
+
+    console.log("Message to be sent:", message);
 
     setMessages((prevMessages) => [...prevMessages, message]);
 
