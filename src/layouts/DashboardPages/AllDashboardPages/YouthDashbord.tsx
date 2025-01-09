@@ -13,13 +13,13 @@ import { useGetInspirationsQuery } from "../../../services/inspirations";
 import Loader from "../../loader";
 import { useGetUserProfileQuery } from "../../../services/profiles";
 import Chat from "../../../components/secondary/Chat";
+import { InspirationsType } from "../../../services/types";
+import { toast } from "react-toastify";
 
 const YouthDashboardPage = () => {
   const { data: notificationsData, isLoading } = useGetNotificationsQuery();
   const [markAsRead] = useMarkAsReadMutation();
   const user = loginDetails();
-  const userId = user.user.id;
-  const { data: userProfile } = useGetUserProfileQuery(userId);
   const { data: inspirationsData } = useGetInspirationsQuery();
   const [inspirations, setInspirations] = useState<InspirationsType[]>([]);
 
@@ -27,7 +27,7 @@ const YouthDashboardPage = () => {
     try {
       await markAsRead(notificationId).unwrap();
     } catch (error) {
-      console.error("Failed to mark notification as read:", error);
+      toast.error("Failed to mark notification as read:", error);
     }
   };
 

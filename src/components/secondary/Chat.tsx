@@ -1,5 +1,5 @@
 import { DownOutlined, LeftOutlined, MessageOutlined, UpOutlined } from '@ant-design/icons';
-import { Card } from 'antd';
+import { Badge, Card } from 'antd';
 import MessagingChatDetails from '../../layouts/DashboardPages/Messaging/MessageChatDetails';
 import { loginDetails } from '../../utils';
 import { useGetUserConversationsQuery } from '../../services/conversations';
@@ -7,112 +7,105 @@ import { io } from 'socket.io-client';
 import { useEffect, useState } from 'react';
 
 export default function Chat() {
-     const user = loginDetails();
-      const userId = user.user.id;
-      const { data } = useGetUserConversationsQuery(userId);
-    
-      const [conversations, setConversations] = useState<any>([]);
-      const [selectedConversation, setSelectedConversation] = useState(null);
-      const [socket, setSocket] = useState(null);
+  const user = loginDetails();
+  const userId = user.user.id;
+  const { data } = useGetUserConversationsQuery(userId);
+  const [conversations, setConversations] = useState<any>([]);
+  const [selectedConversation, setSelectedConversation] = useState(null);
+  const [socket, setSocket] = useState(null);
+  const [isChatsVisible, setIsChatsVisible] = useState(false);
 
-    
-      const [isChatsVisible, setIsChatsVisible] = useState(false);
+  useEffect(() => {
+    if (data) {
+      setConversations(data?.data);
+    }
+    const newSocket = io(`${import.meta.env.VITE_BASE_URL}`, {
+      query: { token: user.access_token, userId },
+    });
 
-      useEffect(() => {
-        if (data ) {
-          setConversations(data?.data);
-          console.log("Conversations", conversations)
-         
-        }
-        const newSocket = io(`${import.meta.env.VITE_BASE_URL}`, {
-          query: { token: user.access_token, userId },
-        });
-    
-        setSocket(newSocket);
-        return () => newSocket.disconnect();
-      }, [data, user.access_token, userId]);
-    
-      const handleConversationClick = (conversation) => {
-        setSelectedConversation(conversation);
-      };
-    
+    setSocket(newSocket);
+    return () => newSocket.disconnect();
+  }, [data, user.access_token, userId]);
 
+  const handleConversationClick = (conversation) => {
+    setSelectedConversation(conversation);
+  };
 
 
   return (
     <div className="sm:flex items-start justify-between gap-2">
       {isChatsVisible && selectedConversation ? (
-            <Card className="shadow-sm">
-                <LeftOutlined onClick={() => setSelectedConversation(null)} />
-                <MessagingChatDetails
-                  conversation={selectedConversation}
-                  socket={socket}
-                  userId={userId}
-                  online={true} // Replace with actual online status
-                />
-            </Card>
-          ) : (
-            <div className="fixed bottom-0 right-0 sm:right-4 z-50 w-full sm:w-auto">
-              <div
-                className="bg-white shadow-lg cursor-pointer w-full sm:w-[750px]"
-                style={{
-                  borderTopLeftRadius: '12px',
-                  borderTopRightRadius: '12px',
-                  border: '1px solid #e5e7eb'
-                }}
-              >
-                <div
-                  className="flex items-center justify-between p-3 border-b bg-gray-50"
-                  onClick={() => setIsChatsVisible(!isChatsVisible)}
-                  style={{
-                    borderTopLeftRadius: '12px',
-                    borderTopRightRadius: '12px'
-                  }}
-                >
-                  <div className="flex items-center gap-2">
-                    <MessageOutlined />
-                    <span className="font-semibold">Chats</span>
-                    {/* <Badge count={conversations.messages.filter(msg => msg.unread).length} /> */}
-                  </div>
-                  <div>
-                    {isChatsVisible ? (
-                      <DownOutlined className="text-gray-600" />
-                    ) : (
-                      <UpOutlined className="text-gray-600" />
-                    )}
-                  </div>
-                </div>
-
-                {isChatsVisible && (
-                  <div className="overflow-y-auto h-52">
-                    <ul className="space-y-2">
-                      {conversations.map((conversation) => {
-                        const lastMessage = conversation.messages[conversation.messages.length - 1];
-
-                        return (
-                          <li
-                            key={conversation.id}
-                            className="cursor-pointer hover:bg-gray-100 p-2 rounded-md"
-                            onClick={() => handleConversationClick(conversation)}
-                          >
-                            <div>
-                              <div className="flex justify-between gap-2">
-                                <div className={`font-bold ${lastMessage.isRead ? "text-gray-800" : "text-blue-600"}`}>
-                                  User {conversation.id}
-                                </div>
-                                <div className="text-xs text-green-500">Online</div>
-                              </div>
-                              <div className="text-gray-600 truncate">{lastMessage.content}</div>
-                            </div>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
+        <Card className="shadow-sm fixed bottom-0 right-0 sm:right-4 z-50 w-full sm:w-auto">
+          <LeftOutlined onClick={() => setSelectedConversation(null)} />
+          <MessagingChatDetails
+            conversation={selectedConversation}
+            socket={socket}
+            userId={userId}
+            online={true} // Replace with actual online status
+          />
+        </Card>
+      ) : (
+        <div className="fixed bottom-0 right-0 sm:right-4 z-50 w-full sm:w-auto">
+          <div
+            className="bg-white shadow-lg cursor-pointer w-full sm:w-[750px]"
+            style={{
+              borderTopLeftRadius: '12px',
+              borderTopRightRadius: '12px',
+              border: '1px solid #e5e7eb'
+            }}
+          >
+            <div
+              className="flex items-center justify-between p-3 border-b bg-gray-50"
+              onClick={() => setIsChatsVisible(!isChatsVisible)}
+              style={{
+                borderTopLeftRadius: '12px',
+                borderTopRightRadius: '12px'
+              }}
+            >
+              <div className="flex items-center gap-2">
+                <MessageOutlined />
+                <span className="font-semibold">Chats</span>
+                <Badge count={conversations.filter(conversation => conversation?.messages?.some(msg => !msg?.isRead))?.length} />
+              </div>
+              <div>
+                {isChatsVisible ? (
+                  <DownOutlined className="text-gray-600" />
+                ) : (
+                  <UpOutlined className="text-gray-600" />
                 )}
               </div>
             </div>
-          )}
+
+            {isChatsVisible && (
+              <div className="overflow-y-auto h-52">
+                <ul className="space-y-2">
+                  {conversations?.map((conversation) => {
+                    const lastMessage = conversation?.messages[conversation?.messages.length - 1];
+
+                    return (
+                      <li
+                        key={conversation.id}
+                        className="cursor-pointer hover:bg-gray-100 p-2 rounded-md"
+                        onClick={() => handleConversationClick(conversation)}
+                      >
+                        <div>
+                          <div className="flex justify-between gap-2">
+                            <div className={`font-bold ${lastMessage?.isRead ? "text-gray-800" : "text-blue-600"}`}>
+                              User {conversation?.id}
+                            </div>
+                            <div className="text-xs text-green-500">Online</div>
+                          </div>
+                          <div className="text-gray-600 truncate">{lastMessage.content}</div>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

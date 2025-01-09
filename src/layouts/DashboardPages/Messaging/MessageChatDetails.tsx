@@ -8,15 +8,7 @@ import { useGetUserProfileQuery } from "../../../services/profiles";
 import { ConversationType, Message } from "../../../services/types";
 
 
-
-interface MessagingChatDetailsProps {
-  conversation?: ConversationType | null; // Optional if using receiverId
-  socket: any;
-  userId: number | null;
-  online: boolean;
-  receiverId?: number; // Add receiverId as an optional prop
-}
-const MessagingChatDetails: React.FC<MessagingChatDetailsProps> = ({
+const MessagingChatDetails = ({
   conversation,
   socket,
   userId,
@@ -36,8 +28,6 @@ const MessagingChatDetails: React.FC<MessagingChatDetailsProps> = ({
           setMessages(updatedConversation.messages);
         }
       });
-
-      
       return () => {
         socket.off("receiveMessage");
       };
@@ -47,13 +37,11 @@ const MessagingChatDetails: React.FC<MessagingChatDetailsProps> = ({
   const receiverId = propReceiverId  || conversation?.messages?.find(
     (msg: Message) => Number(msg.senderId) !== userId
   )?.senderId;
-  const { data } = useGetUserProfileQuery(Number(receiverId));
 
-  console.log("receiver", receiverId);
+  const { data } = useGetUserProfileQuery(receiverId, {skip: !receiverId});
 
   const handleSendMessage = () => {
     if (newMessage.trim() === "") return;
-
     const message = {
       senderId: Number(userId),
       receiverId: Number(receiverId),
@@ -61,15 +49,10 @@ const MessagingChatDetails: React.FC<MessagingChatDetailsProps> = ({
       createdAt: new Date().toISOString(),
       isRead: false,
     };
-
-    console.log("Message to be sent:", message);
-
     setMessages((prevMessages) => [...prevMessages, message]);
-
     if (socket) {
       socket.emit("sendMessage", { messages: [message] });
     }
-
     setNewMessage("");
   };
 
@@ -78,7 +61,7 @@ const MessagingChatDetails: React.FC<MessagingChatDetailsProps> = ({
   );
 
   return (
-    <>
+    <div className="h-full w-full sm:w-[710px]">
       {/* typing */}
       <div className="sm:w-11/12">
         <div className="p-4 border-b border-gray-200 flex items-center justify-between">
@@ -97,7 +80,7 @@ const MessagingChatDetails: React.FC<MessagingChatDetailsProps> = ({
         </div>
 
         {/* Chat Area */}
-        <div className="p-4 h-[550px] xl:h-screen overflow-y-auto bg-gray-50">
+        <div className="p-4 h-[400px] overflow-y-auto bg-gray-50">
           {/* Example messages */}
           <h2 className="pb-8 text-xs flex items-center justify-center">
             Today
@@ -150,7 +133,7 @@ const MessagingChatDetails: React.FC<MessagingChatDetailsProps> = ({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

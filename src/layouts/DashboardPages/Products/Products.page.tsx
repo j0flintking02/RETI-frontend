@@ -70,7 +70,7 @@ const ProductsPage = () => {
                     <AllProductsPage />
                 </Layout>
             </CustomDashboardLayout>
-            <Chat />
+            {loginDetails().user.role !== 'admin' && <Chat />}
         </>
     )
 }

@@ -11,8 +11,8 @@ const DashboardPage = () => {
   return (
     <>
       <Header pageTitle="Dashboard" />
-      {role === 'admin' ? <AdminDashboardPage /> : <YouthDashboardPage />}
-      <Chat />
+      {role === 'admin' ? <AdminDashboardPage /> : <YouthDashboardPage /> }
+      {role !== 'admin' && <Chat />}
     </>
   );
 };

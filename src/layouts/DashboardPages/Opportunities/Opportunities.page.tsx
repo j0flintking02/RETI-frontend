@@ -48,7 +48,7 @@ const OpportunitiesPage = () => {
                     <AllOpportunitiesPage />
                 </Layout>
             </CustomDashboardLayout>
-            <Chat />
+            {loginDetails().user.role !== 'admin' && <Chat />}
         </>
     )
 }
