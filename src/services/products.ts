@@ -53,6 +53,7 @@ export const productApi = createApi({
                 body: data,
                 headers: getHeaders(),
             }),
+            invalidatesTags: ['Products']
         }),
         deleteProduct: builder.mutation<void, string>({
             query: (productId) => ({
@@ -60,6 +61,7 @@ export const productApi = createApi({
                 method: "DELETE",
                 headers: getHeaders(),
             }),
+            invalidatesTags: ['Products']
         }),
     })
 })
