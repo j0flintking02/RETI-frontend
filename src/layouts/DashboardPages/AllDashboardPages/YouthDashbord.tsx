@@ -1,7 +1,9 @@
 import { Card, Calendar, Avatar, Tag} from "antd";
 import { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
-import { LikeOutlined, UserOutlined } from "@ant-design/icons";
+import io from "socket.io-client";
+
+import { LikeOutlined, UserOutlined, MessageOutlined, UpOutlined, DownOutlined } from "@ant-design/icons";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import {
   useGetNotificationsQuery,
@@ -19,6 +21,13 @@ const YouthDashboardPage = () => {
   const { data: notificationsData, isLoading } = useGetNotificationsQuery();
   const [markAsRead] = useMarkAsReadMutation();
   const user = loginDetails();
+  const userId = user.user.id;
+  const { data } = useGetUserConversationsQuery(userId);
+
+  const [conversations, setConversations] = useState<any>([]);
+  const [selectedConversation, setSelectedConversation] = useState(null);
+  const [socket, setSocket] = useState(null);
+
   const { data: inspirationsData } = useGetInspirationsQuery();
   const { data: userProfile } = useGetUserProfileQuery(user?.user?.id);
   const [inspirations, setInspirations] = useState<InspirationsType[]>([]);
@@ -31,11 +40,29 @@ const YouthDashboardPage = () => {
     }
   };
 
+ 
+
+
+
   useEffect(() => {
-    if (inspirationsData) {
+    if (data || inspirationsData) {
+      setConversations(data?.data);
+      console.log("Conversations", conversations)
       setInspirations(inspirationsData?.data)
     }
-  }, [inspirationsData]);
+    const newSocket = io(`${import.meta.env.VITE_BASE_URL}`, {
+      query: { token: user.access_token, userId },
+    });
+
+    setSocket(newSocket);
+    return () => newSocket.disconnect();
+  }, [data, inspirationsData, user.access_token, userId]);
+
+  const handleConversationClick = (conversation) => {
+    setSelectedConversation(conversation);
+  };
+
+  
 
   return (
     <CustomDashboardLayout>
