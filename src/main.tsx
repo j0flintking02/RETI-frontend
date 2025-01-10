@@ -65,6 +65,7 @@ async function registerLoader() {
   return null;
 }
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -97,6 +98,8 @@ const router = createBrowserRouter([
     ),
     errorElement: <ErrorPage />,
   },
+
+
   {
     path: "/messages",
     loader: protectedLoader,
@@ -162,7 +165,6 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [],
   },
-
 
   {
     path: "/forgot-password",

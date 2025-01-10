@@ -1,15 +1,5 @@
-import { ClockCircleOutlined, EnvironmentOutlined, MoneyCollectOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, MoneyCollectOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import {
-	Avatar,
-	Spin,
-	Tag,
-	Typography,
-} from "antd";
-import {
-	useGetOpportunitiesQuery,
-} from "../../../services/opportunities.ts";
-import moment from "moment";
 import DateCheckComponent from "../../../components/primary/dataChecker.tsx";
 import Loader from "../../loader.tsx";
 import { useGetProductsQuery } from "../../../services/products.ts";
@@ -17,7 +7,6 @@ import { useGetProductsQuery } from "../../../services/products.ts";
 const AllProductsPage = () => {
 	const navigate = useNavigate();
 	const { data: productsResponse, isLoading, error } = useGetProductsQuery();
-
 
 	return (
 		<>

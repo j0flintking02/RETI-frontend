@@ -41,7 +41,6 @@ const PreferencesSettings = () => {
         console.log(`${label} is now ${checked ? "enabled" : "disabled"}`);
     };
 
- 
     return (
         <div className="mt-2">
             <Layout>

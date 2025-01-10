@@ -7,16 +7,13 @@ import { useEffect, useState } from "react";
 import { useGetUserProfileQuery } from "../../../services/profiles";
 import { ConversationType, Message } from "../../../services/types";
 
+
 const MessagingChatDetails = ({
   conversation,
   socket,
   userId,
   online,
-}: {
-  conversation: ConversationType | null;
-  socket: any;
-  userId: number | null;
-  online: boolean;
+  receiverId: propReceiverId,
 }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
@@ -37,28 +34,25 @@ const MessagingChatDetails = ({
     }
   }, [conversation, socket]);
 
-  const receiverId = conversation?.messages?.find(
+  const receiverId = propReceiverId  || conversation?.messages?.find(
     (msg: Message) => Number(msg.senderId) !== userId
   )?.senderId;
-  const { data } = useGetUserProfileQuery(Number(receiverId));
+
+  const { data } = useGetUserProfileQuery(receiverId, {skip: !receiverId});
 
   const handleSendMessage = () => {
     if (newMessage.trim() === "") return;
-
     const message = {
-      senderId: Number(userId), 
-      receiverId: Number(receiverId), 
+      senderId: Number(userId),
+      receiverId: Number(receiverId),
       content: newMessage,
       createdAt: new Date().toISOString(),
       isRead: false,
     };
-
     setMessages((prevMessages) => [...prevMessages, message]);
-
     if (socket) {
       socket.emit("sendMessage", { messages: [message] });
     }
-
     setNewMessage("");
   };
 
@@ -67,7 +61,7 @@ const MessagingChatDetails = ({
   );
 
   return (
-    <>
+    <div className="h-full w-full sm:w-[710px]">
       {/* typing */}
       <div className="sm:w-11/12">
         <div className="p-4 border-b border-gray-200 flex items-center justify-between">
@@ -86,7 +80,7 @@ const MessagingChatDetails = ({
         </div>
 
         {/* Chat Area */}
-        <div className="p-4 h-[550px] xl:h-screen overflow-y-auto bg-gray-50">
+        <div className="p-4 h-[400px] overflow-y-auto bg-gray-50">
           {/* Example messages */}
           <h2 className="pb-8 text-xs flex items-center justify-center">
             Today
@@ -139,7 +133,7 @@ const MessagingChatDetails = ({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

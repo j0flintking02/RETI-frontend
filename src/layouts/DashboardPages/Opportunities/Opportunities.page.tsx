@@ -6,6 +6,7 @@ import AddOpportunitiesForm from "../Forms/AddOpportunityForm";
 import Header from "../../../components/secondary/Header";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import { loginDetails } from "../../../utils";
+import Chat from "../../../components/secondary/Chat";
 
 const OpportunitiesPage = () => {
     const [open, setOpen] = useState(false);
@@ -47,6 +48,7 @@ const OpportunitiesPage = () => {
                     <AllOpportunitiesPage />
                 </Layout>
             </CustomDashboardLayout>
+            {loginDetails().user.role !== 'admin' && <Chat />}
         </>
     )
 }

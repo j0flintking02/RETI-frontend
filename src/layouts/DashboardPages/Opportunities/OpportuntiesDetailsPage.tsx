@@ -14,6 +14,7 @@ import { loginDetails } from '../../../utils';
 import moment from 'moment';
 import Loader from '../../loader.tsx';
 import { toast } from 'react-toastify';
+import Chat from '../../../components/secondary/Chat.tsx';
 
 const OpportunitiesDetailsPage = () => {
     const { id } = useParams();
@@ -22,6 +23,7 @@ const OpportunitiesDetailsPage = () => {
     const [deleteJob] = useDeleteOpportunityMutation();
     const navigate = useNavigate();
     const jobCreatedDate = new Date(data?.data.createdAt);
+    const user = loginDetails();
 
     const handleDeleteJob = async () => {
         try {
@@ -33,12 +35,13 @@ const OpportunitiesDetailsPage = () => {
         }
     };
 
-    const handleCancel = () => {
-        setIsEditOpen(false);
-    };
+  const handleCancel = () => {
+    setIsEditOpen(false);
+  };
 
-    // Format the initial data for the form
-    const formattedInitialData = data?.data ? {
+  // Format the initial data for the form
+  const formattedInitialData = data?.data
+    ? {
         id: data.data.id,
         title: data.data.title,
         description: data.data.description,
@@ -52,8 +55,9 @@ const OpportunitiesDetailsPage = () => {
         minSalary: data.data.salary.min,
         maxSalary: data.data.salary.max,
         applicationDeadline: moment(data.data.applicationDeadline),
-        qualifications: data.data.qualifications || []
-    } : null;
+        qualifications: data.data.qualifications || [],
+      }
+    : null;
 
     return (
         <div>
@@ -159,7 +163,7 @@ const OpportunitiesDetailsPage = () => {
                                 </div>
                             </div>
                         </div>
-                        {loginDetails().user.role === 'employer' && (
+                        {user?.user?.id === data?.data?.employer.id && user?.user?.role === 'employer' && (
                             <div className="absolute bottom-4 right-4 space-y-2">
                                 <div>
                                     <DeletePopconfirm
@@ -180,7 +184,7 @@ const OpportunitiesDetailsPage = () => {
                                 </div>
                             </div>
                         )}
-                        {loginDetails().user.role === 'employer' && (
+                        {user?.user?.role === 'employer' && (
                             <AddOpportunitiesForm
                                 onCancel={handleCancel}
                                 onOk={() => setIsEditOpen(false)}
@@ -193,6 +197,7 @@ const OpportunitiesDetailsPage = () => {
                     </Content>
                 )}
             </CustomDashboardLayout>
+            <Chat />
         </div>
     );
 };
