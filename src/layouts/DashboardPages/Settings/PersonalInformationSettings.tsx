@@ -1,90 +1,49 @@
-import { EditOutlined, UserOutlined } from "@ant-design/icons";
-import { Alert, Avatar, Button, Input, Spin, Form, DatePicker, Select, notification, Space } from "antd";
+import {EditOutlined, UserOutlined} from "@ant-design/icons";
+import {Alert, Avatar, Button, Input, Spin, Form, DatePicker, Select, notification} from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { Content } from "antd/es/layout/layout";
-import { useGetUserProfileQuery, useUpdateProfileMutation } from "../../../services/profiles.ts";
-import { loginDetails } from "../../../utils.ts";
-import { useEffect, useState, useRef } from "react";
+import {Content} from "antd/es/layout/layout";
+import {useGetUserProfileQuery, useUpdateProfileMutation} from "../../../services/profiles.ts";
+import {loginDetails} from "../../../utils.ts";
+import {useEffect} from "react";
 import moment from "moment";
-import { uploadImage, validateFile } from "../../../utils/uploadImage";
+
 
 const PersonalInformationSettings = () => {
-    const { data, isLoading, isError, error } = useGetUserProfileQuery(loginDetails().user.id);
-    const [updateUser, { isSuccess }] = useUpdateProfileMutation();
+    const {data, isLoading, isError, error, } = useGetUserProfileQuery(loginDetails().user.id)
+    const [updateUser, {isSuccess}] = useUpdateProfileMutation()
     const [form] = Form.useForm();
-    const [uploadedImages, setUploadedImages] = useState<string[]>([]);
-    const [avatarUrl, setAvatarUrl] = useState<string>('');
-    const fileInputRef = useRef<HTMLInputElement>(null);
-    const MAX_IMAGES = 3;
-
     useEffect(() => {
         if (isError) {
             notification['error']({
                 message: "Something went wrong",
                 description: error.data.message,
-            });
+            })
         }
     }, [isError, error]);
-
-    useEffect(() => {
-        if (data?.data.user.profilePicture) {
-            setAvatarUrl(data.data.user.profilePicture);
-        }
-    }, [data]);
-
-    const handleFinish = async (values) => {
+    const handleFinish = async (values)=> {
         try {
-            await updateUser({ data: { ...values, profileImage: avatarUrl }, profileId: loginDetails()?.user.id }).unwrap();
+            await updateUser({data:values, user_id: loginDetails().user.id}).unwrap()
         } catch (e) {
-            let message = 'Try again';
+            let message = 'Try again'
             if (typeof e.data.message === "string") {
-                message = e.data.message;
+                message = e.data.message
             } else {
-                message = e.data.message[0];
+                message = e.data.message[0]
             }
             notification['error']({
                 message: 'Something went wrong',
-                description: message,
+                description:
+                message,
             });
         }
-    };
-
+    }
     useEffect(() => {
         if (isSuccess) {
             notification["success"]({
                 message: 'Profile updated successfully',
-            });
+            })
         }
     }, [isSuccess]);
-
-    const handleAvatarClick = () => {
-        fileInputRef.current?.click();
-    };
-
-    const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
-
-        if (!validateFile(file)) return;
-
-        try {
-            const imageUrl = await uploadImage(file);
-            if (imageUrl) {
-                setUploadedImages(prev => [...prev, imageUrl]);
-                setAvatarUrl(imageUrl);
-                form.setFieldsValue({ profilePicture: imageUrl });
-                notification.success({
-                    message: 'Success',
-                    description: 'Image uploaded successfully!'
-                });
-            }
-        } catch (error) {
-            notification.error({
-                message: 'Upload failed',
-                description: error instanceof Error ? error.message : 'Failed to upload image'
-            });
-        }
-    };
 
     return (
         <Content className="px-4 py-4 space-y-4 bg-white border border-gray-900/10 rounded-lg">
@@ -97,7 +56,7 @@ const PersonalInformationSettings = () => {
                     <Button className="w-32 p-2">
                         Cancel
                     </Button>
-                    <Button className="w-32 p-2" type="primary" onClick={form.submit}>
+                    <Button className="w-32 p-2" type="primary">
                         Save changes
                     </Button>
                 </div>
@@ -107,35 +66,15 @@ const PersonalInformationSettings = () => {
             <div className="sm:flex gap-2 border-b border-gray-900/10 py-8">
                 <div className="sm:w-3/12 text-center text-gray-900 mb-8">
                     <div>
-                        <Space wrap size={16}>
-                            <Avatar
-                                size={64}
-                                icon={<UserOutlined />}
-                                src={avatarUrl || data?.data.profileImage || 'https://via.placeholder.com/80'}
-                            />
-                        </Space>
-                        <p className="text-md font-semibold mt-2">
-                            {data && `${data?.data.user.firstName} ${data?.data.user.lastName}`}
-                        </p>
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            onChange={handleImageChange}
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                        />
-                        <Button
-                            type="text"
-                            icon={<EditOutlined />}
-                            className="text-blue-500 mt-2"
-                            onClick={handleAvatarClick}
-                        >
+                        <Avatar size={80} icon={<UserOutlined/>}/>
+                        <p className="text-md font-semibold mt-2">{data&&`${data?.data.user.firstName} ${data?.data.user.lastName}`}</p>
+                        <Button type="text" icon={<EditOutlined/>} className="text-blue-500 mt-2">
                             Change avatar
                         </Button>
                     </div>
                 </div>
                 {isLoading && <div className="w-auto text-center">
-                    <Spin size="large" />
+                    <Spin size="large"/>
                 </div>}
 
                 {!isLoading && <Form layout="vertical" form={form} initialValues={{
@@ -146,12 +85,11 @@ const PersonalInformationSettings = () => {
                     gender: data?.data.gender,
                     bio: data?.data.bio,
                     dateOfBirth: moment(data?.data.dateOfBirth),
-                    profilePicture: data?.data.user.profilePicture,
                     "prefix": "256",
                 }} onFinish={handleFinish} className="sm:w-9/12 space-y-4">
                     <Form.Item>
                         <Form.Item
-                            style={{ display: 'inline-block', width: '50%', margin: '0' }}
+                            style={{display: 'inline-block', width: '50%', margin: '0'}}
                             label="First Name" name="firstName">
                             <Input
                                 size="large"
@@ -160,20 +98,20 @@ const PersonalInformationSettings = () => {
                             />
                         </Form.Item>
                         <Form.Item
-                            style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px' }}
+                            style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
                             label="Last name" name="lastName">
-                            <Input size="large" placeholder="Enter your Last name" type="text" />
+                            <Input size="large" placeholder="Enter your Last name" type="text"/>
                         </Form.Item>
                     </Form.Item>
                     <Form.Item className="">
                         <Form.Item
-                            style={{ display: 'inline-block', width: '50%', margin: '0' }}
+                            style={{display: 'inline-block', width: '50%', margin: '0'}}
                             label="Date of birth" name="dateOfBirth">
-                            <DatePicker size="large" className="w-full" />
+                            <DatePicker size="large" className="w-full"/>
                         </Form.Item>
 
                         <Form.Item
-                            style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px' }}
+                            style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
                             label="Gender" name="gender">
                             <Select size="large">
                                 <Select.Option value="male">Male</Select.Option>
@@ -184,7 +122,7 @@ const PersonalInformationSettings = () => {
                     </Form.Item>
                     <Form.Item className="my-24">
                         <Form.Item
-                            style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px' }}
+                            style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
                             label="Email address" name="email">
                             <Input
                                 size="large"
@@ -193,21 +131,23 @@ const PersonalInformationSettings = () => {
                             />
                         </Form.Item>
                         <Form.Item
-                            style={{ display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px' }}
+                            style={{display: 'inline-block', width: 'calc(50% - 8px)', margin: '0 0 0 8px'}}
                             label="Phone number" name="phoneNumber">
-                            <Input size="large" />
+                            <Input size="large"/>
                         </Form.Item>
                     </Form.Item>
                     <Form.Item label="About me" className="my-24" name="bio">
-                        <TextArea placeholder="" allowClear />
+                        <TextArea placeholder="" allowClear/>
                     </Form.Item>
                 </Form>}
+
             </div>
 
             <div className="mt-10">
                 <Alert
                     message="Delete your account"
                     className="p-4 flex"
+                    // showIcon
                     description="Once you delete your account, all your data will be permanently removed."
                     type="error"
                     action={

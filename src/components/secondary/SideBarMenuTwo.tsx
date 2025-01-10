@@ -6,7 +6,6 @@ import { HomeOutlined, LogoutOutlined, MessageOutlined, PhoneOutlined, ProjectOu
 import { handleLogout, loginDetails } from "../../utils.ts";
 import HelpandsupportForm from "../../layouts/DashboardPages/Forms/HelpAndSupportForm.tsx";
 import { ShoppingOutlined } from "@ant-design/icons";
-import { useGetUserProfileQuery } from "../../services/profiles.ts";
 
 interface MenuItem {
     key: string;
@@ -21,7 +20,6 @@ const { Sider } = Layout;
 const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
     const [selectedKey, setSelectedKey] = useState("home");
     const user = loginDetails();
-    const { data: userProfile } = useGetUserProfileQuery(user?.user?.id);
 
     const handleMenuClick = (e) => {
         setSelectedKey(e.key); // Update the selected key when an item is clicked
@@ -134,12 +132,7 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                 }}
             />
             <div className="absolute bottom-0 w-full flex items-center p-4 text-white">
-                {/* <Avatar size={"large"} icon={<UserOutlined />} className="mr-2" /> */}
-                <Avatar
-                  size="large"
-                  icon={<UserOutlined />}
-                  src={userProfile?.data?.profileImage || 'https://via.placeholder.com/80'}
-                />
+                <Avatar size={"large"} icon={<UserOutlined />} className="mr-2" />
                 <div>
                     <Tag color="#f50">
                         <label className="block text-white">{`${user.user.firstName} ${user.user.lastName}`}</label>
