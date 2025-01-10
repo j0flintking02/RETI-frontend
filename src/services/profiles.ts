@@ -31,6 +31,7 @@ export const profileApi = createApi({
                 body: data,
                 headers: getHeaders(),
             }),
+            invalidatesTags: ['Profiles'],
             transformResponse: (response: LoginResponseType) => response,
             transformErrorResponse: (response) => {
                 return response;

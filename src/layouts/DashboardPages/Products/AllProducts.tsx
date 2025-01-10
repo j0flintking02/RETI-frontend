@@ -31,7 +31,7 @@ const AllProductsPage = () => {
 								<div className="flex space-x-4">
 									<div className="w-1/3">
 										<img
-											src={product.imageUrl || 'https://via.placeholder.com/300x200'}
+											src={product?.imageUrl?.[1] || 'https://via.placeholder.com/300x200'}
 											alt={product.name}
 											className="w-full h-32 object-cover rounded-lg"
 										/>

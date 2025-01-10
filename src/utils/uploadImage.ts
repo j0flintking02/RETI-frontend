@@ -1,25 +1,19 @@
 import axios from "axios";
-import { notification } from "antd";
+import { toast } from "react-toastify";
 
-const cloudName = `${import.meta.env.CLOUD_NAME}`;
+const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 
 export const validateFile = (file: File) => {
     const isImage = file.type.startsWith('image/');
     const isSizeValid = file.size / 1024 / 1024 < 5;
 
     if (!isImage) {
-        notification.error({
-            message: 'Invalid file type',
-            description: 'Please upload only image files.'
-        });
+        toast.error('Please upload only image files.');
         return false;
     }
 
     if (!isSizeValid) {
-        notification.error({
-            message: 'File too large',
-            description: 'Image size should be less than 5MB.'
-        });
+        toast.error('Image size should be less than 5MB.');
         return false;
     }
 

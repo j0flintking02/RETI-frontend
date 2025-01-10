@@ -69,15 +69,6 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                 label: <Link to="/settings" onClick={closeDrawer}>Settings</Link>,
             },
             {
-                key: "help-support",
-                icon: <QuestionCircleOutlined />,
-                label: (
-                    <span onClick={showModal}>
-                        Help & Support
-                    </span>
-                ),
-            },
-            {
                 key: "logout",
                 icon: <LogoutOutlined />,
                 label: <Link type="link" onClick={handleLogout} to={""}>Log Out</Link>
@@ -94,6 +85,16 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                 key: "Community Guide",
                 icon: <UsergroupAddOutlined />,
                 label: <Link to="/mentorship" onClick={closeDrawer}>Community Guide</Link>,
+            });
+        } else if (user?.user?.role !== 'admin') {
+            menuItems.push({
+                key: "help-support",
+                icon: <QuestionCircleOutlined />,
+                label: (
+                    <span onClick={showModal}>
+                        Help & Support
+                    </span>
+                ),
             });
         }
         return menuItems;

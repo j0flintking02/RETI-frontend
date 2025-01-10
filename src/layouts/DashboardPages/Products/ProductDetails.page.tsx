@@ -3,7 +3,7 @@ import CustomAppTitle from '../../../components/secondary/CustomAppTitle';
 import { Avatar, Button } from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import { formatDistanceToNow } from '../../../utils';
-import { EditOutlined, ShoppingOutlined, MoneyCollectOutlined, TagOutlined } from '@ant-design/icons';
+import { EditOutlined, ShoppingOutlined, MoneyCollectOutlined, TagOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import CustomDashboardLayout from '../../../components/secondary/CustomDashboardPagesLayout';
 import Header from '../../../components/secondary/Header';
 import { useGetProductDetailsQuery, useDeleteProductMutation } from '../../../services/products';
@@ -23,6 +23,28 @@ const ProductDetailsPage = () => {
     const productCreatedDate = new Date(data?.data.createdAt);
     const user = loginDetails();
 
+    const [imageIndexes, setImageIndexes] = useState<{ [key: string]: number }>({});
+
+
+    const handleNextImage = (e: React.MouseEvent, productId: string, maxLength: number) => {
+        e.stopPropagation();
+        setImageIndexes((prev) => ({
+            ...prev,
+            [productId]: ((prev[productId] || 0) + 1) % maxLength,
+        }));
+    };
+    
+    const handlePrevImage = (e: React.MouseEvent, productId: string, maxLength: number) => {
+        e.stopPropagation();
+        setImageIndexes((prev) => ({
+            ...prev,
+            [productId]: ((prev[productId] || 0) - 1 + maxLength) % maxLength,
+        }));
+    };
+    
+    console.log(data?.data?.imageUrl);
+    
+
     const handleDeleteProduct = async () => {
         try {
             await deleteProduct(id || '').unwrap();
@@ -36,7 +58,7 @@ const ProductDetailsPage = () => {
     const handleCancel = () => {
         setIsEditOpen(false);
     };
-
+    
     const formattedInitialData = data?.data ? {
         id: data.data.id,
         name: data.data.name,
@@ -60,14 +82,37 @@ const ProductDetailsPage = () => {
                             <div className="sm:w-8/12 border-r border-gray-200 p-6">
                                 <div>
                                     <h1 className="text-2xl font-bold text-gray-800 mb-4">{data?.data.name}</h1>
-
-                                    <div className="mb-4">
-                                        <img
-                                            src={data?.data?.imageUrl || 'https://via.placeholder.com/300x200'}
-                                            alt={data?.data?.name}
-                                            className="w-full max-w-md rounded-lg"
-                                        />
-                                    </div>
+                                    <div className="w-1/3 relative mb-4">
+										<img
+											src={data?.data?.imageUrl?.[imageIndexes[data?.data?.id] || 1] || 'https://via.placeholder.com/300x200'}
+											alt={data?.data?.name}
+											className="w-full max-w-md rounded-lg"
+										/>
+										{data?.data?.imageUrl && data?.data?.imageUrl.length > 1 && (
+											<>
+												<button
+													onClick={(e) => handlePrevImage(e, data?.data?.id, data?.data?.imageUrl.length)}
+													className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white/80 p-1 rounded-full shadow-md hover:bg-white"
+												>
+													<LeftOutlined />
+												</button>
+												<button
+													onClick={(e) => handleNextImage(e, data?.data?.id, data?.data?.imageUrl.length)}
+													className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white/80 p-1 rounded-full shadow-md hover:bg-white"
+												>
+													<RightOutlined />
+												</button>
+												<div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex gap-1">
+													{data?.data?.imageUrl.map((_, index) => (
+														<div
+															key={index}
+															className={`w-1.5 h-1.5 rounded-full ${index === (imageIndexes[data?.data?.id] || 0) ? 'bg-blue-500' : 'bg-gray-300'}`}
+														/>
+													))}
+												</div>
+											</>
+										)}
+									</div>
 
                                     <p className="text-md text-gray-700 mb-6">{data?.data.description}</p>
 
