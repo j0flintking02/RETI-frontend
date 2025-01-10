@@ -27,7 +27,7 @@ export const profileApi = createApi({
         updateProfile: mutation<LoginResponseType, { data: User; profileId: string }>({
             query: ({ data, profileId }) => ({
                 url: `profiles/${profileId}`,
-                method: 'POST',
+                method: 'PATCH',
                 body: data,
                 headers: getHeaders(),
             }),

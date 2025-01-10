@@ -17,6 +17,7 @@ export interface User {
   password: string;
   createdAt: string;
   isOnboarded: boolean;
+  profileImage: any;
 }
 
 export interface UserDataType {
