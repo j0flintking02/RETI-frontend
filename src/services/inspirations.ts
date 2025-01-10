@@ -15,11 +15,18 @@ export const inspirationApi = createApi({
                 method: 'GET',
                 headers: getHeaders(),
             }),
-            providesTags: ['Inspirations'],
         }),
+        addInspirations: mutation<InspirationsResponseType, void>({
+            query: () => ({
+                url: 'inspirations',
+                method: 'POST',
+                headers: getHeaders(),
+            }),
+        })
     }),
 });
 
 export const {
     useGetInspirationsQuery,
+    useAddInspirationsMutation
 } = inspirationApi;

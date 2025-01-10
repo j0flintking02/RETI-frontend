@@ -110,7 +110,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/mentorship",
-    // loader: protectedLoader,
+    loader: protectedLoader,
     element: (
       <CustomAppLayout>
         <MentorshipPage />

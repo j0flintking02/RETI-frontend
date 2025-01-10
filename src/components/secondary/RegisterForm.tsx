@@ -1,5 +1,5 @@
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
-import { Button, Input, Form, Typography } from "antd";
+import { Button, Input, Form, Typography, notification } from "antd";
 import { useEffect, useState } from "react";
 import { useRegisterMutation } from "../../services/users.ts";
 import { Link, useNavigate } from "react-router-dom";

@@ -1,5 +1,6 @@
 import { Form, Input, Select, DatePicker, Button, Row, Col, Modal } from 'antd';
 import 'antd/dist/reset.css';
+import {useAddInspirationsMutation} from "../../../services/inspirations.ts";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -7,12 +8,13 @@ const { Option } = Select;
 const AddInspirationsForm = ({ onOk, onCancel, open, loading }) => {
 
     const [form] = Form.useForm();
+    const [addInspirations] = useAddInspirationsMutation();
 
     const handleSubmit = () => {
         form
             .validateFields() // Validate form fields
-            .then((values) => {
-                console.log('Form Values:', values); // Replace with actual submission logic
+            .then(async (values) => {
+                await addInspirations(values)
                 onOk(); // close modal
             })
             .catch((info) => {

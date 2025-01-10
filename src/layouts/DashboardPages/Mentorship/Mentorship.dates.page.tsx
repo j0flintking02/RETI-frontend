@@ -1,6 +1,8 @@
 import { EditOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import DeletePopconfirm from "../../../components/secondary/CustomDeletePopUp";
+import {useAddInspirationsMutation, useGetInspirationsQuery} from "../../../services/inspirations.ts";
+import {useEffect} from "react";
 
 const days = [
   { date: "2021-12-27" },
@@ -62,22 +64,12 @@ const meetings = [
   },
 ];
 
-const inspirations = [
-  "Believe in yourself and all that you are.",
-  "Act as if what you do makes a difference. It does.",
-  "Success is not how high you have climbed, but how you make a positive difference.",
-  " Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam labore rerum consequatur ut soluta, quis aliquid? Minima, molestias praesentium iure obcaecati, illo labore blanditiis impedit explicabo quaerat aliquid, molestiae at.",
-  "Success is not how high you have climbed, but how you make a positive difference.",
-  "Hard times may test you, but never give up.",
-  "The best way to predict the future is to create it.",
-  "Your only limit is your mind.",
-];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function MentorshipDates() {
+  const {data: inspiration} = useGetInspirationsQuery()
   return (
     <>
       <div className="sm:flex mt-8">
@@ -194,9 +186,9 @@ export default function MentorshipDates() {
 
           {/* Inspirations List */}
           <div className="space-y-4 overflow-y-auto max-h-screen px-4">
-            {inspirations?.map((inspiration, index) => (
+            {inspiration?.data?.map((inspiration, index) => (
               <div key={index} className="boarder border-b">
-                <div className="text-sm py-2">{inspiration}</div>
+                <div className="text-sm py-2">{inspiration.title}</div>
                 <div className="space-x-2 text-right pb-2">
                   <EditOutlined
                     className="text-blue-500 cursor-pointer"
