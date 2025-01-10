@@ -168,7 +168,7 @@ export interface ProductDto {
   description: string;
   price: number;
   stockQuantity: number;
-  imageUrl?: string;
+  imageUrl?: any;
   createdAt: string;
   userId: number;
 }
@@ -179,7 +179,7 @@ export interface CreateProductDto {
   description: string;
   price: number;
   stockQuantity: number;
-  imageUrl?: string;
+  imageUrl?: any;
 }
 
 export interface ProductsResponseType {
