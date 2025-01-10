@@ -1,4 +1,4 @@
-import { ClockCircleOutlined, EnvironmentOutlined, MoneyCollectOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, EnvironmentOutlined, MoneyCollectOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import {
 	Avatar,
@@ -13,11 +13,28 @@ import moment from "moment";
 import DateCheckComponent from "../../../components/primary/dataChecker.tsx";
 import Loader from "../../loader.tsx";
 import { useGetProductsQuery } from "../../../services/products.ts";
+import { useState } from "react";
 
 const AllProductsPage = () => {
 	const navigate = useNavigate();
 	const { data: productsResponse, isLoading, error } = useGetProductsQuery();
+	const [imageIndexes, setImageIndexes] = useState<{ [key: string]: number }>({});
 
+	const handleNextImage = (e: React.MouseEvent, productId: string, maxLength: number) => {
+		e.stopPropagation();
+		setImageIndexes(prev => ({
+			...prev,
+			[productId]: (prev[productId] + 1) % maxLength
+		}));
+	};
+
+	const handlePrevImage = (e: React.MouseEvent, productId: string, maxLength: number) => {
+		e.stopPropagation();
+		setImageIndexes(prev => ({
+			...prev,
+			[productId]: (prev[productId] - 1 + maxLength) % maxLength
+		}));
+	};
 
 	return (
 		<>
@@ -40,12 +57,36 @@ const AllProductsPage = () => {
 								</div>
 
 								<div className="flex space-x-4">
-									<div className="w-1/3">
+									<div className="w-1/3 relative">
 										<img
-											src={product.imageUrl || 'https://via.placeholder.com/300x200'}
+											src={product.images?.[imageIndexes[product.id] || 0] || 'https://via.placeholder.com/300x200'}
 											alt={product.name}
 											className="w-full h-32 object-cover rounded-lg"
 										/>
+										{product.images && product.images.length > 1 && (
+											<>
+												<button
+													onClick={(e) => handlePrevImage(e, product.id, product.images.length)}
+													className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white/80 p-1 rounded-full shadow-md hover:bg-white"
+												>
+													<LeftOutlined />
+												</button>
+												<button
+													onClick={(e) => handleNextImage(e, product.id, product.images.length)}
+													className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white/80 p-1 rounded-full shadow-md hover:bg-white"
+												>
+													<RightOutlined />
+												</button>
+												<div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex gap-1">
+													{product.images.map((_, index) => (
+														<div
+															key={index}
+															className={`w-1.5 h-1.5 rounded-full ${index === (imageIndexes[product.id] || 0) ? 'bg-blue-500' : 'bg-gray-300'}`}
+														/>
+													))}
+												</div>
+											</>
+										)}
 									</div>
 									<div className="w-2/3">
 										<h3 className="text-lg font-semibold mb-2">{product.name}</h3>
@@ -57,8 +98,7 @@ const AllProductsPage = () => {
 												</span>
 												{product.price} shs
 											</p>
-											<span className={`px-2 py-1 rounded-full text-sm ${product.stockQuantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-												}`}>
+											<span className={`px-2 py-1 rounded-full text-sm ${product.stockQuantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
 												{product.stockQuantity > 0 ? 'In Stock' : 'Out of Stock'}
 											</span>
 										</div>

@@ -123,12 +123,20 @@ const PersonalInformationSettings = () => {
         try {
             const imageUrl = await uploadImage(file);
             if (imageUrl) {
-                setUploadedImages(prev => [...prev, imageUrl]);
                 setAvatarUrl(imageUrl);
                 form.setFieldsValue({ profilePicture: imageUrl });
+                
+                // Save the profile picture to backend
+                const currentValues = form.getFieldsValue();
+                const updatedValues = {
+                    ...currentValues,
+                    profilePicture: imageUrl
+                };
+                await updateUser(updatedValues);
+                
                 notification.success({
                     message: 'Success',
-                    description: 'Image uploaded successfully!'
+                    description: 'Profile picture updated successfully!'
                 });
             }
         } catch (error) {
@@ -147,10 +155,14 @@ const PersonalInformationSettings = () => {
                     <p className="mt-1 text-sm/6 text-gray-600">Update your photo and personal details here.</p>
                 </div>
                 <div className="flex gap-2 mt-4">
-                    <Button className="w-32 p-2">
+                    <Button className="w-32 p-2" onClick={() => form.resetFields()}>
                         Cancel
                     </Button>
-                    <Button className="w-32 p-2" type="primary">
+                    <Button 
+                        className="w-32 p-2" 
+                        type="primary"
+                        onClick={() => form.submit()}
+                    >
                         Save changes
                     </Button>
                 </div>
@@ -189,17 +201,46 @@ const PersonalInformationSettings = () => {
                     <Spin size="large"/>
                 </div>}
 
-                {!isLoading && <Form layout="vertical" form={form} initialValues={{
-                    firstName: data?.data.user.firstName,
-                    lastName: data?.data.user.lastName,
-                    email: data?.data.email,
-                    phoneNumber: data?.data.user.phoneNumber,
-                    gender: data?.data.gender,
-                    bio: data?.data.bio,
-                    dateOfBirth: moment(data?.data.dateOfBirth),
-                    profilePicture: data?.data.user.profilePicture,
-                    "prefix": "256",
-                }} onFinish={handleFinish} className="sm:w-9/12 space-y-4">
+                {!isLoading && <Form 
+                    layout="vertical" 
+                    form={form} 
+                    onFinish={async (values) => {
+                        try {
+                            const updateData = {
+                                ...values,
+                                profilePicture: avatarUrl || values.profilePicture,
+                                dateOfBirth: values.dateOfBirth?.format('YYYY-MM-DD')
+                            };
+                            
+                            await updateUser({
+                                data: updateData,
+                                profileId: loginDetails().user.id.toString()
+                            }).unwrap();
+                            
+                            notification.success({
+                                message: 'Success',
+                                description: 'Profile updated successfully!'
+                            });
+                        } catch (error) {
+                            notification.error({
+                                message: 'Update failed',
+                                description: error instanceof Error ? error.message : 'Failed to update profile'
+                            });
+                        }
+                    }}
+                    initialValues={{
+                        firstName: data?.data.user.firstName,
+                        lastName: data?.data.user.lastName,
+                        email: data?.data.email,
+                        phoneNumber: data?.data.user.phoneNumber,
+                        gender: data?.data.gender,
+                        bio: data?.data.bio,
+                        dateOfBirth: moment(data?.data.dateOfBirth),
+                        profilePicture: data?.data.user.profilePicture,
+                        "prefix": "256",
+                    }} 
+                    className="sm:w-9/12 space-y-4"
+                >
                     <Form.Item>
                         <Form.Item
                             style={{display: 'inline-block', width: '50%', margin: '0'}}

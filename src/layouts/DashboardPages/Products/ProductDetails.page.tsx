@@ -21,6 +21,7 @@ const ProductDetailsPage = () => {
     const [deleteProduct] = useDeleteProductMutation();
     const navigate = useNavigate();
     const productCreatedDate = new Date(data?.data.createdAt);
+    console.log(data);
 
     const handleDeleteProduct = async () => {
         try {

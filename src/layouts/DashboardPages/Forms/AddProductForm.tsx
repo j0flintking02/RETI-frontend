@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
-import { Modal, Form, Input, InputNumber, Upload, Button } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import React, { useEffect, useState, useRef } from 'react';
+import { Modal, Form, Input, InputNumber, Upload, Button, Image, notification } from 'antd';
+import { UploadOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useCreateProductMutation, useUpdateProductMutation } from '../../../services/products';
 import { CreateProductDto } from '../../../services/types';
 import { toast } from 'react-toastify';
+import { uploadImage } from '../../../utils/uploadImage';
 
 const AddProductForm = ({
   open,
@@ -16,42 +17,107 @@ const AddProductForm = ({
   const [form] = Form.useForm();
   const [createProduct] = useCreateProductMutation();
   const [updateProduct] = useUpdateProductMutation();
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const MAX_IMAGES = 3;
 
   useEffect(() => {
-    if (initialData && open && isEdit) {
-      form.setFieldsValue({
-        name: initialData.name,
-        category: initialData.category,
-        description: initialData.description,
-        price: initialData.price,
-        stockQuantity: initialData.stockQuantity,
-        imageUrl: initialData.imageUrl
-      });
-    } else {
-      form.resetFields();
+    if (initialData) {
+      form.setFieldsValue(initialData);
+      setUploadedImages(initialData.images || []);
     }
-  }, [form, initialData, open, isEdit]);
+  }, [initialData, form]);
+
+  const validateFile = (file: File) => {
+    const isImage = file.type.startsWith('image/');
+    const isSizeValid = file.size / 1024 / 1024 < 5; // Less than 5MB
+    
+    if (!isImage) {
+      notification.error({
+        message: 'Invalid file type',
+        description: 'Please upload only image files.'
+      });
+      return false;
+    }
+    
+    if (!isSizeValid) {
+      notification.error({
+        message: 'File too large',
+        description: 'Image size should be less than 5MB.'
+      });
+      return false;
+    }
+    
+    return true;
+  };
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (uploadedImages.length >= MAX_IMAGES) {
+      notification.error({
+        message: 'Upload limit reached',
+        description: `Maximum ${MAX_IMAGES} images allowed.`
+      });
+      return;
+    }
+
+    if (!validateFile(file)) return;
+
+    try {
+      const imageUrl = await uploadImage(file);
+      if (imageUrl) {
+        const newImages = [...uploadedImages, imageUrl];
+        setUploadedImages(newImages);
+        
+        // Update form field to ensure images are included in submission
+        form.setFieldsValue({ images: newImages });
+        
+        notification.success({
+          message: 'Success',
+          description: 'Image uploaded successfully!'
+        });
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Upload failed',
+        description: error instanceof Error ? error.message : 'Failed to upload image'
+      });
+    }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    const newImages = uploadedImages.filter((_, i) => i !== index);
+    setUploadedImages(newImages);
+    // Update form field when removing images
+    form.setFieldsValue({ images: newImages });
+  };
 
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields();
       const productData = {
         ...values,
-        imageUrl: values.imageUrl || "https://via.placeholder.com/300x200",
+        images: uploadedImages, // Ensure images are included in the submission
       };
 
       if (isEdit) {
         await updateProduct({ data: productData, productId: initialData.id }).unwrap();
-        toast.success("Product updated successfully");
+        notification.success({ message: "Product updated successfully" });
       } else {
         await createProduct(productData).unwrap();
-        toast.success("Product created successfully");
+        notification.success({ message: "Product created successfully" });
       }
 
       form.resetFields();
+      setUploadedImages([]);
       onOk();
     } catch (error) {
-      toast.error(`Failed to create product ${error.data?.message}`);
+      notification.error({ 
+        message: "Failed to save product",
+        description: error.data?.message || "An error occurred while saving the product"
+      });
     }
   };
 
@@ -143,8 +209,46 @@ const AddProductForm = ({
           <InputNumber min={0} style={{ width: "100%" }} />
         </Form.Item>
 
-        <Form.Item name="imageUrl" label="Image URL">
-          <Input placeholder="https://example.com/image.jpg" />
+        <Form.Item label="Product Images">
+          <div className="space-y-4">
+            <div className="flex gap-4 flex-wrap">
+              {uploadedImages.map((url, index) => (
+                <div key={index} className="relative">
+                  <Image
+                    src={url}
+                    alt={`Product image ${index + 1}`}
+                    width={100}
+                    height={100}
+                    className="object-cover rounded-lg"
+                  />
+                  <Button
+                    type="text"
+                    icon={<DeleteOutlined />}
+                    className="absolute top-0 right-0 text-red-500 bg-white rounded-full"
+                    onClick={() => handleRemoveImage(index)}
+                  />
+                </div>
+              ))}
+            </div>
+            
+            {uploadedImages.length < MAX_IMAGES && (
+              <>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleImageUpload}
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                />
+                <Button 
+                  icon={<UploadOutlined />}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  Upload Image ({uploadedImages.length}/{MAX_IMAGES})
+                </Button>
+              </>
+            )}
+          </div>
         </Form.Item>
       </Form>
     </Modal>
