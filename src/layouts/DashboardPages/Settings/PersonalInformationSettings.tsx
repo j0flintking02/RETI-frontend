@@ -15,7 +15,6 @@ const PersonalInformationSettings = () => {
     const [uploadedImages, setUploadedImages] = useState<string[]>([]);
     const [avatarUrl, setAvatarUrl] = useState<string>('');
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const MAX_IMAGES = 3;
 
     useEffect(() => {
         if (isError) {

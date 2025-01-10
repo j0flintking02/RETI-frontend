@@ -13,7 +13,6 @@ import { useGetInspirationsQuery } from "../../../services/inspirations";
 import Loader from "../../loader";
 import { useGetUserProfileQuery } from "../../../services/profiles";
 import Chat from "../../../components/secondary/Chat";
-import { InspirationsType } from "../../../services/types";
 import { toast } from "react-toastify";
 
 const YouthDashboardPage = () => {
@@ -21,6 +20,7 @@ const YouthDashboardPage = () => {
   const [markAsRead] = useMarkAsReadMutation();
   const user = loginDetails();
   const { data: inspirationsData } = useGetInspirationsQuery();
+  const { data: userProfile } = useGetUserProfileQuery(user?.user?.id);
   const [inspirations, setInspirations] = useState<InspirationsType[]>([]);
 
   const handleNotificationClick = async (notificationId: number) => {
