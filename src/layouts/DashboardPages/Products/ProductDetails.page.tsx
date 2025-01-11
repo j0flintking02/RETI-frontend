@@ -13,6 +13,7 @@ import AddProductForm from '../Forms/AddProductForm';
 import { loginDetails } from '../../../utils';
 import { toast } from 'react-toastify';
 import Loader from '../../loader';
+import Chat from '../../../components/secondary/Chat';
 
 const ProductDetailsPage = () => {
     const { id } = useParams();
@@ -199,6 +200,7 @@ const ProductDetailsPage = () => {
                     </Content>
                 )}
             </CustomDashboardLayout>
+            <Chat />
         </div>
     );
 };
