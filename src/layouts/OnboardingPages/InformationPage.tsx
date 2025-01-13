@@ -4,7 +4,8 @@ import moment from "moment";
 
 const InformationPage = ({setInformData}) => {
     const [form] = Form.useForm();
-    const user = userDetails().data||{}
+    const userDetailsData = userDetails();
+    const user = userDetailsData?.data || {};
     const {Option} = Select;
     const prefixSelector = (
         <Form.Item name="prefix" noStyle>

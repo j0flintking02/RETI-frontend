@@ -40,14 +40,15 @@ const LoginForm = () => {
         if (isSuccess) {
             const results = JSON.stringify(data);
             localStorage.setItem('loginDetails', results);
-            const user = data?.user || loginDetails()?.user;
+            localStorage.setItem('userDetails', results);
+            const user = data?.user;
             const isOnboarded = user?.isOnboarded;
             if (isOnboarded) {
                 toast.info(`Welcome back, ${user?.firstName}`);
                 navigate("/");
             } else {
                 toast.info(`Let's complete your onboarding`);
-                navigate("/onboarding"); //navigation is not redirecting to that route
+                navigate("/onboarding");
             }
         }
     }, [isSuccess, navigate, data]);

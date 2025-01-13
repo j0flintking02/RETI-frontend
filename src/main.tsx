@@ -42,10 +42,9 @@ function protectedLoader({ request }: LoaderFunctionArgs) {
   return null;
 }
 function protectedOnBoardingLoader() {
-  const userDetails = localStorage.getItem("userDetails");
   const loginDetails = localStorage.getItem("loginDetails");
-  if (!userDetails && loginDetails) {
-    return redirect("/register");
+  if (!loginDetails) {
+    return redirect("/login");
   }
   return null;
 }
