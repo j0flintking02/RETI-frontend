@@ -9,7 +9,9 @@ import MessagingChatDetails from "../../layouts/DashboardPages/Messaging/Message
 import { loginDetails } from "../../utils";
 import { useGetUserConversationsQuery } from "../../services/conversations";
 import { io } from "socket.io-client";
+import { useProfiles } from '../../hooks/useProfiles';
 import { useEffect, useState } from "react";
+import Loader from "../../layouts/loader";
 
 export default function Chat({ receiverId }) {
   const user = loginDetails();
@@ -19,6 +21,13 @@ export default function Chat({ receiverId }) {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [socket, setSocket] = useState(null);
   const [isChatsVisible, setIsChatsVisible] = useState(false);
+  const { profiles, isLoading: profilesLoading } = useProfiles(conversations);
+
+  const getReceiverProfile = (conversation) => {
+    const lastMessage = conversation?.messages[conversation?.messages.length - 1];
+    const otherUserId = lastMessage?.senderId === userId ? lastMessage?.receiverId : lastMessage?.senderId;
+    return profiles?.data?.find(p => p.userId === parseInt(otherUserId));
+  };
 
   useEffect(() => {
     if (data) {
@@ -116,6 +125,7 @@ export default function Chat({ receiverId }) {
                   {conversations?.map((conversation) => {
                     const lastMessage =
                       conversation?.messages[conversation?.messages.length - 1];
+                    const receiverProfile = getReceiverProfile(conversation);
 
                     return (
                       <li
@@ -126,13 +136,17 @@ export default function Chat({ receiverId }) {
                         <div>
                           <div className="flex justify-between gap-2">
                             <div
-                              className={`font-bold ${
-                                lastMessage?.isRead
-                                  ? "text-gray-800"
-                                  : "text-blue-600"
-                              }`}
+                              className={`font-bold ${lastMessage?.isRead
+                                ? "text-gray-800"
+                                : "text-blue-600"
+                                }`}
                             >
-                              User {conversation?.id}
+                              {/* User {conversation?.id} */}
+                              {profilesLoading ? (
+                                <Loader />
+                              ) : (
+                                `${receiverProfile?.user?.firstName} ${receiverProfile?.user?.lastName}`
+                              )}
                             </div>
                             <div className="text-xs text-green-500">Online</div>
                           </div>
