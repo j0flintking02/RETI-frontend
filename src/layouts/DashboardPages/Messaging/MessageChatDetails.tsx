@@ -5,8 +5,7 @@ import { Button } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useEffect, useState } from "react";
 import { useGetUserProfileQuery } from "../../../services/profiles";
-import { ConversationType, Message } from "../../../services/types";
-
+import { Message } from "../../../services/types";
 
 const MessagingChatDetails = ({
   conversation,
@@ -34,11 +33,15 @@ const MessagingChatDetails = ({
     }
   }, [conversation, socket]);
 
-  const receiverId = propReceiverId  || conversation?.messages?.find(
-    (msg: Message) => Number(msg.senderId) !== userId
-  )?.senderId;
-
-  const { data } = useGetUserProfileQuery(receiverId, {skip: !receiverId});
+  const receiverId =
+    propReceiverId ||
+    conversation?.messages?.find(
+      (msg: Message) => Number(msg.senderId) !== userId
+    )?.senderId ||
+    conversation?.messages?.find(
+      (msg: Message) => Number(msg.senderId) === userId
+    )?.receiverId;
+  const { data } = useGetUserProfileQuery(receiverId, { skip: !receiverId });
 
   const handleSendMessage = () => {
     if (newMessage.trim() === "") return;
@@ -64,7 +67,7 @@ const MessagingChatDetails = ({
     <div className="h-full w-full sm:w-[710px]">
       {/* typing */}
       <div className="sm:w-11/12">
-        <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+        <div className="p-4 border-b border-gray-200 flex items-center justify-between w-full sm:w-[710px]">
           <h2 className="text-lg/6 truncate font-semibold text-gray-900">
             {data?.data?.user?.firstName
               ? `${data.data.user.firstName} ${data.data.user.lastName}`
@@ -80,7 +83,7 @@ const MessagingChatDetails = ({
         </div>
 
         {/* Chat Area */}
-        <div className="p-4 h-[400px] overflow-y-auto bg-gray-50">
+        <div className="p-4 h-[400px] w-full sm:w-[710px] overflow-y-auto bg-gray-50">
           {/* Example messages */}
           <h2 className="pb-8 text-xs flex items-center justify-center">
             Today
@@ -108,13 +111,7 @@ const MessagingChatDetails = ({
         </div>
 
         {/* Input Area */}
-        <div className="p-2 border-t border-gray-200 flex items-center justify-between">
-          <Button
-            className="px-4 py-2"
-            type="link"
-            icon={<FileAddOutlined />}
-            size="large"
-          />
+        <div className="p-2 border-t border-gray-200 flex items-center justify-between w-full sm:w-[710px]">
           <TextArea
             className="p-2 mr-2 ml-2"
             placeholder="Type a message"

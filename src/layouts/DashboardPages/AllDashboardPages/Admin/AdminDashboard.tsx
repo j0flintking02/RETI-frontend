@@ -8,18 +8,12 @@ import JobOpportunitiesStatistics from "./OpportunitiesGraph";
 import ProductStockStatistics from "./ProductsGraph";
 import MapComponent from "./AdminMap";
 
-
 const AdminDashboardPage = () => {
-
   const user = loginDetails();
-
 
   return (
     <>
-   
-
       <CustomDashboardLayout>
-     
         <div className="w-full">
           {/* banner */}
           <Card className="shadow-sm text-black text-sm mb-1">

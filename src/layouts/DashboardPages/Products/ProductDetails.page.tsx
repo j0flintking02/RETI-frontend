@@ -13,6 +13,7 @@ import AddProductForm from '../Forms/AddProductForm';
 import { loginDetails } from '../../../utils';
 import { toast } from 'react-toastify';
 import Loader from '../../loader';
+import Chat from '../../../components/secondary/Chat';
 
 const ProductDetailsPage = () => {
     const { id } = useParams();
@@ -40,10 +41,7 @@ const ProductDetailsPage = () => {
             ...prev,
             [productId]: ((prev[productId] || 0) - 1 + maxLength) % maxLength,
         }));
-    };
-    
-    console.log(data?.data?.imageUrl);
-    
+    };    
 
     const handleDeleteProduct = async () => {
         try {
@@ -202,6 +200,7 @@ const ProductDetailsPage = () => {
                     </Content>
                 )}
             </CustomDashboardLayout>
+            <Chat />
         </div>
     );
 };
