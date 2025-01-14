@@ -34,7 +34,7 @@ const UsersPage = () => {
     navigate(`/users/${userId}`);
   };
 
-  const handleDeleteUser = async (userId: string) => {
+  const handleDeleteUser = async (userId: number) => {
     try {
       await deleteUser(userId).unwrap();
       toast.success('User deleted successfully');
@@ -94,7 +94,6 @@ const UsersPage = () => {
       render: (_, record) => (
         <Space size="middle">
            <a className='text-blue-500 hover:underline' onClick={() => handleViewUser(record.id)}>See Details</a>
-           {/* onClick={() => navigate(`/opportunities/${job.id}`)} */}
           <DeletePopconfirm
             title="Delete User"
             description="Are you sure you want to delete this user?"

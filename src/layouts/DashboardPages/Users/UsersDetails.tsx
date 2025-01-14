@@ -6,9 +6,7 @@ import { Avatar, Button, Form, Input } from 'antd';
 import Dragger from 'antd/es/upload/Dragger';
 import { InboxOutlined, UserOutlined } from '@ant-design/icons';
 
-
 const  UsersDetailsPage = () => {
-  
     return (
         <div>
             <Header pageTitle="User Details" />
@@ -18,25 +16,18 @@ const  UsersDetailsPage = () => {
                 <div className="py-4">
                 <Form layout="vertical"  initialValues={{
                 }}>
-
                     <div>
                         <div className="sm:flex sm:justify-between">
                             <div>
                                 <h2 className="text-md font-semibold text-gray-900">Bio Data</h2>
                             </div>
                         </div>
-
                         {/* profile picture and inputs */}
                         <div className="sm:flex gap-10 py-4">
                             <div>
                                 <Avatar size={80} icon={<UserOutlined />} />
                                 <p className="text-md font-semibold mt-2">John Doe </p>
                             </div>
-
-                            {/* {isLoading && <div className="w-auto text-center">
-                                <Spin size="large" />
-                            </div>} */}
-
                             <div className="w-full">
                                 <Form.Item>
                                     <div style={{ width: '100%', display: 'flex', gap: '16px' }}>
@@ -79,23 +70,15 @@ const  UsersDetailsPage = () => {
                             </div>
                         </div>
                     </div>
-
                     {/* account */}
-
-
                     <div>
                         <div className="sm:flex sm:justify-between">
                             <div>
                                 <h2 className="text-md font-semibold text-gray-900">Address</h2>
                             </div>
                         </div>
-
                         {/* profile picture and inputs */}
                         <div className="sm:flex gap-10 py-4">
-
-
-                           
-
                             <div className="w-full">
                                 <Form.Item>
                                     <div style={{ width: '100%', display: 'flex', gap: '16px' }}>
@@ -146,28 +129,19 @@ const  UsersDetailsPage = () => {
                                             />
                                         </Form.Item>
                                     </div>
-
-
                                 </Form.Item>
                             </div>
                         </div>
                     </div>
-
                     {/* id */}
-
-
                     <div>
                         <div className="sm:flex sm:justify-between">
                             <div>
                                 <h2 className="text-md font-semibold text-gray-900">Identification</h2>
                             </div>
                         </div>
-
                         {/* profile picture and inputs */}
                         <div className="sm:flex gap-10 py-4">
-                            
-                           
-
                             <div className="w-full">
                                 <Form.Item>
                                     <Dragger>
@@ -179,19 +153,13 @@ const  UsersDetailsPage = () => {
                                            PNG, JPG accepted. Max 5MB
                                         </p>
                                     </Dragger>
-
                                 </Form.Item>
                             </div>
                         </div>
                     </div>
-
-
                     <Button className="float-end" htmlType="submit" form="passwordForm" type="primary">
                         Save
                     </Button>
-
-
-
                 </Form>
             </div>
                 </Content>

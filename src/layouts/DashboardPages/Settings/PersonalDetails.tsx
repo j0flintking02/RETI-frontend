@@ -1,8 +1,7 @@
-import { EditOutlined, InboxOutlined, UserOutlined } from "@ant-design/icons";
-import { Alert, Avatar, Button, Input, Spin, Form, DatePicker, Select, notification } from "antd";
-import TextArea from "antd/es/input/TextArea";
+import { InboxOutlined, UserOutlined } from "@ant-design/icons";
+import { Avatar, Button, Input, Spin, Form,notification } from "antd";
 import { Content } from "antd/es/layout/layout";
-import { useGetUserProfileQuery, useUpdateProfileMutation } from "../../../services/users.ts";
+import { useGetUserProfileQuery, useUpdateProfileMutation } from "../../../services/profiles.ts";
 import { loginDetails } from "../../../utils.ts";
 import { useEffect } from "react";
 import moment from "moment";
@@ -23,7 +22,7 @@ const PersonalDetailsSettings = () => {
     }, [isError, error]);
     const handleFinish = async (values) => {
         try {
-            await updateUser({ data: values, user_id: loginDetails().user.id }).unwrap()
+            await updateUser({ data: values, profileId: loginDetails().user.id }).unwrap()
         } catch (e) {
             let message = 'Try again'
             if (typeof e.data.message === "string") {

@@ -1,11 +1,5 @@
 import { Tabs } from "antd";
-
 import { TabsProps } from "../../../services/types";
-import ChangePasswordSettings from "./ChangePasswordSettings";
-import PreferencesSettings from "./PreferencesSettings";
-import MyDataSettings from "./MyDataSettings";
-
-import ProfileSettings from "./Profile";
 import ProfileSkills from "./ProfileSkills";
 import Projects from "./ProfileProjects";
 
@@ -14,11 +8,6 @@ import Experience from "./ProfileWorkExperience";
 
 const ProfileTabs = () => {
   const items: TabsProps["items"] = [
-    // {
-    //   key: "1",
-    //   label: "Personal Information",
-    //   children: <PersonalInformationSettings />,
-    // },
     {
       key: "1",
       label: "Skills and specilization",
@@ -44,7 +33,6 @@ const ProfileTabs = () => {
   return (
     <>
           <Tabs defaultActiveKey="1" items={items} />
-       
     </>
   );
 };
