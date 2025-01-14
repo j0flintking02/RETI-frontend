@@ -1,49 +1,91 @@
-import { InboxOutlined, UserOutlined } from "@ant-design/icons";
+import { EditOutlined, InboxOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Input, Spin, Form,notification } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useGetUserProfileQuery, useUpdateProfileMutation } from "../../../services/profiles.ts";
 import { loginDetails } from "../../../utils.ts";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import moment from "moment";
 import Dragger from "antd/es/upload/Dragger";
+import { uploadImage, validateFile } from "../../../utils/uploadImage.ts";
+import { toast } from "react-toastify";
 
 
 const PersonalDetailsSettings = () => {
     const { data, isLoading, isError, error, } = useGetUserProfileQuery(loginDetails().user.id)
     const [updateUser, { isSuccess }] = useUpdateProfileMutation()
     const [form] = Form.useForm();
+
+      const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+      const [avatarUrl, setAvatarUrl] = useState<string>("");
+      const fileInputRef = useRef<HTMLInputElement>(null);
     useEffect(() => {
         if (isError) {
-            notification['error']({
-                message: "Something went wrong",
-                description: error.data.message,
-            })
+            toast.error("Something went wrong")
         }
     }, [isError, error]);
+
     const handleFinish = async (values) => {
         try {
-            await updateUser({ data: values, profileId: loginDetails().user.id }).unwrap()
+          await updateUser({
+            data: { ...values, profileImage: avatarUrl },
+            profileId: loginDetails()?.user.id,
+          }).unwrap();
         } catch (e) {
-            let message = 'Try again'
-            if (typeof e.data.message === "string") {
-                message = e.data.message
-            } else {
-                message = e.data.message[0]
-            }
-            notification['error']({
-                message: 'Something went wrong',
-                description:
-                    message,
-            });
+          let message = "Try again";
+          if (typeof e.data.message === "string") {
+            message = e.data.message;
+          } else {
+            message = e.data.message[0];
+          }
+          toast.error("Something went wrong");
         }
-    }
+      };
+
+    useEffect(() => {
+        if (data?.data.user.profilePicture) {
+          setAvatarUrl(data.data.user.profilePicture);
+        }
+      }, [data]);
+
     useEffect(() => {
         if (isSuccess) {
-            notification["success"]({
-                message: 'Profile updated successfully',
-            })
+          toast.success( "Profile updated successfully");
         }
-    }, [isSuccess]);
+      }, [isSuccess]);
+    
+
+    const handleAvatarClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleImageChange = async (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        if (!validateFile(file)) return;
+
+        try {
+            const imageUrl = await uploadImage(file);
+            if (imageUrl) {
+                setUploadedImages((prev) => [...prev, imageUrl]);
+                setAvatarUrl(imageUrl);
+                form.setFieldsValue({ profilePicture: imageUrl });
+                notification.success({
+                    message: "Success",
+                    description: "Image uploaded successfully!",
+                });
+            }
+        } catch (error) {
+            notification.error({
+                message: "Upload failed",
+                description:
+                    error instanceof Error ? error.message : "Failed to upload image",
+            });
+        }
+    };
+
 
     return (
         <Content className="p-8 space-y-2 border border-gray-900/10 rounded-lg bg-white">
@@ -69,9 +111,32 @@ const PersonalDetailsSettings = () => {
                         {/* profile picture and inputs */}
                         <div className="sm:flex gap-10 py-4">
                             <div>
-                                <Avatar size={80} icon={<UserOutlined />} />
+                            <Avatar
+                            size={80}
+                            icon={<UserOutlined />}
+                            src={
+                                avatarUrl ||
+                                data?.data.profileImage ||
+                                "https://via.placeholder.com/80"
+                            }
+                        />
                                 <p className="text-md font-semibold mt-2">{data && `${data?.data.user.firstName} ${data?.data.user.lastName}`}</p>
                             </div>
+                            <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleImageChange}
+                        accept="image/*"
+                        style={{ display: "none" }}
+                    />
+                    <Button
+                        type="text"
+                        icon={<EditOutlined />}
+                        className="text-blue-500 mt-2"
+                        onClick={handleAvatarClick}
+                    >
+                        Change avatar
+                    </Button>
 
                             {isLoading && <div className="w-auto text-center">
                                 <Spin size="large" />
@@ -230,10 +295,9 @@ const PersonalDetailsSettings = () => {
                         </div>
                     </div>
 
-
-                    <Button className="float-end" htmlType="submit" form="passwordForm" type="primary">
-                        Save
-                    </Button>
+                    <Button className="w-32 p-2" type="primary" onClick={form.submit}>
+            Save
+          </Button>
 
 
 
