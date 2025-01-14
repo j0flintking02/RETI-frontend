@@ -25,6 +25,8 @@ import moment from "moment";
 import Loader from "../../loader.tsx";
 import { toast } from "react-toastify";
 import Chat from "../../../components/secondary/Chat.tsx";
+import { useCreateNotificationMutation } from "../../../services/notifications.ts";
+import { log } from "console";
 
 const OpportunitiesDetailsPage = () => {
   const { id } = useParams();
@@ -34,6 +36,8 @@ const OpportunitiesDetailsPage = () => {
   const navigate = useNavigate();
   const jobCreatedDate = new Date(data?.data.createdAt);
   const [receiverId, setReceiverId] = useState(null);
+  const [createNotification] = useCreateNotificationMutation();
+
 
   const handleDeleteJob = async () => {
     try {
@@ -54,6 +58,27 @@ const OpportunitiesDetailsPage = () => {
     if (employerId) {
         setReceiverId(employerId); 
     }
+};
+
+const handleApplyNow = async () => {
+  const employerId = data?.data?.employer?.id; 
+  const userDetails = loginDetails();
+  const { firstName, lastName } = userDetails.user;
+  if (!employerId) {
+    toast.error("Unable to find employer information.");
+    return;
+  }
+  const notificationData = {
+    title: "New Application Received",
+    message: `${firstName} ${lastName} has applied for the job: ${data?.data?.title}.`,
+    userId: employerId,
+  };
+  try {
+    await createNotification(notificationData).unwrap();
+    toast.success("Application submitted and notification sent to the employer.");
+  } catch (error) {
+    toast.error("Failed to send notification: " + error.message);
+  }
 };
 
   const formattedInitialData = data?.data
@@ -142,7 +167,7 @@ const OpportunitiesDetailsPage = () => {
                     </p>
                   </div>
 
-                  <Button className="mt-4" type="primary">
+                  <Button className="mt-4" type="primary" onClick={handleApplyNow}>
                     Apply now
                   </Button>
                 </div>
