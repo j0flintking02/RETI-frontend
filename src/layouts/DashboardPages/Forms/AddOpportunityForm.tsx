@@ -26,7 +26,7 @@ const AddOpportunitiesForm = ({
   loading,
   initialData,
   isEdit = false,
-}) => {
+}:any) => {
   const [form] = Form.useForm();
   const [addJob] = useAddOpportunityMutation();
   const [updateJob] = useUpdateOpportunityMutation();

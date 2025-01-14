@@ -6,6 +6,11 @@ import PreferencesSettings from "./PreferencesSettings";
 import MyDataSettings from "./MyDataSettings";
 
 import ProfileSettings from "./Profile";
+import ProfileSkills from "./ProfileSkills";
+import Projects from "./ProfileProjects";
+
+import Education from "./ProfileEducation";
+import Experience from "./ProfileWorkExperience";
 
 const ProfileTabs = () => {
   const items: TabsProps["items"] = [
@@ -16,29 +21,28 @@ const ProfileTabs = () => {
     // },
     {
       key: "1",
-      label: "Profile",
-      children: ''
+      label: "Skills and specilization",
+      children: <ProfileSkills />
     },
     {
       key: "2",
-      label: "Change Password",
-       children: ''
+      label: "Projects",
+       children: <Projects/>
     },
     {
       key: "3",
-      label: "Preferences",
-      children: ''
+      label: "Work experience",
+      children: <Experience />
     },
     {
       key: "4",
-      label: "My Data",
-       children: ''
+      label: "Education",
+      children: <Education />
     },
   ];
 
   return (
     <>
-      
           <Tabs defaultActiveKey="1" items={items} />
        
     </>
