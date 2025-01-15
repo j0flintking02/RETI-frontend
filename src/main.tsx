@@ -29,6 +29,7 @@ import MentorshipPage from "./layouts/DashboardPages/Mentorship/Mentorship.page.
 import UsersPage from "./layouts/DashboardPages/Users/UsersTable.tsx";
 import ProductsPage from "./layouts/DashboardPages/Products/Products.page.tsx";
 import ProductDetailsPage from "./layouts/DashboardPages/Products/ProductDetails.page.tsx";
+import UsersDetailsPage from "./layouts/DashboardPages/Users/UsersDetails.tsx";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -164,7 +165,15 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [],
   },
-
+  {
+    path: "/users/:id",
+    element: (
+      <CustomAppLayout>
+        <UsersDetailsPage />
+      </CustomAppLayout>
+    ),
+    errorElement: <ErrorPage />,
+  },
   {
     path: "/forgot-password",
     loader: loginLoader,
