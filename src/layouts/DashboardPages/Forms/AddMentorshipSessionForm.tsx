@@ -1,8 +1,7 @@
 import React from 'react';
 import { Modal, Descriptions, Button, Space, Popconfirm, Tag } from 'antd';
-import { MentorshipSession } from '../../services/types/mentorship';
-import { format } from 'date-fns';
-import { useDeleteMentorshipSessionMutation } from '../../services/mentorshipSessions';
+import { MentorshipSession } from '../../../services/types/mentorship';
+import { useDeleteMentorshipSessionMutation } from '../../../services/mentorship';
 
 interface MentorshipSessionDetailsProps {
   session: MentorshipSession | null;
@@ -12,12 +11,11 @@ interface MentorshipSessionDetailsProps {
   userRole: 'mentor' | 'youth';
 }
 
-const MentorshipSessionDetails: React.FC<MentorshipSessionDetailsProps> = ({
+const AddMentorshipSessionForm: React.FC<MentorshipSessionDetailsProps> = ({
   session,
   visible,
   onClose,
   onEdit,
-  userRole,
 }) => {
   const [deleteSession] = useDeleteMentorshipSessionMutation();
 
@@ -52,7 +50,6 @@ const MentorshipSessionDetails: React.FC<MentorshipSessionDetailsProps> = ({
       onCancel={onClose}
       footer={
         <Space>
-          <Button onClick={onClose}>Close</Button>
           <Button type="primary" onClick={() => onEdit(session)}>
             Edit Session
           </Button>
@@ -70,17 +67,11 @@ const MentorshipSessionDetails: React.FC<MentorshipSessionDetailsProps> = ({
     >
       <Descriptions column={1} bordered>
         <Descriptions.Item label="Title">{session.title}</Descriptions.Item>
-        <Descriptions.Item label="Description">{session.description}</Descriptions.Item>
-        <Descriptions.Item label="Start Time">
-          {format(new Date(session.startTime), 'PPpp')}
-        </Descriptions.Item>
-        <Descriptions.Item label="End Time">
-          {format(new Date(session.endTime), 'PPpp')}
-        </Descriptions.Item>
+        <Descriptions.Item label="Notes">{session.notes}</Descriptions.Item>
+        <Descriptions.Item label="Duration">{session.duration} minutes</Descriptions.Item>
         <Descriptions.Item label="Status">
-          <Tag color={getStatusColor(session.status)}>{session.status.toUpperCase()}</Tag>
+          <Tag color={getStatusColor(session?.status)}>{session?.status.toUpperCase()}</Tag>
         </Descriptions.Item>
-        <Descriptions.Item label="Location">{session.location || 'Not specified'}</Descriptions.Item>
         {session.meetingLink && (
           <Descriptions.Item label="Meeting Link">
             <a href={session.meetingLink} target="_blank" rel="noopener noreferrer">
@@ -93,4 +84,4 @@ const MentorshipSessionDetails: React.FC<MentorshipSessionDetailsProps> = ({
   );
 };
 
-export default MentorshipSessionDetails;
+export default AddMentorshipSessionForm;
