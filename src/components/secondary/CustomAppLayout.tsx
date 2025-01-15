@@ -24,8 +24,7 @@ const CustomAppLayout: React.FC<LayoutProps> = ({ children }) => {
         />
       </div>
 
-
-      <AntdLayout>
+      <AntdLayout className="lg:ml-[250px]">
         {/* Main Content */}
         <Content className="min-h-screen">
           {children}

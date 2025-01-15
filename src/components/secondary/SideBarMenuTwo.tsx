@@ -105,7 +105,7 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
         <Sider
             width={250}
             theme="light"
-            className="relative h-full border-gray-300"
+            className="fixed h-screen border-gray-300"
             style={{ backgroundColor: 'rgb(6, 46, 100)' }}
         >
                        <div className="flex items-center justify-between px-8 py-4" style={{ backgroundColor: 'rgb(6, 46, 100)' }}>
@@ -114,10 +114,10 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                     src={reti}
                     className="h-20 w-auto"
                 />
-                <CloseOutlined
+                {/* <CloseOutlined
                     onClick={closeDrawer}
                     className="text-white hover:text-gray-300 text-lg cursor-pointer block lg:hidden"
-                />
+                /> */}
             </div>
             {/* Sidebar Menu */}
             <Menu
@@ -139,11 +139,11 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                   icon={<UserOutlined />}
                   src={userProfile?.data?.profileImage || 'https://via.placeholder.com/80'}
                 />
-                <div>
+                <div className="ml-2">
                     <Tag color="#f50">
                         <label className="block text-white">{`${user?.user?.firstName} ${user?.user?.lastName}`}</label>
                     </Tag>
-                    <div className="flex items-center gap-2 text-white">
+                    <div className="flex items-center gap-1 text-white">
                         <PhoneOutlined className="text-white" />
                         <label>{user?.user?.phoneNumber}</label>
                     </div>
