@@ -20,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({ pageTitle }) => {
     const closeDrawer = () => setDrawerVisible(false);
 
     return (
-        <div className="h-16 bg-white flex justify-between items-center px-4 border-b border-gray-300 shadow-sm">
+        <div className="sticky top-0 z-50 h-16 bg-white flex justify-between items-center px-4 border-b border-gray-300 shadow-sm">
             <h2 className="hidden text-xl font-medium lg:block px-4">{pageTitle}</h2>
             {/* <div className="text-lg font-bold block lg:hidden">Reti</div> */}
 
@@ -39,19 +39,21 @@ const Header: React.FC<HeaderProps> = ({ pageTitle }) => {
                 />
             </div>
 
-            {/* Drawer for small screens */}
+                       {/* Drawer for small screens */}
             <Drawer
-                title="Menu"
+                title={null}
                 placement="left"
                 onClose={closeDrawer} // Close the drawer
                 open={drawerVisible} // Controlled by state
                 className="lg:hidden"
-                bodyStyle={{ padding: 0 }}
+                closable={false}
+                bodyStyle={{ padding: 0, backgroundColor: 'transparent' }}
                 width={250}
             >
                 <SiderTwo closeDrawer={closeDrawer} />
             </Drawer>
         </div>
+
     );
 };
 

@@ -17,9 +17,65 @@ export const inspirationApi = createApi({
             }),
             providesTags: ['Inspirations'],
         }),
+        getMentorInspirations: query<InspirationsResponseType, void>({
+            query: () => ({
+                url: 'inspirations/mentor',
+                method: 'GET',
+                headers: getHeaders(),
+            }),
+            providesTags: ['Inspirations'],
+        }),
+        useLikeInspirationMutation: query<InspirationsResponseType, void>({
+            query: () => ({
+                url: 'inspirations/mentor',
+                method: 'POST',
+                headers: getHeaders(),
+            }),
+            providesTags: ['Inspirations'],
+        }),
+        addInspiration: mutation<void, any>({
+            query: (body) => ({
+                url: 'inspirations',
+                method: 'POST',
+                headers: getHeaders(),
+                body,
+            }),
+            invalidatesTags: ['Inspirations'],
+        }),
+        likeInspiration: mutation<void, { id: number; body: any }>({
+            query: ({ id, body}) => ({
+                url: `inspirations/${id}/like`,
+                method: 'POST',
+                headers: getHeaders(),
+                body,
+            }),
+            invalidatesTags: ['Inspirations'],
+        }),
+        updateInspiration: mutation<void, { id: number; body: any }>({
+            query: ({ id, body }) => ({
+                url: `inspirations/${id}`,
+                method: 'PATCH',
+                headers: getHeaders(),
+                body,
+            }),
+            invalidatesTags: ['Inspirations'],
+        }),
+        deleteInspiration: mutation<void, number>({
+            query: (id) => ({
+                url: `inspirations/${id}`,
+                method: 'DELETE',
+                headers: getHeaders(),
+            }),
+            invalidatesTags: ['Inspirations'],
+        }),
     }),
 });
 
 export const {
     useGetInspirationsQuery,
+    useAddInspirationMutation,
+    useUpdateInspirationMutation,
+    useDeleteInspirationMutation,
+    useLikeInspirationMutation,
+    useGetMentorInspirationsQuery,
 } = inspirationApi;

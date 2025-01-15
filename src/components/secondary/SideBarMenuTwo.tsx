@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Avatar, Layout, Menu, Tag } from "antd";
 import { Link } from "react-router-dom";
 import reti from "../../assets/reti.png";
-import { HomeOutlined, LogoutOutlined, MessageOutlined, PhoneOutlined, ProjectOutlined, QuestionCircleOutlined, SettingOutlined, UsergroupAddOutlined, UserOutlined, } from "@ant-design/icons";
+import { HomeOutlined, LogoutOutlined, MessageOutlined, PhoneOutlined, ProjectOutlined, QuestionCircleOutlined, SettingOutlined, UsergroupAddOutlined, UserOutlined, CloseOutlined } from "@ant-design/icons";
 import { handleLogout, loginDetails } from "../../utils.ts";
 import HelpandsupportForm from "../../layouts/DashboardPages/Forms/HelpAndSupportForm.tsx";
 import { ShoppingOutlined } from "@ant-design/icons";
@@ -108,14 +108,16 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
             className="relative h-full border-gray-300"
             style={{ backgroundColor: 'rgb(6, 46, 100)' }}
         >
-            <div className="h-16 text-white py-4 px-8 mb-10" style={{ backgroundColor: 'rgb(6, 46, 100)' }}>
-                <h4 className="font-bold text-lg">
-                    <img
-                        alt="Your Company"
-                        src={reti}
-                        className="h-20 w-auto"
-                    />
-                </h4>
+                       <div className="flex items-center justify-between px-8 py-4" style={{ backgroundColor: 'rgb(6, 46, 100)' }}>
+                <img
+                    alt="Your Company"
+                    src={reti}
+                    className="h-20 w-auto"
+                />
+                <CloseOutlined
+                    onClick={closeDrawer}
+                    className="text-white hover:text-gray-300 text-lg cursor-pointer block lg:hidden"
+                />
             </div>
             {/* Sidebar Menu */}
             <Menu
@@ -139,11 +141,11 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
                 />
                 <div>
                     <Tag color="#f50">
-                        <label className="block text-white">{`${user.user.firstName} ${user.user.lastName}`}</label>
+                        <label className="block text-white">{`${user?.user?.firstName} ${user?.user?.lastName}`}</label>
                     </Tag>
                     <div className="flex items-center gap-2 text-white">
                         <PhoneOutlined className="text-white" />
-                        <label>{user.user.phoneNumber}</label>
+                        <label>{user?.user?.phoneNumber}</label>
                     </div>
                 </div>
             </div>
