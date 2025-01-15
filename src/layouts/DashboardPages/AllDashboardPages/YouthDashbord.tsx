@@ -102,12 +102,20 @@ const YouthDashboardPage = () => {
                 <div key={inspiration.id} className="border-b p-3">
                   <p className="text-red-500 font-medium">{inspiration.title}</p>
                   <div>
-                    <p className="text-sm text-gray-600 truncate">{inspiration.content}</p>
+                    <p className="text-sm text-gray-600 whitespace-normal break-words">
+                      {inspiration.content}
+                    </p>
                   </div>
                   <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
                     <span>
+                      Posted By:
+                      <Tag className="ml-2" color="red">
+                        {`${inspiration?.mentor.firstName} ${inspiration?.mentor.lastName}`}
+                      </Tag>
+                    </span>
+                    <span>
                       Posted At:
-                      <Tag className="ml-2">
+                      <Tag className="ml-2" color="blue">
                         {new Date(inspiration.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                       </Tag>
                     </span>

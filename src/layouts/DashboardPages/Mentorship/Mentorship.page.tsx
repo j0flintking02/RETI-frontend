@@ -33,17 +33,7 @@ const MentorshipPage = () => {
 
       <CustomDashboardLayout>
         <div className="flex items-center justify-end">
-          <div>
-            <Button type="primary" onClick={showModal}>
-              Add guidance
-            </Button>
-            <AddInspirationsForm
-              onOk={handleOk}
-              onCancel={handleCancel}
-              open={open}
-              loading={loading}
-            />
-          </div>
+          <div></div>
         </div>
 
         <Layout>

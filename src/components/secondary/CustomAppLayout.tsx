@@ -16,7 +16,7 @@ const CustomAppLayout: React.FC<LayoutProps> = ({ children }) => {
   const closeDrawer = () => setDrawerVisible(false);
 
   return (
-    <AntdLayout className="min-h-screen">
+    <AntdLayout className="min-h-screen relative">
       {/* Sidebar */}
       <div className="hidden lg:block">
         <SiderTwo
@@ -24,10 +24,9 @@ const CustomAppLayout: React.FC<LayoutProps> = ({ children }) => {
         />
       </div>
 
-
-      <AntdLayout>
+      <AntdLayout className="lg:ml-[250px]">
         {/* Main Content */}
-        <Content>
+        <Content className="min-h-screen">
           {children}
         </Content>
       </AntdLayout>

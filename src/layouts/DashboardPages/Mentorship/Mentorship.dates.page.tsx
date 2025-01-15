@@ -1,6 +1,10 @@
 import { EditOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import DeletePopconfirm from "../../../components/secondary/CustomDeletePopUp";
+import { useGetMentorInspirationsQuery, useDeleteInspirationMutation } from '../../../services/inspirations';
+import { toast } from 'react-toastify';
+import AddInspirationsForm from "../Forms/AddGuidanceForm";
+import { useState } from 'react';
 
 const days = [
   { date: "2021-12-27" },
@@ -78,8 +82,60 @@ function classNames(...classes) {
 }
 
 export default function MentorshipDates() {
+  const { data: inspirationsData } = useGetMentorInspirationsQuery();
+  const [deleteInspiration] = useDeleteInspirationMutation();
+  const [editingInspiration, setEditingInspiration] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const handleEdit = (inspiration) => {
+    setEditingInspiration(inspiration);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditCancel = () => {
+    setIsEditModalOpen(false);
+    setEditingInspiration(null);
+  };
+
+  const handleEditOk = () => {
+    setIsEditModalOpen(false);
+    setEditingInspiration(null);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteInspiration(id).unwrap();
+      toast.success('Inspiration deleted successfully');
+    } catch (error) {
+      toast.error('Failed to delete inspiration');
+    }
+  };
+
   return (
     <>
+      <div className="flex justify-end mb-4">
+        <Button type="primary" onClick={() => setIsAddModalOpen(true)}>
+          Add Inspiration
+        </Button>
+      </div>
+
+      <AddInspirationsForm
+        open={isAddModalOpen}
+        onOk={() => setIsAddModalOpen(false)}
+        onCancel={() => setIsAddModalOpen(false)}
+        loading={false}
+      />
+
+      <AddInspirationsForm
+        open={isEditModalOpen}
+        onOk={handleEditOk}
+        onCancel={handleEditCancel}
+        loading={false}
+        initialData={editingInspiration}
+        isEdit={true}
+      />
+
       <div className="sm:flex mt-8">
         <div className="sm:w-6/12 border-r">
           <div className="flex items-center justify-between mt-4 sm:mt-0 px-2">
@@ -192,22 +248,22 @@ export default function MentorshipDates() {
             <h2 className="text-lg font-semibold">Guidance</h2>
           </div>
 
-          {/* Inspirations List */}
           <div className="space-y-4 overflow-y-auto max-h-screen px-4">
-            {inspirations?.map((inspiration, index) => (
-              <div key={index} className="boarder border-b">
-                <div className="text-sm py-2">{inspiration}</div>
-                <div className="space-x-2 text-right pb-2">
+            {inspirationsData?.data?.map((inspiration) => (
+              <div key={inspiration.id} className="border-b p-3">
+                <p className="text-red-500 font-medium">{inspiration.title}</p>
+                <div>
+                  <p className="text-sm text-gray-600">{inspiration.content}</p>
+                </div>
+                <div className="flex justify-end space-x-2 mt-2">
                   <EditOutlined
                     className="text-blue-500 cursor-pointer"
-                    // onClick={() => editInspiration(index)}
+                    onClick={() => handleEdit(inspiration)}
                   />
                   <DeletePopconfirm
                     title="Delete"
                     description="Are you sure to delete this inspiration?"
-                    // onConfirm={deleteTask}  // This is where the delete function is called
-                    onConfirmMessage="Task deleted successfully"
-                    onCancelMessage="Task deletion cancelled"
+                    onConfirm={() => handleDelete(inspiration.id)}
                     okText="Yes"
                     cancelText="No"
                   />
