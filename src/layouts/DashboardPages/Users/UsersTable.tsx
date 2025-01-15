@@ -8,6 +8,7 @@ import DeletePopconfirm from "../../../components/secondary/CustomDeletePopUp";
 import { useState } from "react";
 import Loader from '../../loader.tsx';
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const { Search } = Input;
 const { Option } = Select;
@@ -27,8 +28,13 @@ const UsersPage = () => {
   const [deleteUser] = useDeleteUserMutation();
   const [searchText, setSearchText] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
+  const navigate = useNavigate();
 
-  const handleDeleteUser = async (userId: string) => {
+  const handleViewUser = (userId: string) => {
+    navigate(`/users/${userId}`);
+  };
+
+  const handleDeleteUser = async (userId: number) => {
     try {
       await deleteUser(userId).unwrap();
       toast.success('User deleted successfully');
@@ -87,6 +93,7 @@ const UsersPage = () => {
       key: 'action',
       render: (_, record) => (
         <Space size="middle">
+           <a className='text-blue-500 hover:underline' onClick={() => handleViewUser(record.id)}>See Details</a>
           <DeletePopconfirm
             title="Delete User"
             description="Are you sure you want to delete this user?"
@@ -113,6 +120,7 @@ const UsersPage = () => {
             onChange={(e) => setSearchText(e.target.value)}
             style={{ width: 300 }}
             prefix={<SearchOutlined />}
+           
           />
           <Select
             defaultValue="all"
