@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 
 
 const PersonalDetailsSettings = () => {
-    const { data, isLoading, isError, error, } = useGetUserProfileQuery(loginDetails().user.id)
+    const { data, isLoading, isError, error, refetch } = useGetUserProfileQuery(loginDetails().user.id)
     const [updateUser, { isSuccess }] = useUpdateProfileMutation()
     const [form] = Form.useForm();
 
@@ -26,20 +26,35 @@ const PersonalDetailsSettings = () => {
 
     const handleFinish = async (values) => {
         try {
-          await updateUser({
-            data: { ...values, profileImage: avatarUrl },
-            profileId: loginDetails()?.user.id,
-          }).unwrap();
+            await updateUser({
+                data: { ...values, profileImage: avatarUrl },
+                profileId: loginDetails()?.user.id,
+            }).unwrap();
+
+            // Update local storage
+            const currentUser = loginDetails();
+            if (currentUser) {
+                currentUser.profileImage = avatarUrl;
+                localStorage.setItem('user', JSON.stringify(currentUser));
+            }
+
+            // Force refetch of user profile data to update sidebar
+            await refetch();
+
+            notification.success({
+                message: "Success",
+                description: "Profile updated successfully!",
+            });
         } catch (e) {
-          let message = "Try again";
-          if (typeof e.data.message === "string") {
-            message = e.data.message;
-          } else {
-            message = e.data.message[0];
-          }
-          toast.error("Something went wrong");
+            let message = "Try again";
+            if (typeof e.data.message === "string") {
+                message = e.data.message;
+            } else {
+                message = e.data.message[0];
+            }
+            toast.error("Something went wrong");
         }
-      };
+    };
 
     useEffect(() => {
         if (data?.data.user.profilePicture) {

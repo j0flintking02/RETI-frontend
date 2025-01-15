@@ -168,29 +168,6 @@ const ProductDetailsPage = () => {
                     {data?.data.description}
                   </p>
 
-                  <div className="space-y-4">
-                    <p className="text-sm text-gray-500 flex items-center gap-2">
-                      <span className="text-gray-400">
-                        <TagOutlined />
-                      </span>
-                      Category: {data?.data.category}
-                    </p>
-
-                    <p className="text-sm text-gray-500 flex items-center gap-2">
-                      <span className="text-gray-400">
-                        <MoneyCollectOutlined />
-                      </span>
-                      Price: {data?.data.price} shs
-                    </p>
-
-                    <p className="text-sm text-gray-500 flex items-center gap-2">
-                      <span className="text-gray-400">
-                        <ShoppingOutlined />
-                      </span>
-                      Stock: {data?.data.stockQuantity} units
-                    </p>
-                  </div>
-
                   <Button
                     className="mt-4"
                     type="primary"
@@ -218,6 +195,29 @@ const ProductDetailsPage = () => {
                     </div>
                   </div>
 
+                  <div className="space-y-4 mt-6">
+                    <p className="text-sm text-gray-500 flex items-center gap-2">
+                      <span className="text-gray-400">
+                        <TagOutlined />
+                      </span>
+                      Category: {data?.data.category}
+                    </p>
+
+                    <p className="text-sm text-gray-500 flex items-center gap-2">
+                      <span className="text-gray-400">
+                        <MoneyCollectOutlined />
+                      </span>
+                      Price: {data?.data.price} shs
+                    </p>
+
+                    <p className="text-sm text-gray-500 flex items-center gap-2">
+                      <span className="text-gray-400">
+                        <ShoppingOutlined />
+                      </span>
+                      Stock: {data?.data.stockQuantity} units
+                    </p>
+                  </div>
+
                   <div className="mt-4">
                     <span
                       className={`px-2 py-1 rounded-full text-sm ${
@@ -226,9 +226,7 @@ const ProductDetailsPage = () => {
                           : "bg-red-100 text-red-800"
                       }`}
                     >
-                      {data?.data.stockQuantity > 0
-                        ? "In Stock"
-                        : "Out of Stock"}
+                      {data?.data.stockQuantity > 0 ? "In Stock" : "Out of Stock"}
                     </span>
                   </div>
                 </div>
