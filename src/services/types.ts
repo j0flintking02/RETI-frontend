@@ -228,13 +228,12 @@ export interface CreateNotificationRequest {
 export interface MentorshipSession {
   id: string;
   title: string;
-  description: string;
-  startTime: string;
-  endTime: string;
+  notes: string;
+  sessionDate: string;
+  duration: number;
   mentorId: number;
   youthId: number;
-  status: 'scheduled' | 'completed' | 'cancelled';
-  location?: string; // Can be online/physical location
+  status: 'PENDING' | 'COMPLETED' | 'CANCELLED' | 'CONFIRMED';
   meetingLink?: string; // For online sessions
   createdAt: string;
   updatedAt: string;
