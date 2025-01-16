@@ -26,9 +26,9 @@ export const mentorshipApi = createApi({
             }),
             invalidatesTags: ['Mentorship'],
         }),
-        updateMentorshipSession: builder.mutation<any, any>({
-            query: (data) => ({
-                url: `mentorship-sessions/${1}`,
+        updateMentorshipSession: builder.mutation<any, { sessionId: number; body: any }>({
+            query: ({sessionId, data}) => ({
+                url: `mentorship-sessions/${sessionId}`,
                 method: 'PATCH',
                 body: data,
                 headers: getHeaders(),
@@ -36,10 +36,9 @@ export const mentorshipApi = createApi({
             invalidatesTags: ['Mentorship'],
         }),
         deleteMentorshipSession: builder.mutation<any, any>({
-            query: (data) => ({
-                url: 'mentorship-sessions',
+            query: (sessionId) => ({
+                url: `mentorship-sessions/${sessionId}`,
                 method: 'DELETE',
-                body: data,
                 headers: getHeaders(),
             }),
             invalidatesTags: ['Mentorship'],

@@ -24,6 +24,7 @@ const YouthDashboardPage = () => {
   const { data: userProfile } = useGetUserProfileQuery(user?.user?.id);
   const [inspirations, setInspirations] = useState<InspirationsType[]>([]);
 
+  const reversedNotifications = notificationsData?.data?.slice().reverse();
   const handleNotificationClick = async (notificationId: number) => {
     try {
       await markAsRead(notificationId).unwrap();
@@ -74,7 +75,7 @@ const YouthDashboardPage = () => {
                 <Loader />
               ) : (
                 <ul className="space-y-4">
-                  {notificationsData?.data?.map((notification) => (
+                  {reversedNotifications?.map((notification) => (
                     <li
                       key={notification.id}
                       className="cursor-pointer flex justify-between items-center hover:bg-gray-100 p-2 rounded-md"
@@ -98,7 +99,7 @@ const YouthDashboardPage = () => {
 
           {/* Recent Inspirations */}
           <Card title="Inspiration Quotations" className="shadow-sm">
-            <div className="space-y-2 p-2 overflow-y-auto h-52">
+            <div className="space-y-2 p-2 overflow-y-auto h-[330px]">
               {inspirations?.map((inspiration) => (
                 <div key={inspiration.id} className="border-b p-3">
                   <p className="text-red-500 font-medium">{inspiration.title}</p>

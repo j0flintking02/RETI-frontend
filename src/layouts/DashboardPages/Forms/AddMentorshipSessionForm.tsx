@@ -1,7 +1,8 @@
 import React from 'react';
 import { Modal, Descriptions, Button, Space, Popconfirm, Tag } from 'antd';
-import { MentorshipSession } from '../../../services/types/mentorship';
+import { MentorshipSession } from '../../../services/types';
 import { useDeleteMentorshipSessionMutation } from '../../../services/mentorship';
+import { toast } from 'react-toastify';
 
 interface MentorshipSessionDetailsProps {
   session: MentorshipSession | null;
@@ -22,11 +23,13 @@ const AddMentorshipSessionForm: React.FC<MentorshipSessionDetailsProps> = ({
   if (!session) return null;
 
   const handleDelete = async () => {
+    const sessionId = session?.id;
     try {
-      await deleteSession(session.id).unwrap();
+      await deleteSession(sessionId).unwrap();
+      toast.success('Session deleted successfully');
       onClose();
     } catch (error) {
-      console.error('Failed to delete session:', error);
+      toast.error('Failed to delete session:', error);
     }
   };
 

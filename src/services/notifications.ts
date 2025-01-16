@@ -15,7 +15,7 @@ export const notificationApi = createApi({
                 method: 'GET',
                 headers: getHeaders(),
             }),
-            providesTags: ['Notifications'],
+            invalidatesTags: ['Notifications'],
         }),
 
         createNotification: builder.mutation<Notification, CreateNotificationRequest>({
