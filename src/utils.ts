@@ -1,3 +1,6 @@
+import jsPDF from "jspdf";
+import { toast } from "react-toastify";
+
 export const handleLogout = () => {
     localStorage.removeItem('loginDetails')
     return window.location.reload();
@@ -69,3 +72,86 @@ export const getHeaders = () => {
     }
     return myHeaders;
 }
+
+export const handleDownloadData = (data: any) => {
+    if (!data) {
+        toast.error("Unable to download data at this moment. No data available.");
+        return;
+      }
+    const userProfile = data?.data;
+    const doc = new jsPDF();
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(22);
+    doc.text("Profile Information", 10, 20);
+
+    doc.setFontSize(16);
+    doc.text("Personal Information", 10, 35);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text("Full Name:", 10, 45);
+    doc.setFont("helvetica", "bold");
+    doc.text(
+      `${userProfile?.user.firstName} ${userProfile?.user.lastName}`,
+      40,
+      45
+    );
+
+    doc.setFont("helvetica", "normal");
+    doc.text("Date of Birth:", 10, 55);
+    doc.setFont("helvetica", "bold");
+    doc.text(
+      `${new Date(userProfile?.dateOfBirth).toLocaleDateString()}`,
+      40,
+      55
+    );
+
+    doc.setFont("helvetica", "normal");
+    doc.text("Gender:", 10, 65);
+    doc.setFont("helvetica", "bold");
+    doc.text(`${userProfile?.gender}`, 40, 65);
+
+    doc.setFont("helvetica", "normal");
+    doc.text("Location:", 10, 75);
+    doc.setFont("helvetica", "bold");
+    doc.text(`${userProfile?.location || "Not provided"}`, 40, 75);
+
+    doc.setFont("helvetica", "normal");
+    doc.text("Phone Number:", 10, 85);
+    doc.setFont("helvetica", "bold");
+    doc.text(`${userProfile?.phoneNumber}`, 40, 85);
+
+    doc.setFont("helvetica", "normal");
+    doc.text("Email:", 10, 95);
+    doc.setFont("helvetica", "bold");
+    doc.text(`${userProfile?.email}`, 40, 95);
+
+    doc.setDrawColor(200);
+    doc.line(10, 105, 200, 105);
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("Profile Summary", 10, 115);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(userProfile?.bio || "No bio provided.", 10, 125);
+
+    doc.line(10, 135, 200, 135);
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("Skills", 10, 145);
+    doc.setFont("helvetica", "normal");
+    const skills = userProfile?.skills || [];
+    if (skills.length > 0) {
+      let startY = 155;
+      skills.forEach((skill) => {
+        doc.text(`• ${skill}`, 15, startY);
+        startY += 10;
+      });
+    } else {
+      doc.text("No skills provided.", 10, 155);
+    }
+
+    const fileName = `${userProfile?.user.firstName}_${userProfile?.user.lastName}.pdf`;
+    doc.save(fileName);
+  };
