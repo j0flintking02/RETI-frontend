@@ -141,7 +141,7 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
       style={{ backgroundColor: "rgb(6, 46, 100)" }}
     >
       <div
-        className="flex items-center justify-between px-8 py-4"
+        className="flex items-center justify-center px-8 py-4"
         style={{ backgroundColor: "rgb(6, 46, 100)" }}
       >
         <img alt="Your Company" src={reti} className="h-20 w-auto" />
@@ -153,7 +153,7 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
         selectedKeys={[selectedKey]}
         items={getMenuItems(closeDrawer)}
         onClick={handleMenuClick}
-        className="capitalize flex-1 text-md"
+        className="capitalize flex-1 text-md custom-menu"
         style={{
           backgroundColor: "rgb(6, 46, 100)",
           color: "white",

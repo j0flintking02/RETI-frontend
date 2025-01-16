@@ -37,7 +37,7 @@ const AllOpportunitiesPage = () => {
                     <div className="mt-4">
                       <div className="flex items-center justify-between">
                         <p className="py-2 text-sm font-semibold truncate">
-                          Posted by
+                          Created By
                         </p>
                       </div>
                       <div className="flex items-center justify-between">

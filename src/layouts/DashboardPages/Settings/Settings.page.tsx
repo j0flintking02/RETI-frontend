@@ -13,15 +13,23 @@ const SettingsPage = () => {
       label: "Profile",
       children: <ProfileSettings />,
     },
-     {
+    {
       key: "2",
       label: "Personal Details",
-      children: <PersonalDetailsSettings />,
+      children: (
+        <div className="w-[75%] ">
+          <PersonalDetailsSettings />
+        </div>
+      ),
     },
     {
       key: "3",
       label: "Account",
-      children: <ChangePasswordSettings />,
+      children: (
+        <div className="w-[75%]">
+          <ChangePasswordSettings />
+        </div>
+      ),
     },
   ];
 
