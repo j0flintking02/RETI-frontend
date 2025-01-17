@@ -38,7 +38,6 @@ const OpportunitiesDetailsPage = () => {
   const [receiverId, setReceiverId] = useState(null);
   const [createNotification] = useCreateNotificationMutation();
 
-
   const handleDeleteJob = async () => {
     try {
       await deleteJob(Number(id)).unwrap();
@@ -54,32 +53,34 @@ const OpportunitiesDetailsPage = () => {
   };
 
   const handleSendMessage = () => {
-    const employerId = data?.data?.employer?.id; 
+    const employerId = data?.data?.employer?.id;
     if (employerId) {
-        setReceiverId(employerId); 
+      setReceiverId(employerId);
     }
-};
-
-const handleApplyNow = async () => {
-  const employerId = data?.data?.employer?.id; 
-  const userDetails = loginDetails();
-  const { firstName, lastName } = userDetails.user;
-  if (!employerId) {
-    toast.error("Unable to find employer information.");
-    return;
-  }
-  const notificationData = {
-    title: "New Application Received",
-    message: `${firstName} ${lastName} has applied for the job: ${data?.data?.title}.`,
-    userId: employerId,
   };
-  try {
-    await createNotification(notificationData).unwrap();
-    toast.success("Application submitted and notification sent to the employer.");
-  } catch (error) {
-    toast.error("Failed to send notification: " + error.message);
-  }
-};
+
+  const handleApplyNow = async () => {
+    const employerId = data?.data?.employer?.id;
+    const userDetails = loginDetails();
+    const { firstName, lastName } = userDetails.user;
+    if (!employerId) {
+      toast.error("Unable to find employer information.");
+      return;
+    }
+    const notificationData = {
+      title: "New Application Received",
+      message: `${firstName} ${lastName} has applied for the job: ${data?.data?.title}.`,
+      userId: employerId,
+    };
+    try {
+      await createNotification(notificationData).unwrap();
+      toast.success(
+        "Application submitted and notification sent to the employer."
+      );
+    } catch (error) {
+      toast.error("Failed to send notification: " + error.message);
+    }
+  };
 
   const formattedInitialData = data?.data
     ? {
@@ -167,9 +168,15 @@ const handleApplyNow = async () => {
                     </p>
                   </div>
 
-                  <Button className="mt-4" type="primary" onClick={handleApplyNow}>
-                    Apply now
-                  </Button>
+                  {loginDetails().user.role === "youth" && (
+                    <Button
+                      className="mt-4"
+                      type="primary"
+                      onClick={handleApplyNow}
+                    >
+                      Apply now
+                    </Button>
+                  )}
                 </div>
               </div>
 
@@ -221,22 +228,25 @@ const handleApplyNow = async () => {
                     </p>
                   </div>
 
-                  <Button
-                    className=" bg-green-600 text-white hover:bg-green-700"
-                    type="default"
-                  >
-                    Contact recruiter
-                  </Button>
+                  <div className="mt-2">
+                    {loginDetails().user.role === "youth" && (
+                      <Button
+                        className="bg-green-600 text-white hover:bg-green-700 mb-2 "
+                        type="default"
+                      >
+                        Contact recruiter
+                      </Button>
+                    )}
 
-                  <Button
-                    className=" bg-green-600 text-white hover:bg-green-700"
-                    type="default"
-                    onClick={handleSendMessage}
-                  >
-                    Message
-                  </Button>
+                    <Button
+                      className="bg-green-600 text-white hover:bg-green-700"
+                      type="default"
+                      onClick={handleSendMessage}
+                    >
+                      Message recruiter
+                    </Button>
+                  </div>
                 </div>
-                
               </div>
             </div>
             {loginDetails().user.role === "employer" && (
@@ -273,7 +283,7 @@ const handleApplyNow = async () => {
           </Content>
         )}
       </CustomDashboardLayout>
-      <Chat  receiverId={receiverId}/>
+      <Chat receiverId={receiverId} />
     </div>
   );
 };
