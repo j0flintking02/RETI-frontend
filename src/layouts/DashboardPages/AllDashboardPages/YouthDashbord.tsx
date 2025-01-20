@@ -1,13 +1,13 @@
-import { Card, Calendar, Avatar, Tag } from "antd";
+import { Card, Avatar, Tag } from "antd";
 import { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
-import { LikeOutlined, UserOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, LikeOutlined, UserOutlined } from "@ant-design/icons";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import {
   useGetNotificationsQuery,
   useMarkAsReadMutation,
 } from "../../../services/notifications";
-import { loginDetails } from "../../../utils";
+import { loginDetails, formatRelativeTime } from "../../../utils";
 import { InspirationsType } from "../../../services/types";
 import { useGetInspirationsQuery } from "../../../services/inspirations";
 import Loader from "../../loader";
@@ -38,7 +38,7 @@ const YouthDashboardPage = () => {
       setInspirations(inspirationsData?.data)
     }
   }, [inspirationsData]);
-  
+
   return (
     <CustomDashboardLayout>
       <div className="sm:flex items-start justify-between gap-2">
@@ -88,7 +88,7 @@ const YouthDashboardPage = () => {
                         <p className="text-sm text-gray-600 truncate">{notification.message}</p>
                       </div>
                       <p className="text-xs text-gray-500">
-                        {new Date(notification.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                      <ClockCircleOutlined /> {formatRelativeTime(notification.createdAt)}
                       </p>
                     </li>
                   ))}
@@ -118,7 +118,7 @@ const YouthDashboardPage = () => {
                     <span>
                       Posted At:
                       <Tag className="ml-2" color="blue">
-                        {new Date(inspiration.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                        <ClockCircleOutlined /> {formatRelativeTime(inspiration.createdAt)}
                       </Tag>
                     </span>
                     <div>

@@ -1,12 +1,13 @@
 import { ClockCircleOutlined, MoneyCollectOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import DateCheckComponent from "../../../components/primary/dataChecker.tsx";
 import Loader from "../../loader.tsx";
 import { useGetProductsQuery } from "../../../services/products.ts";
+import { formatRelativeTime } from "../../../utils.ts";
+import { Tag } from "antd";
 
 const AllProductsPage = () => {
 	const navigate = useNavigate();
-	const { data: productsResponse, isLoading, error } = useGetProductsQuery();
+	const { data: productsResponse, isLoading } = useGetProductsQuery();
 
 	return (
 		<>
@@ -22,9 +23,8 @@ const AllProductsPage = () => {
 						>
 							<div className="p-4">
 								<div className="text-right mb-1">
-									<div className="flex justify-end items-center space-x-2">
-										<ClockCircleOutlined />
-										<DateCheckComponent date={product.createdAt} />
+									<div className="">
+										<ClockCircleOutlined />  {formatRelativeTime(product.createdAt)}
 									</div>
 								</div>
 
@@ -46,10 +46,10 @@ const AllProductsPage = () => {
 												</span>
 												{product.price} shs
 											</p>
-											<span className={`px-2 py-1 rounded-full text-sm ${product.stockQuantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+											<Tag className={`px-2 py-1 text-sm ${product.stockQuantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
 												}`}>
 												{product.stockQuantity > 0 ? 'In Stock' : 'Out of Stock'}
-											</span>
+											</Tag>
 										</div>
 
 									</div>
