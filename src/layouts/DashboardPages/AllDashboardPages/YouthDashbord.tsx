@@ -41,10 +41,11 @@ const YouthDashboardPage = () => {
 
   return (
     <CustomDashboardLayout>
-      <div className="sm:flex items-start justify-between gap-2">
-        {/* User Greeting Card */}
-        <div className="flex flex-col flex-1 space-y-4">
-          <Card className="shadow-sm text-black text-sm mb-1">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Left Column - Main Content */}
+        <div className="space-y-4">
+          {/* User Greeting Card */}
+          <Card className="shadow-sm text-black text-sm">
             <div className="flex items-center space-x-6">
               <div className="shrink-0">
                 <Avatar
@@ -69,7 +70,7 @@ const YouthDashboardPage = () => {
           </Card>
 
           {/* Recent Notifications */}
-          <Card title="Recent Notifications" className="shadow-sm mb-1">
+          <Card title="Recent Notifications" className="shadow-sm">
             <div className="space-y-2 p-2 overflow-y-auto h-[230px]">
               {isLoading ? (
                 <Loader />
@@ -131,9 +132,9 @@ const YouthDashboardPage = () => {
           </Card>
         </div>
 
-        {/* Activity Calendar and Chats */}
-        <div className="sm:w-4/12 ">
-          <Card title="Activity Calendar" className="shadow-sm mb-1">
+        {/* Right Column - Calendar */}
+        <div className="space-y-4">
+          <Card title="Activity Calendar" className="shadow-sm">
             <MentorshipCalendar />
           </Card>
 
