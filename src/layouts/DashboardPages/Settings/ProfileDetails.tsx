@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { Tag, Button, Modal, Form, Input, Select } from "antd";
 import { EditOutlined } from "@ant-design/icons";
+import { useGetUserProfileQuery } from "../../../services/profiles";
+import { loginDetails } from "../../../utils";
 
 const { Option } = Select;
 
 const ProfileDetails = () => {
+  const { data, isError, error } = useGetUserProfileQuery(
+    loginDetails().user.id
+  );
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingType, setEditingType] = useState<
     | "skillsAndTraining"
@@ -16,41 +22,41 @@ const ProfileDetails = () => {
 
   const [details, setDetails] = useState({
     skillsAndTraining: {
-      traineeCategory: "Skilled but unemployed",
-      trainingDuration: "6 months",
-      trainingLocation: "Urban Center",
+      traineeCategory: data?.data?.skillsAndTraining?.traineeCategory,
+      trainingDuration: data?.data?.skillsAndTraining?.trainingDuration,
+      trainingLocation: data?.data?.skillsAndTraining?.trainingLocation,
     },
     artisanDetails: {
-      categoryOfArtisan: "Individual artisan",
-      nameOfHost: "Jane Smith",
-      villageOfArtisan: "Makere Village",
-      subcountyOfArtisan: "Makere Subcounty",
-      centerRefugeeSettlement: "Bidibidi",
-      hostContact: "+256789456123",
+      categoryOfArtisan: data?.data?.artisanDetails?.categoryOfArtisan,
+      nameOfHost: data?.data?.artisanDetails?.nameOfHost,
+      villageOfArtisan: data?.data?.artisanDetails?.villageOfArtisan,
+      subcountyOfArtisan: data?.data?.artisanDetails?.subcountyOfArtisan,
+      centerRefugeeSettlement: data?.data?.artisanDetails?.centerRefugeeSettlement,
+      hostContact: data?.data?.artisanDetails?.hostContact,
     },
     geoLocationDetails: {
-      partnerResponsible: "Dan Church Aid (DCA)",
-      region: "Northern",
-      district: "Gulu (GUL)",
-      settlement: "Adjumani",
-      subCounty: "",
-      parishZoneCluster: "",
-      village: "",
+      partnerResponsible: data?.data?.geoLocationDetails?.partnerResponsible,
+      region: data?.data?.geoLocationDetails?.region,
+      district: data?.data?.geoLocationDetails?.district,
+      settlement: data?.data?.geoLocationDetails?.settlement,
+      subCounty: data?.data?.geoLocationDetails?.subCounty,
+      parishZoneCluster: data?.data?.geoLocationDetails?.parishZoneCluster,
+      village: data?.data?.geoLocationDetails?.village,
     },
     participantDetails: {
-      nameOfParticipant: "",
-      groupNumber: "",
-      individualNumber: "",
-      nin: "",
-      sex: "",
-      age: "",
-      maritalStatus: "",
-      specialInterestCategory: "",
-      disabilityType: "",
-      numberOfDisabilities: "",
-      mainDisabilityDetails: "",
-      nationalityCategory: "",
-      uniqueIdNo: "",
+      nameOfParticipant: data?.data?.participantDetails?.nameOfParticipant,
+      groupNumber: data?.data?.participantDetails?.groupNumber,
+      individualNumber: data?.data?.participantDetails?.individualNumber,
+      nin: data?.data?.participantDetails?.nin,
+      sex: data?.data?.participantDetails?.sex,
+      age: data?.data?.participantDetails?.age,
+      maritalStatus: data?.data?.participantDetails?.maritalStatus,
+      specialInterestCategory: data?.data?.participantDetails?.specialInterestCategory,
+      disabilityType: data?.data?.participantDetails?.disabilityType,
+      numberOfDisabilities: data?.data?.participantDetails?.numberOfDisabilities,
+      mainDisabilityDetails: data?.data?.participantDetails?.mainDisabilityDetails,
+      nationalityCategory: data?.data?.participantDetails?.nationalityCategory,
+      uniqueIdNo: data?.data?.participantDetails?.uniqueIdNo,
     },
   });
 

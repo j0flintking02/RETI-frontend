@@ -20,6 +20,9 @@ const ProfileSettings = () => {
     loginDetails().user.id
   );
 
+  const profileData = data;
+  console.log("profile data", profileData);
+
   useEffect(() => {
     if (isError) {
       toast.error("Something went wrong");
@@ -70,14 +73,15 @@ const ProfileSettings = () => {
             >
               Edit Profile
             </Button>
-          </div>
-          <Button
+            <Button
             className="px-4 text-red-500"
             icon={<DownloadOutlined />}
             onClick={() => handleDownloadData(data)}
           >
             Download your data
           </Button>
+          </div>
+          
         </div>
         <div className="text-gray-900 p-4">
           <ProfileTabs />

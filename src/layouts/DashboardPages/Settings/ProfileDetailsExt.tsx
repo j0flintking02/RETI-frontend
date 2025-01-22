@@ -1,10 +1,17 @@
 import React, { useState } from "react";
 import { Tag, Button, Modal, Form, Input, Select } from "antd";
 import { EditOutlined } from "@ant-design/icons";
+import { useGetUserProfileQuery } from "../../../services/profiles";
+import { loginDetails } from "../../../utils";
+import moment from "moment";
 
 const { Option } = Select;
 
 const ProfileDetailsExt = () => {
+  const { data, isError, error } = useGetUserProfileQuery(
+    loginDetails().user.id
+  );
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingType, setEditingType] = useState<
     | "trainingCentreDetails"
@@ -16,29 +23,29 @@ const ProfileDetailsExt = () => {
 
   const [details, setDetails] = useState({
     trainingCentreDetails: {
-      nameOfTrainingCentre: "",
-      locationVillage: "",
-      locationSubCounty: "",
-      locationSettlement: "",
-      mainTelephoneContact: "",
-      alternativeTelephoneContact: "",
+      nameOfTrainingCentre: data?.data?.trainingCentreDetails?.nameOfTrainingCentre,
+      locationVillage: data?.data?.trainingCentreDetails?.locationVillage,
+      locationSubCounty: data?.data?.trainingCentreDetails?.locationSubCounty,
+      locationSettlement: data?.data?.trainingCentreDetails?.locationSettlement,
+      mainTelephoneContact: data?.data?.trainingCentreDetails?.mainTelephoneContact,
+      alternativeTelephoneContact: data?.data?.trainingCentreDetails?.alternativeTelephoneContact,
     },
     trainingCohorts: {
-      cohort: "",
-      tradeTakenDuringTraining: "",
+      cohort: data?.data?.trainingCohorts?.cohort,
+      tradeTakenDuringTraining: data?.data?.trainingCohorts?.tradeTakenDuringTraining,
     },
     retiTrainingDetails: {
-      startTime: "MM/YY",
-      completionStatus: "",
-      reasonForDroppingOut: "",
-      monthsSpent: "",
-      certificationStatus: "",
+      startTime: moment(data?.data?.retiTrainingDetails?.startTime).format("DD-MM-YYYY"),
+      completionStatus: data?.data?.retiTrainingDetails?.completionStatus,
+      reasonForDroppingOut: data?.data?.retiTrainingDetails?.reasonForDroppingOut,
+      monthsSpent: data?.data?.retiTrainingDetails?.monthsSpent,
+      certificationStatus: data?.data?.retiTrainingDetails?.certificationStatus,
     },
     internshipAndStartupDetails: {
-      completionTime: "MM/YY",
-      internshipPlacement: "",
-      startupKitReceived: "",
-      startupGrantReceived: "",
+      completionTime: moment( data?.data?.internshipAndStartupDetails?.completionTime).format("DD-MM-YYYY"),
+      internshipPlacement: data?.data?.internshipAndStartupDetails?.internshipPlacement,
+      startupKitReceived: data?.data?.internshipAndStartupDetails?.startupKitReceived,
+      startupGrantReceived: data?.data?.internshipAndStartupDetails?.startupGrantReceived,
     },
   });
 
@@ -114,8 +121,8 @@ const ProfileDetailsExt = () => {
                   :
                 </h3>
                 <Tag style={{ backgroundColor: "darkgray", color: "blue" }}>
-                    {value || "Not Provided"}
-                  </Tag>
+                  {value || "Not Provided"}
+                </Tag>
               </div>
             ))}
           </div>
@@ -141,8 +148,8 @@ const ProfileDetailsExt = () => {
                   :
                 </h3>
                 <Tag style={{ backgroundColor: "darkgray", color: "blue" }}>
-                    {value || "Not Provided"}
-                  </Tag>
+                  {value || "Not Provided"}
+                </Tag>
               </div>
             ))}
           </div>
