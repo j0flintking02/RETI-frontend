@@ -1,6 +1,6 @@
 import reti from "../../assets/reti.png";
 
-import youth from "../../assets/youth.jpg";
+import youth from "../../assets/youth3.jpg";
 import RegisterForm from "../../components/secondary/RegisterForm";
 
 export default function RegisterPage() {

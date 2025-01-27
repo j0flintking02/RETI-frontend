@@ -5,14 +5,12 @@ import reti from "../../assets/reti.png";
 import {
   HomeOutlined,
   LogoutOutlined,
-  MessageOutlined,
   PhoneOutlined,
   ProjectOutlined,
   QuestionCircleOutlined,
   SettingOutlined,
   UsergroupAddOutlined,
   UserOutlined,
-  CloseOutlined,
 } from "@ant-design/icons";
 import { handleLogout, loginDetails } from "../../utils.ts";
 import HelpandsupportForm from "../../layouts/DashboardPages/Forms/HelpAndSupportForm.tsx";
@@ -159,7 +157,7 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
           color: "white",
         }}
       />
-      <div className="absolute bottom-0 w-full flex items-center p-4 text-white">
+      <div className="absolute bottom-0 w-full flex items-center p-4 text-white bg-[rgba(255,255,255,0.1)]">
         <Avatar
           size="large"
           icon={<UserOutlined />}

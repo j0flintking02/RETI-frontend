@@ -1,10 +1,9 @@
-import { EnvironmentOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { Avatar, Spin, Tag, Typography } from "antd";
+import { Avatar, Tag, Typography } from "antd";
 import { useGetOpportunitiesQuery } from "../../../services/opportunities.ts";
-import moment from "moment";
-import DateCheckComponent from "../../../components/primary/dataChecker.tsx";
 import Loader from "../../loader.tsx";
+import { formatRelativeTime } from "../../../utils.ts";
 
 const AllOpportunitiesPage = () => {
   const navigate = useNavigate();
@@ -30,7 +29,7 @@ const AllOpportunitiesPage = () => {
                     </h3>
                     <p className="text-sm truncate text-gray-500 flex items-center gap-1">
                       <div className="text-right mb-1">
-                        <DateCheckComponent date={job.createdAt} />
+                        <ClockCircleOutlined /> {formatRelativeTime(job.createdAt)}
                       </div>
                     </p>
 
@@ -49,11 +48,12 @@ const AllOpportunitiesPage = () => {
                           </Avatar>
                           <div>
                             <Typography.Text type="secondary">
-                              {/* {moment(job.createdAt).format('DD-MM-YYYY')} */}
                               {`${job.employer.firstName} ${job.employer.lastName}`}
                             </Typography.Text>
                           </div>
                         </div>
+                      </div>
+                      <div className="flex items-center gap-1 mt-2">
                         <Tag
                           color={job.status === "active" ? "success" : "error"}
                         >

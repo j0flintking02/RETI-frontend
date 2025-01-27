@@ -26,7 +26,6 @@ import Loader from "../../loader.tsx";
 import { toast } from "react-toastify";
 import Chat from "../../../components/secondary/Chat.tsx";
 import { useCreateNotificationMutation } from "../../../services/notifications.ts";
-import { log } from "console";
 
 const OpportunitiesDetailsPage = () => {
   const { id } = useParams();

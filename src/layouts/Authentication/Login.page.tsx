@@ -1,7 +1,7 @@
 import Sign from "../../components/secondary/LoginForm";
 import "tailwindcss/tailwind.css";
 import reti from "../../assets/reti.png";
-import youth from "../../assets/youth.jpg";
+import youth from "../../assets/youth3.jpg";
 
 const LoginPage = () => {
   return (

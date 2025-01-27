@@ -57,13 +57,13 @@ async function loginLoader() {
   }
   return null;
 }
-async function registerLoader() {
-  const userDetails = localStorage.getItem("userDetails");
-  if (userDetails) {
-    return redirect("onboarding");
-  }
-  return null;
-}
+// async function registerLoader() {
+//   const userDetails = localStorage.getItem("userDetails");
+//   if (userDetails) {
+//     return redirect("onboarding");
+//   }
+//   return null;
+// }
 
 
 const router = createBrowserRouter([
@@ -194,7 +194,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/register",
-    loader: registerLoader,
+    // loader: registerLoader,
     errorElement: <ErrorPage />,
     element: <RegisterPage />,
   },

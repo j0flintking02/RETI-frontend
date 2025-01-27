@@ -64,9 +64,31 @@ export const updateTokens = (access_token: string, refresh_token: string) => {
     }
 }
 
+const isTokenExpired = (token: string): boolean => {
+    try {
+      const [, payload] = token.split('.');
+      const decodedPayload = JSON.parse(atob(payload));
+      const expiryTime = decodedPayload.exp * 1000;
+      return Date.now() >= expiryTime;
+    } catch {
+      return true;
+    }
+  };
+  
+  export const checkAuthAndLogout = () => {
+    const token = getAccessToken();
+    if (!token || isTokenExpired(token)) {
+      localStorage.removeItem('loginDetails');
+      localStorage.removeItem('userDetails');
+      window.location.href = '/login';
+      return null;
+    }
+    return token;
+  };
+
 export const getHeaders = () => {
     const myHeaders = new Headers();
-    const token = getAccessToken();
+    const token = checkAuthAndLogout();
     if (token) {
         myHeaders.append("Authorization", `Bearer ${token}`);
     }
@@ -154,4 +176,34 @@ export const handleDownloadData = (data: any) => {
 
     const fileName = `${userProfile?.user.firstName}_${userProfile?.user.lastName}.pdf`;
     doc.save(fileName);
+  };
+export const formatRelativeTime = (createdAt: string) => {
+    const date = new Date(createdAt);
+    const now = new Date();
+    
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const targetDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    const timeString = date.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit', 
+      hour12: true 
+    });
+  
+    if (targetDate.getTime() === today.getTime()) {
+      return timeString;
+    } else if (targetDate.getTime() === yesterday.getTime()) {
+      return `Yesterday, ${timeString}`;
+    } else if (today.getTime() - targetDate.getTime() < 7 * 24 * 60 * 60 * 1000) {
+      return `${date.toLocaleDateString('en-US', { weekday: 'long' })}, ${timeString}`;
+    } else {
+      return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    }
   };
