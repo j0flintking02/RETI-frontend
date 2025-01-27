@@ -169,7 +169,7 @@ const router = createBrowserRouter([
     path: "/users/:id",
     element: (
       <CustomAppLayout>
-        <UsersDetailsPage />
+        <SettingsPage />
       </CustomAppLayout>
     ),
     errorElement: <ErrorPage />,

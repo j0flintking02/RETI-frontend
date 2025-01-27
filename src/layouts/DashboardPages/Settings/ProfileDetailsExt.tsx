@@ -1,17 +1,10 @@
 import React, { useState } from "react";
 import { Tag, Button, Modal, Form, Input, Select } from "antd";
-import { EditOutlined } from "@ant-design/icons";
-import { useGetUserProfileQuery } from "../../../services/profiles";
-import { loginDetails } from "../../../utils";
-import moment from "moment";
+import { EditOutlined, BankOutlined, CalendarOutlined, ExperimentOutlined, RocketOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
 const ProfileDetailsExt = () => {
-  const { data, isError, error } = useGetUserProfileQuery(
-    loginDetails().user.id
-  );
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingType, setEditingType] = useState<
     | "trainingCentreDetails"
@@ -23,29 +16,29 @@ const ProfileDetailsExt = () => {
 
   const [details, setDetails] = useState({
     trainingCentreDetails: {
-      nameOfTrainingCentre: data?.data?.trainingCentreDetails?.nameOfTrainingCentre,
-      locationVillage: data?.data?.trainingCentreDetails?.locationVillage,
-      locationSubCounty: data?.data?.trainingCentreDetails?.locationSubCounty,
-      locationSettlement: data?.data?.trainingCentreDetails?.locationSettlement,
-      mainTelephoneContact: data?.data?.trainingCentreDetails?.mainTelephoneContact,
-      alternativeTelephoneContact: data?.data?.trainingCentreDetails?.alternativeTelephoneContact,
+      nameOfTrainingCentre: "",
+      locationVillage: "",
+      locationSubCounty: "",
+      locationSettlement: "",
+      mainTelephoneContact: "",
+      alternativeTelephoneContact: "",
     },
     trainingCohorts: {
-      cohort: data?.data?.trainingCohorts?.cohort,
-      tradeTakenDuringTraining: data?.data?.trainingCohorts?.tradeTakenDuringTraining,
+      cohort: "",
+      tradeTakenDuringTraining: "",
     },
     retiTrainingDetails: {
-      startTime: moment(data?.data?.retiTrainingDetails?.startTime).format("DD-MM-YYYY"),
-      completionStatus: data?.data?.retiTrainingDetails?.completionStatus,
-      reasonForDroppingOut: data?.data?.retiTrainingDetails?.reasonForDroppingOut,
-      monthsSpent: data?.data?.retiTrainingDetails?.monthsSpent,
-      certificationStatus: data?.data?.retiTrainingDetails?.certificationStatus,
+      startTime: "MM/YY",
+      completionStatus: "",
+      reasonForDroppingOut: "",
+      monthsSpent: "",
+      certificationStatus: "",
     },
     internshipAndStartupDetails: {
-      completionTime: moment( data?.data?.internshipAndStartupDetails?.completionTime).format("DD-MM-YYYY"),
-      internshipPlacement: data?.data?.internshipAndStartupDetails?.internshipPlacement,
-      startupKitReceived: data?.data?.internshipAndStartupDetails?.startupKitReceived,
-      startupGrantReceived: data?.data?.internshipAndStartupDetails?.startupGrantReceived,
+      completionTime: "MM/YY",
+      internshipPlacement: "",
+      startupKitReceived: "",
+      startupGrantReceived: "",
     },
   });
 
@@ -64,124 +57,97 @@ const ProfileDetailsExt = () => {
   };
 
   return (
-    <div className="pt-4 space-y-4">
-      <div className="flex items-center justify-between border-b py-4">
-        <h1 className="text-2xl font-semibold mb-4">Profile Details</h1>
+    <div className="pt-4 space-y-6">
+      <div className="flex items-center justify-between pb-4 border-b">
+        <h1 className="text-2xl font-bold text-gray-900">Training & Development</h1>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-15 w-full">
-        {/* Training Centre/Institutional Details */}
-        <div className="pt-8">
-          <div className="flex items-center mb-2">
-            <h2 className="text-lg font-semibold">
-              Training Centre/Institutional Details
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Training Institution Card */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold flex items-center gap-2">
+              <BankOutlined className="text-blue-500" />
+              Institution Details
             </h2>
-            <EditOutlined
-              className="cursor-pointer text-blue-500 ml-2"
+            <EditOutlined 
+              className="cursor-pointer text-blue-500 hover:text-blue-700"
               onClick={() => openEditModal("trainingCentreDetails")}
             />
           </div>
-          <div className="space-y-4">
-            {Object.entries(details.trainingCentreDetails).map(
-              ([key, value]) => (
-                <div key={key}>
-                  <h3 className="text-md font-medium">
-                    {key
-                      .replace(/([A-Z])/g, " $1")
-                      .replace(/^./, (str) => str.toUpperCase())}
-                    :
-                  </h3>
-                  <Tag style={{ backgroundColor: "darkgray", color: "blue" }}>
-                    {value || "Not Provided"}
-                  </Tag>
-                </div>
-              )
-            )}
+          <div className="space-y-3">
+            {Object.entries(details.trainingCentreDetails).map(([key, value]) => (
+              <div key={key} className="flex justify-between items-start border-b pb-2">
+                <span className="text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1').toLowerCase()}:</span>
+                <span className="text-gray-800 font-medium">{value || 'Not specified'}</span>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Training Cohorts and Trades */}
-        <div className="pt-8">
-          <div className="flex items-center mb-2">
-            <h2 className="text-lg font-semibold">
-              Training Cohorts and Trades
+        {/* Cohort Details Card */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold flex items-center gap-2">
+              <CalendarOutlined className="text-green-500" />
+              Cohort Details
             </h2>
-            <EditOutlined
-              className="cursor-pointer text-blue-500 ml-2"
+            <EditOutlined 
+              className="cursor-pointer text-blue-500 hover:text-blue-700"
               onClick={() => openEditModal("trainingCohorts")}
             />
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {Object.entries(details.trainingCohorts).map(([key, value]) => (
-              <div key={key}>
-                <h3 className="text-md font-medium">
-                  {key
-                    .replace(/([A-Z])/g, " $1")
-                    .replace(/^./, (str) => str.toUpperCase())}
-                  :
-                </h3>
-                <Tag style={{ backgroundColor: "darkgray", color: "blue" }}>
-                  {value || "Not Provided"}
-                </Tag>
-              </div>
-            ))}
-          </div>
-        </div>
-        {/* RETI Training Details */}
-        <div className="pt-8">
-          <div className="flex items-center mb-2">
-            <h2 className="text-lg font-semibold">
-              Time and Duration of RETI Training
-            </h2>
-            <EditOutlined
-              className="cursor-pointer text-blue-500 ml-2"
-              onClick={() => openEditModal("retiTrainingDetails")}
-            />
-          </div>
-          <div className="space-y-4">
-            {Object.entries(details.retiTrainingDetails).map(([key, value]) => (
-              <div key={key}>
-                <h3 className="text-md font-medium">
-                  {key
-                    .replace(/([A-Z])/g, " $1")
-                    .replace(/^./, (str) => str.toUpperCase())}
-                  :
-                </h3>
-                <Tag style={{ backgroundColor: "darkgray", color: "blue" }}>
-                  {value || "Not Provided"}
-                </Tag>
+              <div key={key} className="flex justify-between items-start border-b pb-2">
+                <span className="text-gray-600 capitalize">{key.replace(/([A-Z])/g, ' $1').toLowerCase()}:</span>
+                <span className="text-gray-800 font-medium">{value || 'Not specified'}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Internships and Start-Up Kits */}
-        <div className="pt-8">
-          <div className="flex items-center mb-2">
-            <h2 className="text-lg font-semibold">
-              Internships and Start-Up Kits
+        {/* RETI Training Card */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 md:col-span-2">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold flex items-center gap-2">
+              <ExperimentOutlined className="text-purple-500" />
+              RETI Program Details
             </h2>
-            <EditOutlined
-              className="cursor-pointer text-blue-500 ml-2"
+            <EditOutlined 
+              className="cursor-pointer text-blue-500 hover:text-blue-700"
+              onClick={() => openEditModal("retiTrainingDetails")}
+            />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {Object.entries(details.retiTrainingDetails).map(([key, value]) => (
+              <div key={key} className="space-y-1">
+                <p className="text-sm text-gray-500 capitalize">{key.replace(/([A-Z])/g, ' $1').toLowerCase()}</p>
+                <p className="font-medium text-gray-800">{value || '—'}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Internship & Startup Card */}
+        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 md:col-span-2">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold flex items-center gap-2">
+              <RocketOutlined className="text-red-500" />
+              Internship & Startup
+            </h2>
+            <EditOutlined 
+              className="cursor-pointer text-blue-500 hover:text-blue-700"
               onClick={() => openEditModal("internshipAndStartupDetails")}
             />
           </div>
-          <div className="space-y-4">
-            {Object.entries(details.internshipAndStartupDetails).map(
-              ([key, value]) => (
-                <div key={key}>
-                  <h3 className="text-md font-medium">
-                    {key
-                      .replace(/([A-Z])/g, " $1")
-                      .replace(/^./, (str) => str.toUpperCase())}
-                    :
-                  </h3>
-                  <Tag style={{ backgroundColor: "darkgray", color: "blue" }}>
-                    {value || "Not Provided"}
-                  </Tag>
-                </div>
-              )
-            )}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {Object.entries(details.internshipAndStartupDetails).map(([key, value]) => (
+              <div key={key} className="space-y-1">
+                <p className="text-sm text-gray-500 capitalize">{key.replace(/([A-Z])/g, ' $1').toLowerCase()}</p>
+                <p className="font-medium text-gray-800">{value || '—'}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

@@ -74,6 +74,7 @@ const ProfileSettings = () => {
               Edit Profile
             </Button>
             <Button
+            type="dashed"
             className="px-4 text-red-500"
             icon={<DownloadOutlined />}
             onClick={() => handleDownloadData(data)}
