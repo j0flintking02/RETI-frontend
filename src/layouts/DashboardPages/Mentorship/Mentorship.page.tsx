@@ -62,11 +62,7 @@ export default function MentorshipDates() {
       <Header pageTitle="Community Guidance" />
       <CustomDashboardLayout>
         <Layout>
-          <div className="flex justify-end mb-4">
-            <Button type="primary" onClick={() => setIsAddModalOpen(true)}>
-              Add Inspiration
-            </Button>
-          </div>
+          
 
           <AddInspirationsForm
             open={isAddModalOpen}

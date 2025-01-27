@@ -1,7 +1,13 @@
-import { Card, Avatar, Tag } from "antd";
+import { Card, Avatar, Tag, Button, Select } from "antd";
 import { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
-import { ClockCircleOutlined, LikeOutlined, UserOutlined, LikeFilled } from "@ant-design/icons";
+import {
+  ClockCircleOutlined,
+  LikeOutlined,
+  UserOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import {
   useGetNotificationsQuery,
@@ -9,12 +15,14 @@ import {
 } from "../../../services/notifications";
 import { loginDetails, formatRelativeTime } from "../../../utils";
 import { InspirationsType } from "../../../services/types";
-import { useGetInspirationsQuery, useLikeInspirationMutation } from "../../../services/inspirations";
+import { useGetInspirationsQuery, useDeleteInspirationMutation, useLikeInspirationMutation } from "../../../services/inspirations";
 import Loader from "../../loader";
 import { useGetUserProfileQuery } from "../../../services/profiles";
 import Chat from "../../../components/secondary/Chat";
 import { toast } from "react-toastify";
 import MentorshipCalendar from "../../../components/secondary/Calendar";
+import DeletePopconfirm from "../../../components/secondary/CustomDeletePopUp";
+import AddInspirationsForm from "../Forms/AddGuidanceForm";
 
 const YouthDashboardPage = () => {
   const { data: notificationsData, isLoading } = useGetNotificationsQuery();
@@ -24,6 +32,15 @@ const YouthDashboardPage = () => {
   const { data: inspirationsData } = useGetInspirationsQuery();
   const { data: userProfile } = useGetUserProfileQuery(user?.user?.id);
   const [inspirations, setInspirations] = useState<InspirationsType[]>([]);
+  const [deleteInspiration] = useDeleteInspirationMutation();
+  const [editingInspiration, setEditingInspiration] = useState(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    searchText: '',
+    mentor: '',
+    dateRange: null,
+  });
 
   const reversedNotifications = notificationsData?.data?.slice().reverse();
   const handleNotificationClick = async (notificationId: number) => {
@@ -36,7 +53,7 @@ const YouthDashboardPage = () => {
 
   const handleInspirationLike = async (inspirationId: number) => {
     try {
-      const updatedInspirations = inspirations.map(inspiration => 
+      const updatedInspirations = inspirations.map(inspiration =>
         inspiration.id === inspirationId ? {
           ...inspiration,
           isLiked: !inspiration.isLiked,
@@ -55,9 +72,37 @@ const YouthDashboardPage = () => {
 
   useEffect(() => {
     if (inspirationsData) {
-      setInspirations(inspirationsData?.data)
+      setInspirations(inspirationsData?.data);
     }
   }, [inspirationsData]);
+
+  const handleEdit = (inspiration) => {
+    setEditingInspiration(inspiration);
+    setIsEditModalOpen(true);
+  };
+
+  const handleEditCancel = () => {
+    setIsEditModalOpen(false);
+    setEditingInspiration(null);
+  };
+
+  const handleEditOk = () => {
+    setIsEditModalOpen(false);
+    setEditingInspiration(null);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteInspiration(id).unwrap();
+      toast.success('Inspiration deleted successfully');
+    } catch (error) {
+      toast.error('Failed to delete inspiration');
+    }
+  };
+
+  const mentorOptions = [...new Set(
+    inspirations?.map(i => `${i.mentor.firstName} ${i.mentor.lastName}`)
+  )];
 
   return (
     <CustomDashboardLayout>
@@ -71,9 +116,13 @@ const YouthDashboardPage = () => {
                 <Avatar
                   size="large"
                   icon={<UserOutlined />}
-                  src={userProfile?.data?.profileImage || 'https://via.placeholder.com/80'}
+                  src={
+                    userProfile?.data?.profileImage ||
+                    "https://via.placeholder.com/80"
+                  }
                 />
               </div>
+
               <div className="flex-1">
                 <h2> Hi {user?.user.firstName} 👋</h2>
                 <div className="text-gray-500">You're amazing!</div>
@@ -103,13 +152,21 @@ const YouthDashboardPage = () => {
                       onClick={() => handleNotificationClick(notification.id)}
                     >
                       <div>
-                        <p className={`font-medium truncate ${!notification.isRead ? "text-blue-600" : "text-gray-800"}`}>
+                        <p
+                          className={`font-medium truncate ${!notification.isRead
+                              ? "text-blue-600"
+                              : "text-gray-800"
+                            }`}
+                        >
                           {notification.title}
                         </p>
-                        <p className="text-sm text-gray-600 truncate">{notification.message}</p>
+                        <p className="text-sm text-gray-600 truncate">
+                          {notification.message}
+                        </p>
                       </div>
                       <p className="text-xs text-gray-500">
-                      <ClockCircleOutlined /> {formatRelativeTime(notification.createdAt)}
+                        <ClockCircleOutlined />{" "}
+                        {formatRelativeTime(notification.createdAt)}
                       </p>
                     </li>
                   ))}
@@ -117,7 +174,11 @@ const YouthDashboardPage = () => {
               )}
             </div>
           </Card>
-
+          <div className="flex justify-end mb-4">
+            <Button type="primary" onClick={() => setIsAddModalOpen(true)}>
+              Add Inspiration
+            </Button>
+          </div>
           {/* Recent Inspirations */}
           <Card title="Inspiration Quotations" className="shadow-sm">
             <div className="space-y-2 p-2 overflow-y-auto h-[330px]">
@@ -142,7 +203,7 @@ const YouthDashboardPage = () => {
                         <ClockCircleOutlined /> {formatRelativeTime(inspiration.createdAt)}
                       </Tag>
                     </span>
-                    <div 
+                    <div
                       className="flex items-center cursor-pointer group"
                       onClick={() => handleInspirationLike(inspiration.id)}
                     >
@@ -154,6 +215,19 @@ const YouthDashboardPage = () => {
                       <span className={`${inspiration.isLiked ? 'text-red-500' : 'text-gray-600'} group-hover:text-red-400`}>
                         {inspiration.likesCount}
                       </span>
+                    </div>
+                    <div className="flex space-x-2">
+                      <EditOutlined
+                        className="text-blue-500 cursor-pointer"
+                        onClick={() => handleEdit(inspiration)}
+                      />
+                      <DeletePopconfirm
+                        title="Delete"
+                        description="Are you sure to delete this inspiration?"
+                        onConfirm={() => handleDelete(inspiration.id)}
+                        okText="Yes"
+                        cancelText="No"
+                      />
                     </div>
                   </div>
                 </div>
@@ -172,6 +246,22 @@ const YouthDashboardPage = () => {
           <Chat />
         </div>
       </div>
+
+      <AddInspirationsForm
+        open={isAddModalOpen}
+        onOk={() => setIsAddModalOpen(false)}
+        onCancel={() => setIsAddModalOpen(false)}
+        loading={false}
+      />
+
+      <AddInspirationsForm
+        open={isEditModalOpen}
+        onOk={handleEditOk}
+        onCancel={handleEditCancel}
+        loading={false}
+        initialData={editingInspiration}
+        isEdit={true}
+      />
     </CustomDashboardLayout>
   );
 };
