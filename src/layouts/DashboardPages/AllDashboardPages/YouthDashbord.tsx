@@ -155,9 +155,13 @@ const YouthDashboardPage = () => {
             .includes(filters.searchText.toLowerCase())
         : true;
 
-      const matchesMentor = sortCriteria === 'mentor' && selectedMentor
-        ? `${inspiration.mentor.firstName} ${inspiration.mentor.lastName}` === selectedMentor
-        : sortCriteria !== 'mentor';
+      const matchesMentor = sortCriteria === 'mentor'
+        ? user?.user.role === 'youth'
+          ? selectedMentor
+            ? `${inspiration.mentor.firstName} ${inspiration.mentor.lastName}` === selectedMentor
+            : true
+          : inspiration.mentor.id === user?.user.id
+        : true;
 
       const matchesDate = filters.dateRange
         ? new Date(inspiration.createdAt) >= filters.dateRange[0] &&
@@ -246,24 +250,32 @@ const YouthDashboardPage = () => {
                     if (key === 'newest' || key === 'oldest') {
                       setSortCriteria(key);
                       setIsSortDropdownVisible(false);
+                    } else if (key === 'mentor') {
+                      setSortCriteria('mentor');
+                      setIsSortDropdownVisible(false);
                     }
                   }}
                 >
                   <Menu.Item key="newest">Newest First</Menu.Item>
                   <Menu.Item key="oldest">Oldest First</Menu.Item>
-                  <Menu.SubMenu key="mentor" title="By Mentor">
-                    {mentorOptions.map((mentor) => (
-                      <Menu.Item
-                        key={mentor}
-                        onClick={() => {
-                          setSelectedMentor(mentor);
-                          setSortCriteria('mentor');
-                        }}
-                      >
-                        {mentor}
-                      </Menu.Item>
-                    ))}
-                  </Menu.SubMenu>
+                  {user?.user.role === 'youth' && (
+                    <Menu.SubMenu key="mentor" title="By Mentor">
+                      {mentorOptions.map((mentor) => (
+                        <Menu.Item
+                          key={mentor}
+                          onClick={() => {
+                            setSelectedMentor(mentor);
+                            setSortCriteria('mentor');
+                          }}
+                        >
+                          {mentor}
+                        </Menu.Item>
+                      ))}
+                    </Menu.SubMenu>
+                  )}
+                  {user?.user.role === 'mentor' && (
+                    <Menu.Item key="mentor">My Inspirations</Menu.Item>
+                  )}
                 </Menu>
               }
               visible={isSortDropdownVisible}
