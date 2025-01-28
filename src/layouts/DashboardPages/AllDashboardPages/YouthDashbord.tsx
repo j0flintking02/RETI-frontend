@@ -155,10 +155,9 @@ const YouthDashboardPage = () => {
             .includes(filters.searchText.toLowerCase())
         : true;
 
-      const matchesMentor = sortCriteria === 'mentor'
-        ? `${inspiration.mentor.firstName} ${inspiration.mentor.lastName}` ===
-          `${user?.user.firstName} ${user?.user.lastName}`
-        : true;
+      const matchesMentor = sortCriteria === 'mentor' && selectedMentor
+        ? `${inspiration.mentor.firstName} ${inspiration.mentor.lastName}` === selectedMentor
+        : sortCriteria !== 'mentor';
 
       const matchesDate = filters.dateRange
         ? new Date(inspiration.createdAt) >= filters.dateRange[0] &&
@@ -244,9 +243,7 @@ const YouthDashboardPage = () => {
               overlay={
                 <Menu
                   onClick={({ key }) => {
-                    if (key === "mentor" && user?.user.role === "youth") {
-                      setIsMentorDropdownVisible(true);
-                    } else {
+                    if (key === 'newest' || key === 'oldest') {
                       setSortCriteria(key);
                       setIsSortDropdownVisible(false);
                     }
@@ -254,38 +251,24 @@ const YouthDashboardPage = () => {
                 >
                   <Menu.Item key="newest">Newest First</Menu.Item>
                   <Menu.Item key="oldest">Oldest First</Menu.Item>
-                  <Menu.Item key="mentor">
-                    By Mentor{" "}
-                    {isMentorDropdownVisible && (
-                      <Dropdown
-                        overlay={
-                          <Menu
-                            onClick={({ key }) => {
-                              setSelectedMentor(key);
-                              setIsMentorDropdownVisible(false);
-                              setSortCriteria("mentor");
-                            }}
-                          >
-                            {mentorOptions.map((mentor) => (
-                              <Menu.Item key={mentor}>{mentor}</Menu.Item>
-                            ))}
-                          </Menu>
-                        }
-                        visible={isMentorDropdownVisible}
-                        onVisibleChange={setIsMentorDropdownVisible}
-                        trigger={["click"]}
+                  <Menu.SubMenu key="mentor" title="By Mentor">
+                    {mentorOptions.map((mentor) => (
+                      <Menu.Item
+                        key={mentor}
+                        onClick={() => {
+                          setSelectedMentor(mentor);
+                          setSortCriteria('mentor');
+                        }}
                       >
-                        <Button>
-                          Select Mentor <DownOutlined />
-                        </Button>
-                      </Dropdown>
-                    )}
-                  </Menu.Item>
+                        {mentor}
+                      </Menu.Item>
+                    ))}
+                  </Menu.SubMenu>
                 </Menu>
               }
               visible={isSortDropdownVisible}
               onVisibleChange={setIsSortDropdownVisible}
-              trigger={["click"]}
+              trigger={['click']}
             >
               <Button>
                 Sort <DownOutlined />
@@ -385,6 +368,31 @@ const YouthDashboardPage = () => {
         initialData={editingInspiration}
         isEdit={true}
       />
+
+      {isMentorDropdownVisible && (
+        <Dropdown
+          overlay={
+            <Menu
+              onClick={({ key }) => {
+                setSelectedMentor(key);
+                setIsMentorDropdownVisible(false);
+                setSortCriteria('mentor');
+              }}
+            >
+              {mentorOptions.map((mentor) => (
+                <Menu.Item key={mentor}>{mentor}</Menu.Item>
+              ))}
+            </Menu>
+          }
+          visible={isMentorDropdownVisible}
+          onVisibleChange={setIsMentorDropdownVisible}
+          trigger={['click']}
+        >
+          <Button>
+            Select Mentor <DownOutlined />
+          </Button>
+        </Dropdown>
+      )}
     </CustomDashboardLayout>
   );
 };
