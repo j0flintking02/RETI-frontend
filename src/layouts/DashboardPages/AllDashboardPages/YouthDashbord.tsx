@@ -1,4 +1,14 @@
-import { Card, Avatar, Tag, Button, Select } from "antd";
+import {
+  Card,
+  Avatar,
+  Tag,
+  Button,
+  Select,
+  Input,
+  DatePicker,
+  Dropdown,
+  Menu,
+} from "antd";
 import { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
 import {
@@ -7,6 +17,7 @@ import {
   UserOutlined,
   EditOutlined,
   DeleteOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import {
@@ -37,10 +48,14 @@ const YouthDashboardPage = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [filters, setFilters] = useState({
-    searchText: '',
-    mentor: '',
+    searchText: "",
+    mentor: "",
     dateRange: null,
   });
+  const [sortCriteria, setSortCriteria] = useState("newest");
+  const [isSortDropdownVisible, setIsSortDropdownVisible] = useState(false);
+  const [selectedMentor, setSelectedMentor] = useState<string | null>(null);
+  const [isMentorDropdownVisible, setIsMentorDropdownVisible] = useState(false);
 
   const reversedNotifications = notificationsData?.data?.slice().reverse();
   const handleNotificationClick = async (notificationId: number) => {
@@ -94,15 +109,65 @@ const YouthDashboardPage = () => {
   const handleDelete = async (id) => {
     try {
       await deleteInspiration(id).unwrap();
-      toast.success('Inspiration deleted successfully');
+      toast.success("Inspiration deleted successfully");
     } catch (error) {
-      toast.error('Failed to delete inspiration');
+      toast.error("Failed to delete inspiration");
     }
   };
 
-  const mentorOptions = [...new Set(
-    inspirations?.map(i => `${i.mentor.firstName} ${i.mentor.lastName}`)
-  )];
+  const mentorOptions = [
+    ...new Set(
+      inspirations?.map((i) => `${i.mentor.firstName} ${i.mentor.lastName}`)
+    ),
+  ];
+
+  const sortInspirations = (inspirations) => {
+    if (!inspirations) return [];
+
+    return [...inspirations].sort((a, b) => {
+      if (sortCriteria === "newest") {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      } else if (sortCriteria === "oldest") {
+        return (
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+      } else if (sortCriteria === "mentor") {
+        const nameA =
+          `${a.mentor.firstName} ${a.mentor.lastName}`.toLowerCase();
+        const nameB =
+          `${b.mentor.firstName} ${b.mentor.lastName}`.toLowerCase();
+        return nameA.localeCompare(nameB);
+      }
+      return 0;
+    });
+  };
+
+  const filteredInspirations = sortInspirations(
+    inspirations.filter((inspiration) => {
+      const matchesSearch = filters.searchText
+        ? inspiration.title
+            .toLowerCase()
+            .includes(filters.searchText.toLowerCase()) ||
+          inspiration.content
+            .toLowerCase()
+            .includes(filters.searchText.toLowerCase())
+        : true;
+
+      const matchesMentor = sortCriteria === 'mentor'
+        ? `${inspiration.mentor.firstName} ${inspiration.mentor.lastName}` ===
+          `${user?.user.firstName} ${user?.user.lastName}`
+        : true;
+
+      const matchesDate = filters.dateRange
+        ? new Date(inspiration.createdAt) >= filters.dateRange[0] &&
+          new Date(inspiration.createdAt) <= filters.dateRange[1]
+        : true;
+
+      return matchesSearch && matchesMentor && matchesDate;
+    })
+  );
 
   return (
     <CustomDashboardLayout>
@@ -174,7 +239,58 @@ const YouthDashboardPage = () => {
               )}
             </div>
           </Card>
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-between mb-4">
+            <Dropdown
+              overlay={
+                <Menu
+                  onClick={({ key }) => {
+                    if (key === "mentor" && user?.user.role === "youth") {
+                      setIsMentorDropdownVisible(true);
+                    } else {
+                      setSortCriteria(key);
+                      setIsSortDropdownVisible(false);
+                    }
+                  }}
+                >
+                  <Menu.Item key="newest">Newest First</Menu.Item>
+                  <Menu.Item key="oldest">Oldest First</Menu.Item>
+                  <Menu.Item key="mentor">
+                    By Mentor{" "}
+                    {isMentorDropdownVisible && (
+                      <Dropdown
+                        overlay={
+                          <Menu
+                            onClick={({ key }) => {
+                              setSelectedMentor(key);
+                              setIsMentorDropdownVisible(false);
+                              setSortCriteria("mentor");
+                            }}
+                          >
+                            {mentorOptions.map((mentor) => (
+                              <Menu.Item key={mentor}>{mentor}</Menu.Item>
+                            ))}
+                          </Menu>
+                        }
+                        visible={isMentorDropdownVisible}
+                        onVisibleChange={setIsMentorDropdownVisible}
+                        trigger={["click"]}
+                      >
+                        <Button>
+                          Select Mentor <DownOutlined />
+                        </Button>
+                      </Dropdown>
+                    )}
+                  </Menu.Item>
+                </Menu>
+              }
+              visible={isSortDropdownVisible}
+              onVisibleChange={setIsSortDropdownVisible}
+              trigger={["click"]}
+            >
+              <Button>
+                Sort <DownOutlined />
+              </Button>
+            </Dropdown>
             <Button type="primary" onClick={() => setIsAddModalOpen(true)}>
               Add Inspiration
             </Button>
@@ -182,9 +298,11 @@ const YouthDashboardPage = () => {
           {/* Recent Inspirations */}
           <Card title="Inspiration Quotations" className="shadow-sm">
             <div className="space-y-2 p-2 overflow-y-auto h-[330px]">
-              {inspirations?.map((inspiration) => (
+              {filteredInspirations?.map((inspiration) => (
                 <div key={inspiration.id} className="border-b p-3">
-                  <p className="text-red-500 font-medium">{inspiration.title}</p>
+                  <p className="text-red-500 font-medium">
+                    {inspiration.title}
+                  </p>
                   <div>
                     <p className="text-sm text-gray-600 whitespace-normal break-words">
                       {inspiration.content}
@@ -200,7 +318,8 @@ const YouthDashboardPage = () => {
                     <span>
                       Posted At:
                       <Tag className="ml-2" color="blue">
-                        <ClockCircleOutlined /> {formatRelativeTime(inspiration.createdAt)}
+                        <ClockCircleOutlined />{" "}
+                        {formatRelativeTime(inspiration.createdAt)}
                       </Tag>
                     </span>
                     <div
@@ -217,17 +336,21 @@ const YouthDashboardPage = () => {
                       </span>
                     </div>
                     <div className="flex space-x-2">
-                      <EditOutlined
-                        className="text-blue-500 cursor-pointer"
-                        onClick={() => handleEdit(inspiration)}
-                      />
-                      <DeletePopconfirm
-                        title="Delete"
-                        description="Are you sure to delete this inspiration?"
-                        onConfirm={() => handleDelete(inspiration.id)}
-                        okText="Yes"
-                        cancelText="No"
-                      />
+                      {user?.user.role === "mentor" && (
+                        <>
+                          <EditOutlined
+                            className="text-blue-500 cursor-pointer"
+                            onClick={() => handleEdit(inspiration)}
+                          />
+                          <DeletePopconfirm
+                            title="Delete"
+                            description="Are you sure to delete this inspiration?"
+                            onConfirm={() => handleDelete(inspiration.id)}
+                            okText="Yes"
+                            cancelText="No"
+                          />
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
