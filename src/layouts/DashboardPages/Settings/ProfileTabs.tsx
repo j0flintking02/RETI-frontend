@@ -6,19 +6,19 @@ import Experience from "./ProfileWorkExperience";
 import ProfileDetailsExt from "./ProfileDetailsExt";
 
 
-const ProfileTabs = () => {
+const ProfileTabs = ({ profileData }) => {
   
 
   const items: TabsProps["items"] = [
     {
       key: "1",
       label: "Skills, Demographics, and Location Details",
-      children: <ProfileDetails/>,
+      children: <ProfileDetails profileData={profileData}/>,
     },
     {
       key: "2",
       label: "Training Institutions, Cohorts and Trades",
-      children: <ProfileDetailsExt/>,
+      children: <ProfileDetailsExt profileData={profileData}/>,
     },
     {
       key: "3",

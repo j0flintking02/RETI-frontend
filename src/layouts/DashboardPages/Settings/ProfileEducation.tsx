@@ -52,9 +52,6 @@ const Education = () => {
         <div className="pt-4 space-y-4">
             <div className="flex items-center justify-between border-b py-4">
                 <h1 className="text-2xl font-semibold mb-4">Education</h1>
-                <Button type="text" icon={<EditOutlined />} onClick={() => setIsModalOpen(true)}>
-                    Add Education
-                </Button>
             </div>
 
             <div className="">
