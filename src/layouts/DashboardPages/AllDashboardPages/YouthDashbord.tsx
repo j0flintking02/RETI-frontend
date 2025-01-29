@@ -18,6 +18,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   DownOutlined,
+  LikeFilled,
 } from "@ant-design/icons";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import {
@@ -286,22 +287,52 @@ const YouthDashboardPage = () => {
                 Sort <DownOutlined />
               </Button>
             </Dropdown>
+            {user?.user.role === "mentor" && (
             <Button type="primary" onClick={() => setIsAddModalOpen(true)}>
-              Add Inspiration
+              
+              Add Inspiration 
+              
             </Button>
+            )}
           </div>
           {/* Recent Inspirations */}
           <Card title="Inspiration Quotations" className="shadow-sm">
             <div className="space-y-2 p-2 overflow-y-auto h-[330px]">
               {filteredInspirations?.map((inspiration) => (
                 <div key={inspiration.id} className="border-b p-3">
+                  <div className="flex justify-between items-center">
                   <p className="text-red-500 font-medium">
                     {inspiration.title}
                   </p>
-                  <div>
-                    <p className="text-sm text-gray-600 whitespace-normal break-words">
+                  
+                      {user?.user.role === "mentor" && (
+                        <div className="flex space-x-2">
+                          <EditOutlined
+                            className="text-blue-500 cursor-pointer"
+                            onClick={() => handleEdit(inspiration)}
+                          />
+                          <DeletePopconfirm
+                            title="Delete"
+                            description="Are you sure to delete this inspiration?"
+                            onConfirm={() => handleDelete(inspiration.id)}
+                            okText="Yes"
+                            cancelText="No"
+                          />
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex items-center justify-between">
+                    
+                    <p className="text-sm text-gray-600 whitespace-normal break-words flex-1">
                       {inspiration.content}
-                    </p>
+                      </p>
+                      <div className="ml-auto">
+                      <LikeOutlined className="text-gray-500 cursor-pointer ml-2" />
+                      </div>
+                      
+                    
+                   
+                    
                   </div>
                   <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
                     <span>
