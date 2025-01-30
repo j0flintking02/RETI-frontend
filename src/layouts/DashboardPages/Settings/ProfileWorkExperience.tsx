@@ -58,9 +58,6 @@ const Experience = () => {
         <div className="pt-4 space-y-4">
             <div className="flex items-center justify-between border-b py-4">
                 <h1 className="text-2xl font-semibold">Work Experience</h1>
-                <Button type="text" icon={<EditOutlined />} className="text-red-500 mt-2" onClick={() => openEditModal(-1)} >
-                    Add experience
-                </Button>
             </div>
 
             <div className="">

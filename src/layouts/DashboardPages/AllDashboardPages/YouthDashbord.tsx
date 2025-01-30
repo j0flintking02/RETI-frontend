@@ -1,7 +1,7 @@
 import { Card, Avatar, Tag } from "antd";
 import { useEffect, useState } from "react";
 import "tailwindcss/tailwind.css";
-import { ClockCircleOutlined, LikeOutlined, UserOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, LikeOutlined, UserOutlined, LikeFilled } from "@ant-design/icons";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import {
   useGetNotificationsQuery,
@@ -9,7 +9,7 @@ import {
 } from "../../../services/notifications";
 import { loginDetails, formatRelativeTime } from "../../../utils";
 import { InspirationsType } from "../../../services/types";
-import { useGetInspirationsQuery } from "../../../services/inspirations";
+import { useGetInspirationsQuery, useLikeInspirationMutation } from "../../../services/inspirations";
 import Loader from "../../loader";
 import { useGetUserProfileQuery } from "../../../services/profiles";
 import Chat from "../../../components/secondary/Chat";
@@ -19,6 +19,7 @@ import MentorshipCalendar from "../../../components/secondary/Calendar";
 const YouthDashboardPage = () => {
   const { data: notificationsData, isLoading } = useGetNotificationsQuery();
   const [markAsRead] = useMarkAsReadMutation();
+  const [likeInspiration] = useLikeInspirationMutation();
   const user = loginDetails();
   const { data: inspirationsData } = useGetInspirationsQuery();
   const { data: userProfile } = useGetUserProfileQuery(user?.user?.id);
@@ -30,6 +31,25 @@ const YouthDashboardPage = () => {
       await markAsRead(notificationId).unwrap();
     } catch (error) {
       toast.error("Failed to mark notification as read:", error);
+    }
+  };
+
+  const handleInspirationLike = async (inspirationId: number) => {
+    try {
+      const updatedInspirations = inspirations.map(inspiration => 
+        inspiration.id === inspirationId ? {
+          ...inspiration,
+          isLiked: !inspiration.isLiked,
+          likesCount: inspiration.isLiked ? inspiration.likesCount - 1 : inspiration.likesCount + 1
+        } : inspiration
+      );
+      setInspirations(updatedInspirations);
+      await likeInspiration(
+        inspirationId).unwrap();
+
+    } catch (error) {
+      setInspirations([...inspirations]);
+      toast.error("Failed to update like status");
     }
   };
 
@@ -122,8 +142,18 @@ const YouthDashboardPage = () => {
                         <ClockCircleOutlined /> {formatRelativeTime(inspiration.createdAt)}
                       </Tag>
                     </span>
-                    <div>
-                      <LikeOutlined />
+                    <div 
+                      className="flex items-center cursor-pointer group"
+                      onClick={() => handleInspirationLike(inspiration.id)}
+                    >
+                      {inspiration.isLiked ? (
+                        <LikeFilled className="text-red-500 mr-1 transition-colors" />
+                      ) : (
+                        <LikeOutlined className="mr-1 text-gray-500 group-hover:text-red-400 transition-colors" />
+                      )}
+                      <span className={`${inspiration.isLiked ? 'text-red-500' : 'text-gray-600'} group-hover:text-red-400`}>
+                        {inspiration.likesCount}
+                      </span>
                     </div>
                   </div>
                 </div>

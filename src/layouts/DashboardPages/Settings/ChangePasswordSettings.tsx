@@ -10,117 +10,119 @@ const ChangePasswordSettings = () => {
     }
 
     return (
-        <div className="mt-2">
+        <div className="mt-2 w-full">
             <Layout>
-                <Content className="p-8 space-y-10 bg-white border border-gray-900/10 rounded-lg"
-                >
-                  
-                    <div>
-                        <div className="sm:flex sm:justify-between">
-                            <div>
-                                <h2 className="text-md font-semibold text-gray-900">Change password</h2>
-                                <p className="py-2 text-sm/6 text-gray-600">Here you can change your password.</p>
+                <Content className="p-4 sm:p-6 max-w-3xl border border-gray-200 rounded-md bg-white shadow-sm">
+                    <div className="py-2 space-y-6">
+                        {/* Password Change Section */}
+                        <div className="space-y-4">
+                            <div className="sm:flex sm:justify-between">
+                                <div>
+                                    <h2 className="text-sm font-medium text-gray-900">Change password</h2>
+                                    <p className="pt-1 text-xs sm:text-sm text-gray-600">Update your account password</p>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* inputs */}
-                        <Form form={form} layout="vertical" >
-                            <Row gutter={[16, 16]}>
-                                {/* Job Title */}
-                                <Col span={8}>
+                            <Form form={form} layout="vertical" className="space-y-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <Form.Item
                                         label="Current Password"
                                         name="oldPassword"
-                                        rules={[
-                                            { required: true, message: 'Please input your password!' },
-                                            { min: 8, message: 'Password must be at least 8 characters!' },
-                                        ]}
-                                        hasFeedback
+                                        labelCol={{ className: "text-xs sm:text-sm font-medium text-gray-600" }}
                                     >
-                                        <Input.Password placeholder="Enter your current password" size="large" />
+                                        <Input.Password 
+                                            size="middle"
+                                            className="text-sm sm:text-base rounded-md"
+                                            placeholder="Current password"
+                                        />
                                     </Form.Item>
-                                </Col>
 
-                                <Col span={8}>
                                     <Form.Item
                                         label="New Password"
                                         name="password"
-                                        rules={[
-                                            { required: true, message: 'Please input your password!' },
-                                            { min: 8, message: 'Password must be at least 8 characters!' },
-                                        ]}
-                                        hasFeedback
+                                        labelCol={{ className: "text-xs sm:text-sm font-medium text-gray-600" }}
                                     >
-                                        <Input.Password placeholder="Enter your password" size="large" />
+                                        <Input.Password 
+                                            size="middle"
+                                            className="text-sm sm:text-base rounded-md"
+                                            placeholder="New password"
+                                        />
                                     </Form.Item>
-                                </Col>
-                            </Row>
-                        </Form>
-
-                        <Button htmlType="submit" form="passwordForm" type="primary">
-                            Save
-                        </Button>
-                    </div>
-
-                    <div>
-                        <div className="sm:flex sm:justify-between">
-                            <div>
-                                <h2 className="text-md font-semibold text-gray-900">Change email</h2>
-                                <p className="py-2 text-sm/6 text-gray-600">Here you can change your email.</p>
-                            </div>
+                                </div>
+                                
+                                <div className="flex justify-end">
+                                    <Button 
+                                        type="primary"
+                                        htmlType="submit"
+                                        className="h-9 sm:h-10 px-4 sm:px-6 text-sm sm:text-base rounded-md"
+                                    >
+                                        Save
+                                    </Button>
+                                </div>
+                            </Form>
                         </div>
 
-                        {/* inputs */}
-                        <Form form={form} layout="vertical" >
-                            <Row gutter={[16, 16]}>
-                                {/* Job Title */}
-                                <Col span={8}>
-                                    <Form.Item
-                                        label="New Email Address"
-                                        name="oldPassword"
-                                        rules={[
-                                            { required: true, message: 'Please input your password!' },
-                                            { min: 8, message: 'Password must be at least 8 characters!' },
-                                        ]}
-                                        hasFeedback
-                                    >
-                                        <Input.Password placeholder="john@gmail.com" size="large" />
-                                    </Form.Item>
-                                </Col>
+                        {/* Email Change Section */}
+                        <div className="space-y-4">
+                            <div className="sm:flex sm:justify-between">
+                                <div>
+                                    <h2 className="text-sm font-medium text-gray-900">Change email</h2>
+                                    <p className="pt-1 text-xs sm:text-sm text-gray-600">Update your email address</p>
+                                </div>
+                            </div>
 
-                                <Col span={8}>
+                            <Form form={form} layout="vertical" className="space-y-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <Form.Item
+                                        label="New Email"
+                                        name="email"
+                                        labelCol={{ className: "text-xs sm:text-sm font-medium text-gray-600" }}
+                                    >
+                                        <Input
+                                            size="middle"
+                                            className="text-sm sm:text-base rounded-md"
+                                            placeholder="john@gmail.com"
+                                        />
+                                    </Form.Item>
+
                                     <Form.Item
                                         label="Password"
                                         name="password"
-                                        rules={[
-                                            { required: true, message: 'Please input your password!' },
-                                            { min: 8, message: 'Password must be at least 8 characters!' },
-                                        ]}
-                                        hasFeedback
+                                        labelCol={{ className: "text-xs sm:text-sm font-medium text-gray-600" }}
                                     >
-                                        <Input.Password placeholder="Enter your password" size="large" />
+                                        <Input.Password 
+                                            size="middle"
+                                            className="text-sm sm:text-base rounded-md"
+                                            placeholder="Current password"
+                                        />
                                     </Form.Item>
-                                </Col>
-                            </Row>
-                        </Form>
-
-                        <Button htmlType="submit" form="passwordForm" type="primary">
-                            Save
-                        </Button>
-                    </div>
-
-                    <div>
-                        <div className="mb-2">
-                           
-                                <h2 className="text-md font-semibold text-gray-900">Deactivate Accont</h2>
-                           
+                                </div>
+                                
+                                <div className="flex justify-end">
+                                    <Button 
+                                        type="primary"
+                                        htmlType="submit"
+                                        className="h-9 sm:h-10 px-4 sm:px-6 text-sm sm:text-base rounded-md"
+                                    >
+                                        Save
+                                    </Button>
+                                </div>
+                            </Form>
                         </div>
 
-                        <Button htmlType="submit" size='large' form="passwordForm">
-                           Deactivate my account
-                        </Button>
+                        {/* Deactivate Section */}
+                        <div className="space-y-4">
+                            <div className="border-t border-gray-200 pt-4">
+                                <Button 
+                                    size="middle"
+                                    danger
+                                    className="w-full sm:w-auto h-9 sm:h-10 px-4 sm:px-6 text-sm sm:text-base rounded-md"
+                                >
+                                    Deactivate my account
+                                </Button>
+                            </div>
+                        </div>
                     </div>
-                   
                 </Content>
             </Layout>
         </div>

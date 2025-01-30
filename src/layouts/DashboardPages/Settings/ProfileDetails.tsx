@@ -1,16 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tag, Button, Modal, Form, Input, Select } from "antd";
 import { EditOutlined, UserOutlined, EnvironmentOutlined, TeamOutlined, ToolOutlined } from "@ant-design/icons";
-import { useGetUserProfileQuery } from "../../../services/profiles";
 import { loginDetails } from "../../../utils";
 
 const { Option } = Select;
 
-const ProfileDetails = () => {
-  const { data, isError, error } = useGetUserProfileQuery(
-    loginDetails().user.id
-  );
+const ProfileDetails = ({ profileData }) => {
 
+  const userRole = loginDetails().user.role; 
+  const isAdmin = userRole === "admin";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingType, setEditingType] = useState<
     | "skillsAndTraining"
@@ -22,43 +20,88 @@ const ProfileDetails = () => {
 
   const [details, setDetails] = useState({
     skillsAndTraining: {
-      traineeCategory: data?.data?.skillsAndTraining?.traineeCategory,
-      trainingDuration: data?.data?.skillsAndTraining?.trainingDuration,
-      trainingLocation: data?.data?.skillsAndTraining?.trainingLocation,
+      traineeCategory: "Not specified",
+      trainingDuration: "Not specified",
+      trainingLocation: "Not specified",
     },
     artisanDetails: {
-      categoryOfArtisan: data?.data?.artisanDetails?.categoryOfArtisan,
-      nameOfHost: data?.data?.artisanDetails?.nameOfHost,
-      villageOfArtisan: data?.data?.artisanDetails?.villageOfArtisan,
-      subcountyOfArtisan: data?.data?.artisanDetails?.subcountyOfArtisan,
-      centerRefugeeSettlement: data?.data?.artisanDetails?.centerRefugeeSettlement,
-      hostContact: data?.data?.artisanDetails?.hostContact,
+      categoryOfArtisan: "Not specified",
+      nameOfHost: "Not specified",
+      villageOfArtisan: "Not specified",
+      subcountyOfArtisan: "Not specified",
+      centerRefugeeSettlement: "Not specified",
+      hostContact: "Not specified",
     },
     geoLocationDetails: {
-      partnerResponsible: data?.data?.geoLocationDetails?.partnerResponsible,
-      region: data?.data?.geoLocationDetails?.region,
-      district: data?.data?.geoLocationDetails?.district,
-      settlement: data?.data?.geoLocationDetails?.settlement,
-      subCounty: data?.data?.geoLocationDetails?.subCounty,
-      parishZoneCluster: data?.data?.geoLocationDetails?.parishZoneCluster,
-      village: data?.data?.geoLocationDetails?.village,
+      partnerResponsible: "Not specified",
+      region: "Not specified",
+      district: "Not specified",
+      settlement: "Not specified",
+      subCounty: "Not specified",
+      parishZoneCluster: "Not specified",
+      village: "Not specified",
     },
     participantDetails: {
-      nameOfParticipant: data?.data?.participantDetails?.nameOfParticipant,
-      groupNumber: data?.data?.participantDetails?.groupNumber,
-      individualNumber: data?.data?.participantDetails?.individualNumber,
-      nin: data?.data?.participantDetails?.nin,
-      sex: data?.data?.participantDetails?.sex,
-      age: data?.data?.participantDetails?.age,
-      maritalStatus: data?.data?.participantDetails?.maritalStatus,
-      specialInterestCategory: data?.data?.participantDetails?.specialInterestCategory,
-      disabilityType: data?.data?.participantDetails?.disabilityType,
-      numberOfDisabilities: data?.data?.participantDetails?.numberOfDisabilities,
-      mainDisabilityDetails: data?.data?.participantDetails?.mainDisabilityDetails,
-      nationalityCategory: data?.data?.participantDetails?.nationalityCategory,
-      uniqueIdNo: data?.data?.participantDetails?.uniqueIdNo,
+      nameOfParticipant: "Not specified",
+      groupNumber: "Not specified",
+      individualNumber: "Not specified",
+      nin: "Not specified",
+      sex: "Not specified",
+      age: "Not specified",
+      maritalStatus: "Not specified",
+      specialInterestCategory: "Not specified",
+      disabilityType: "Not specified",
+      numberOfDisabilities: "Not specified",
+      mainDisabilityDetails: "Not specified",
+      nationalityCategory: "Not specified",
+      uniqueIdNo: "Not specified",
     },
   });
+
+  // Update details state when profileData changes
+  useEffect(() => {
+    if (profileData) {
+      setDetails({
+        skillsAndTraining: {
+          traineeCategory: profileData?.data?.skillsAndTraining?.traineeCategory || "Not specified",
+          trainingDuration: profileData?.data?.skillsAndTraining?.trainingDuration || "Not specified",
+          trainingLocation: profileData?.data?.skillsAndTraining?.trainingLocation || "Not specified",
+        },
+        artisanDetails: {
+          categoryOfArtisan: profileData?.data?.artisanDetails?.categoryOfArtisan || "Not specified",
+          nameOfHost: profileData?.data?.artisanDetails?.nameOfHost || "Not specified",
+          villageOfArtisan: profileData?.data?.artisanDetails?.villageOfArtisan || "Not specified",
+          subcountyOfArtisan: profileData?.data?.artisanDetails?.subcountyOfArtisan || "Not specified",
+          centerRefugeeSettlement: profileData?.data?.artisanDetails?.centerRefugeeSettlement || "Not specified",
+          hostContact: profileData?.data?.artisanDetails?.hostContact || "Not specified",
+        },
+        geoLocationDetails: {
+          partnerResponsible: profileData?.data?.geoLocationDetails?.partnerResponsible || "Not specified",
+          region: profileData?.data?.geoLocationDetails?.region || "Not specified",
+          district: profileData?.data?.geoLocationDetails?.district || "Not specified",
+          settlement: profileData?.data?.geoLocationDetails?.settlement || "Not specified",
+          subCounty: profileData?.data?.geoLocationDetails?.subCounty || "Not specified",
+          parishZoneCluster: profileData?.data?.geoLocationDetails?.parishZoneCluster || "Not specified",
+          village: profileData?.data?.geoLocationDetails?.village || "Not specified",
+        },
+        participantDetails: {
+          nameOfParticipant: profileData?.data?.participantDetails?.nameOfParticipant || "Not specified",
+          groupNumber: profileData?.data?.participantDetails?.groupNumber || "Not specified",
+          individualNumber: profileData?.data?.participantDetails?.individualNumber || "Not specified",
+          nin: profileData?.data?.participantDetails?.nin || "Not specified",
+          sex: profileData?.data?.participantDetails?.sex || "Not specified",
+          age: profileData?.data?.participantDetails?.age || "Not specified",
+          maritalStatus: profileData?.data?.participantDetails?.maritalStatus || "Not specified",
+          specialInterestCategory: profileData?.data?.participantDetails?.specialInterestCategory || "Not specified",
+          disabilityType: profileData?.data?.participantDetails?.disabilityType || "Not specified",
+          numberOfDisabilities: profileData?.data?.participantDetails?.numberOfDisabilities || "Not specified",
+          mainDisabilityDetails: profileData?.data?.participantDetails?.mainDisabilityDetails || "Not specified",
+          nationalityCategory: profileData?.data?.participantDetails?.nationalityCategory || "Not specified",
+          uniqueIdNo: profileData?.data?.participantDetails?.uniqueIdNo || "Not specified",
+        },
+      });
+    }
+  }, [profileData]);
 
   const openEditModal = (type) => {
     setEditingType(type);
@@ -88,10 +131,12 @@ const ProfileDetails = () => {
               <UserOutlined className="text-blue-500" />
               Skills & Training
             </h2>
+            {isAdmin && (
             <EditOutlined 
               className="cursor-pointer text-blue-500 hover:text-blue-700"
               onClick={() => openEditModal("skillsAndTraining")}
             />
+            )}
           </div>
           <div className="space-y-3">
             {Object.entries(details.skillsAndTraining).map(([key, value]) => (
@@ -110,10 +155,12 @@ const ProfileDetails = () => {
               <ToolOutlined className="text-green-500" />
               Artisan Details
             </h2>
+            {isAdmin && (
             <EditOutlined 
               className="cursor-pointer text-blue-500 hover:text-blue-700"
               onClick={() => openEditModal("artisanDetails")}
             />
+            )}
           </div>
           <div className="space-y-3">
             {Object.entries(details.artisanDetails).map(([key, value]) => (
@@ -132,10 +179,12 @@ const ProfileDetails = () => {
               <EnvironmentOutlined className="text-purple-500" />
               Location Details
             </h2>
+            {isAdmin && (
             <EditOutlined 
               className="cursor-pointer text-blue-500 hover:text-blue-700"
               onClick={() => openEditModal("geoLocationDetails")}
             />
+            )}
           </div>
           <div className="space-y-3">
             {Object.entries(details.geoLocationDetails).map(([key, value]) => (
@@ -154,10 +203,12 @@ const ProfileDetails = () => {
               <TeamOutlined className="text-red-500" />
               Demographic Details
             </h2>
+            {isAdmin && (
             <EditOutlined 
               className="cursor-pointer text-blue-500 hover:text-blue-700"
               onClick={() => openEditModal("participantDetails")}
             />
+            )}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {Object.entries(details.participantDetails).map(([key, value]) => (

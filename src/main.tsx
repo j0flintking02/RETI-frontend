@@ -32,6 +32,7 @@ import ProductDetailsPage from "./layouts/DashboardPages/Products/ProductDetails
 import UsersDetailsPage from "./layouts/DashboardPages/Users/UsersDetails.tsx";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ProfileSettings from "./layouts/DashboardPages/Settings/Profile.tsx";
 
 function protectedLoader({ request }: LoaderFunctionArgs) {
   const loginDetails = localStorage.getItem("loginDetails");
@@ -166,10 +167,10 @@ const router = createBrowserRouter([
     children: [],
   },
   {
-    path: "/users/:id",
+    path: "/users/:userId",
     element: (
       <CustomAppLayout>
-        <SettingsPage />
+        <ProfileSettings />
       </CustomAppLayout>
     ),
     errorElement: <ErrorPage />,

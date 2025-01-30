@@ -14,14 +14,12 @@ import { useEffect } from "react";
 import ProfileTabs from "./ProfileTabs.tsx";
 import { toast } from "react-toastify";
 import { handleDownloadData } from "../../../utils.ts";
+import { useParams } from "react-router-dom";
 
 const ProfileSettings = () => {
-  const { data, isError, error } = useGetUserProfileQuery(
-    loginDetails().user.id
-  );
-
-  const profileData = data;
-  console.log("profile data", profileData);
+   const { userId: paramUserId } = useParams<{ userId: string }>();
+   const userId = paramUserId ? Number(paramUserId) : loginDetails().user.id;
+   const { data, isError, error } = useGetUserProfileQuery(userId);
 
   useEffect(() => {
     if (isError) {
@@ -66,26 +64,20 @@ const ProfileSettings = () => {
               </p>
             </div>
             <p className="text-md text-gray-500">{data?.data?.bio}</p>
-            <Button
-              type="text"
-              icon={<EditOutlined />}
-              className="text-red-500 mt-2"
-            >
-              Edit Profile
-            </Button>
+            
             <Button
             type="dashed"
             className="px-4 text-red-500"
             icon={<DownloadOutlined />}
             onClick={() => handleDownloadData(data)}
           >
-            Download your data
+            Download data
           </Button>
           </div>
           
         </div>
         <div className="text-gray-900 p-4">
-          <ProfileTabs />
+          <ProfileTabs profileData={data}/>
         </div>
       </div>
     </Content>

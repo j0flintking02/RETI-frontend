@@ -91,22 +91,24 @@ const UsersPage = () => {
     {
       title: 'Action',
       key: 'action',
-      render: (_, record) => (
-        <Space size="middle">
-           <a className='text-blue-500 hover:underline' onClick={() => handleViewUser(record.id)}>See Details</a>
-          <DeletePopconfirm
-            title="Delete User"
-            description="Are you sure you want to delete this user?"
-            onConfirm={() => handleDeleteUser(record.id)}
-            onConfirmMessage="User deleted successfully"
-            onCancelMessage="User deletion cancelled"
-            okText="Yes"
-            cancelText="No"
-          >
-            <DeleteOutlined className="text-red-500 cursor-pointer" />
-          </DeletePopconfirm>
-        </Space>
-      ),
+      render: (_, record) => {
+        return (
+          <Space size="middle">
+            <a className='text-blue-500 hover:underline' onClick={() => handleViewUser(record.id)}>See Details</a>
+            <DeletePopconfirm
+              title="Delete User"
+              description="Are you sure you want to delete this user?"
+              onConfirm={() => handleDeleteUser(record.id)}
+              onConfirmMessage="User deleted successfully"
+              onCancelMessage="User deletion cancelled"
+              okText="Yes"
+              cancelText="No"
+            >
+              <DeleteOutlined className="text-red-500 cursor-pointer" />
+            </DeletePopconfirm>
+          </Space>
+        );
+      },
     },
   ];
 

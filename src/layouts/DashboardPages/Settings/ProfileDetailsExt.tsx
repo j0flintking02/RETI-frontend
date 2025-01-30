@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { Tag, Button, Modal, Form, Input, Select } from "antd";
 import { EditOutlined, BankOutlined, CalendarOutlined, ExperimentOutlined, RocketOutlined } from "@ant-design/icons";
+import { loginDetails } from "../../../utils";
 
 const { Option } = Select;
 
-const ProfileDetailsExt = () => {
+const ProfileDetailsExt = ({ profileData }) => {
+  const userRole = loginDetails().user.role; 
+    const isAdmin = userRole === "admin";
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingType, setEditingType] = useState<
     | "trainingCentreDetails"
@@ -16,29 +20,29 @@ const ProfileDetailsExt = () => {
 
   const [details, setDetails] = useState({
     trainingCentreDetails: {
-      nameOfTrainingCentre: "",
-      locationVillage: "",
-      locationSubCounty: "",
-      locationSettlement: "",
-      mainTelephoneContact: "",
-      alternativeTelephoneContact: "",
+      nameOfTrainingCentre: profileData?.data?.trainingCentreDetails?.nameOfTrainingCentre,
+      locationVillage: profileData?.data?.trainingCentreDetails?.locationVillage,
+      locationSubCounty: profileData?.data?.trainingCentreDetails?.locationSubCounty,
+      locationSettlement: profileData?.data?.trainingCentreDetails?.locationSettlement,
+      mainTelephoneContact: profileData?.data?.trainingCentreDetails?.mainTelephoneContact,
+      alternativeTelephoneContact: profileData?.data?.trainingCentreDetails?.alternativeTelephoneContact,
     },
     trainingCohorts: {
-      cohort: "",
-      tradeTakenDuringTraining: "",
+      cohort: profileData?.data?.trainingCohorts?.cohort,
+      tradeTakenDuringTraining: profileData?.data?.trainingCohorts?.tradeTakenDuringTraining,
     },
     retiTrainingDetails: {
-      startTime: "MM/YY",
-      completionStatus: "",
-      reasonForDroppingOut: "",
-      monthsSpent: "",
-      certificationStatus: "",
+      startTime: profileData?.data?.retiTrainingDetails?.startTime,
+      completionStatus: profileData?.data?.retiTrainingDetails?.completionStatus,
+      reasonForDroppingOut: profileData?.data?.retiTrainingDetails?.reasonForDroppingOut,
+      monthsSpent: profileData?.data?.retiTrainingDetails?.monthsSpent,
+      certificationStatus: profileData?.data?.retiTrainingDetails?.certificationStatus,
     },
     internshipAndStartupDetails: {
-      completionTime: "MM/YY",
-      internshipPlacement: "",
-      startupKitReceived: "",
-      startupGrantReceived: "",
+      completionTime: profileData?.data?.internshipAndStartupDetails?.completionTime,
+      internshipPlacement: profileData?.data?.internshipAndStartupDetails?.internshipPlacement,
+      startupKitReceived: profileData?.data?.internshipAndStartupDetails?.startupKitReceived,
+      startupGrantReceived: profileData?.data?.internshipAndStartupDetails?.startupGrantReceived,
     },
   });
 
@@ -70,10 +74,12 @@ const ProfileDetailsExt = () => {
               <BankOutlined className="text-blue-500" />
               Institution Details
             </h2>
+            {isAdmin && (
             <EditOutlined 
               className="cursor-pointer text-blue-500 hover:text-blue-700"
               onClick={() => openEditModal("trainingCentreDetails")}
             />
+            )}
           </div>
           <div className="space-y-3">
             {Object.entries(details.trainingCentreDetails).map(([key, value]) => (
@@ -92,10 +98,12 @@ const ProfileDetailsExt = () => {
               <CalendarOutlined className="text-green-500" />
               Cohort Details
             </h2>
+            {isAdmin && (
             <EditOutlined 
               className="cursor-pointer text-blue-500 hover:text-blue-700"
               onClick={() => openEditModal("trainingCohorts")}
             />
+            )}
           </div>
           <div className="space-y-3">
             {Object.entries(details.trainingCohorts).map(([key, value]) => (
@@ -114,10 +122,12 @@ const ProfileDetailsExt = () => {
               <ExperimentOutlined className="text-purple-500" />
               RETI Program Details
             </h2>
+            {isAdmin && (
             <EditOutlined 
               className="cursor-pointer text-blue-500 hover:text-blue-700"
               onClick={() => openEditModal("retiTrainingDetails")}
             />
+            )}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {Object.entries(details.retiTrainingDetails).map(([key, value]) => (
@@ -136,10 +146,12 @@ const ProfileDetailsExt = () => {
               <RocketOutlined className="text-red-500" />
               Internship & Startup
             </h2>
+            {isAdmin && (
             <EditOutlined 
               className="cursor-pointer text-blue-500 hover:text-blue-700"
               onClick={() => openEditModal("internshipAndStartupDetails")}
             />
+            )}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {Object.entries(details.internshipAndStartupDetails).map(([key, value]) => (

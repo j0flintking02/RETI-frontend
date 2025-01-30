@@ -105,8 +105,8 @@ const PersonalDetailsSettings = () => {
   };
 
   return (
-    <Content className="p-8 space-y-2 border border-gray-900/10 rounded-lg bg-white">
-      <div className="py-4">
+    <Content className="p-6 max-w-3xl border border-gray-200 rounded-md bg-white shadow-sm">
+      <div className="py-2">
         {!isLoading && (
           <Form
             layout="vertical"
@@ -122,19 +122,15 @@ const PersonalDetailsSettings = () => {
               prefix: "256",
             }}
             onFinish={handleFinish}
-            className=""
+            className="space-y-6"
           >
-            <div>
-              <div className="sm:flex sm:justify-between">
-                <div>
-                  <h2 className="text-md font-semibold text-gray-900">
-                    Bio Data
-                  </h2>
-                </div>
+            {/* Bio Data Section */}
+            <div className="space-y-4">
+              <div className="border-b border-gray-200 pb-4">
+                <h2 className="text-sm font-medium text-gray-700">Bio Data</h2>
               </div>
-
-              {/* profile picture and inputs */}
-              <div className="sm:flex gap-10 py-4">
+              
+              <div className="flex items-start gap-4">
                 <div>
                   <Avatar
                     size={80}
@@ -172,124 +168,81 @@ const PersonalDetailsSettings = () => {
                   </div>
                 )}
 
-                <div className="w-full">
-                  <Form.Item>
-                    <div
-                      style={{ width: "100%", display: "flex", gap: "16px" }}
+                <div className="flex-1 space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <Form.Item
+                      label="First Name"
+                      name="firstName"
+                      className="mb-0"
+                      labelCol={{ className: "text-sm font-medium text-gray-600" }}
                     >
-                      <Form.Item
-                        label="First Name"
-                        name="firstName"
-                        style={{ flex: 1 }}
-                      >
-                        <Input
-                          size="large"
-                          placeholder="Enter your first name"
-                          type="text"
-                        />
-                      </Form.Item>
-                      <Form.Item
-                        label="Last Name"
-                        name="lastName"
-                        style={{ flex: 1 }}
-                      >
-                        <Input
-                          size="large"
-                          placeholder="Enter your last name"
-                          type="text"
-                        />
-                      </Form.Item>
+                      <Input bordered size="large" className="rounded-md" />
+                    </Form.Item>
+                    <Form.Item
+                      label="Last Name"
+                      name="lastName"
+                      className="mb-0"
+                      labelCol={{ className: "text-sm font-medium text-gray-600" }}
+                    >
+                      <Input bordered size="large" className="rounded-md" />
+                    </Form.Item>
+                  </div>
+                  
+                  <Form.Item 
+                    label="Phone number" 
+                    name="phoneNumber"
+                    labelCol={{ className: "text-sm font-medium text-gray-600" }}
+                  >
+                    <Input bordered size="large" className="rounded-md" />
+                  </Form.Item>
+
+                  <Form.Item 
+                    label="Role"
+                    labelCol={{ className: "text-sm font-medium text-gray-600" }}
+                  >
+                    <div className="bg-gray-50 p-3 rounded-md text-sm border border-gray-200">
+                      Tailor
                     </div>
-
-                    <Form.Item label="Phone number" name="phoneNumber">
-                      <Input size="large" />
-                    </Form.Item>
-
-                    <Form.Item label="Role">
-                      <div className="bg-gray-200 p-3 rounded text-sm">
-                        Tailor
-                      </div>
-                    </Form.Item>
                   </Form.Item>
                 </div>
               </div>
             </div>
 
-            {/* account */}
-
-            <div>
-              <div className="sm:flex sm:justify-between">
-                <div>
-                  <h2 className="text-md font-semibold text-gray-900">
-                    Address
-                  </h2>
-                </div>
+            {/* Address Section */}
+            <div className="space-y-4">
+              <div className="border-b border-gray-200 pb-4">
+                <h2 className="text-sm font-medium text-gray-700">Address</h2>
               </div>
-
-              {/* profile picture and inputs */}
-              <div className="sm:flex gap-10 py-4">
-                {isLoading && (
-                  <div className="w-auto text-center">
-                    <Spin size="large" />
-                  </div>
-                )}
-
-                <div className="w-full">
-                  <Form.Item>
-                    <div
-                      style={{ width: "100%", display: "flex", gap: "16px" }}
-                    >
-                      <Form.Item
-                        label="Street"
-                        name="firstName"
-                        style={{ flex: 1 }}
-                      >
-                        <Input
-                          size="large"
-                          placeholder="Enter your first name"
-                          type="text"
-                        />
-                      </Form.Item>
-                      <Form.Item
-                        label="Plot Number"
-                        name="lastName"
-                        style={{ flex: 1 }}
-                      >
-                        <Input
-                          size="large"
-                          placeholder="Enter your last name"
-                          type="text"
-                        />
-                      </Form.Item>
-                    </div>
-                    <div
-                      style={{ width: "100%", display: "flex", gap: "16px" }}
-                    >
-                      <Form.Item
-                        label="City"
-                        name="firstName"
-                        style={{ flex: 1 }}
-                      >
-                        <Input
-                          size="large"
-                          placeholder="Enter your first name"
-                          type="text"
-                        />
-                      </Form.Item>
-                      <Form.Item
-                        label="Country"
-                        name="lastName"
-                        style={{ flex: 1 }}
-                      >
-                        <Input
-                          size="large"
-                          placeholder="Enter your last name"
-                          type="text"
-                        />
-                      </Form.Item>
-                    </div>
-                  </Form.Item>
-                </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <Form.Item
+                  label="Street"
+                  name="street"
+                  labelCol={{ className: "text-sm font-medium text-gray-600" }}
+                >
+                  <Input bordered size="large" className="rounded-md" />
+                </Form.Item>
+                <Form.Item
+                  label="Plot Number"
+                  name="plotNumber"
+                  labelCol={{ className: "text-sm font-medium text-gray-600" }}
+                >
+                  <Input bordered size="large" className="rounded-md" />
+                </Form.Item>
+                <Form.Item
+                  label="City"
+                  name="city"
+                  labelCol={{ className: "text-sm font-medium text-gray-600" }}
+                >
+                  <Input bordered size="large" className="rounded-md" />
+                </Form.Item>
+                <Form.Item
+                  label="Country"
+                  name="country"
+                  labelCol={{ className: "text-sm font-medium text-gray-600" }}
+                >
+                  <Input bordered size="large" className="rounded-md" />
+                </Form.Item>
               </div>
             </div>
 
@@ -330,9 +283,15 @@ const PersonalDetailsSettings = () => {
               </div>
             </div>
 
-            <Button className="w-32 p-2" type="primary" onClick={form.submit}>
-              Save
-            </Button>
+            <div className="text-right">
+              <Button 
+                type="primary" 
+                htmlType="submit"
+                className="h-10 px-6 rounded-md font-medium transition-colors"
+              >
+                Save Changes
+              </Button>
+            </div>
           </Form>
         )}
       </div>
