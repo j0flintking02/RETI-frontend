@@ -114,7 +114,7 @@ const UsersPage = () => {
 
   return (
     <>
-      <Header pageTitle="Users" />
+      <Header pageTitle="Profiles" />
       <CustomDashboardLayout>
         <div className="mb-4 flex gap-4">
           <Search

@@ -13,7 +13,7 @@ const JobOpportunitiesStatistics = () => {
 
   // Count opportunities by status
   const opportunityCounts = {
-    available: opportunities.filter(opp => opp.status === 'open').length,
+    available: opportunities.filter(opp => opp.status === 'active').length,
     applied: opportunities.filter(opp => opp.status === 'applied').length,
     hired: opportunities.filter(opp => opp.status === 'hired').length,
   };

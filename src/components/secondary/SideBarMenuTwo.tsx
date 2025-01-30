@@ -83,15 +83,6 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
         ),
       },
       {
-        key: "settings",
-        icon: <SettingOutlined />,
-        label: (
-          <Link to="/settings" onClick={closeDrawer}>
-            Settings
-          </Link>
-        ),
-      },
-      {
         key: "logout",
         icon: <LogoutOutlined />,
         label: (
@@ -102,31 +93,32 @@ const SiderTwo: React.FC<{ closeDrawer: () => void }> = ({ closeDrawer }) => {
       },
     ];
     if (user?.user?.role === "admin") {
-      menuItems.push({
-        key: "Users",
-        icon: <UserOutlined />,
-        label: (
-          <Link to="/users" onClick={closeDrawer}>
-            Users
-          </Link>
-        ),
-      });
-    } else if (user?.user?.role === "mentor") {
-      menuItems.push({
-        key: "Community Guide",
+      menuItems.splice(3, 0, {
+        key: "Profiles",
         icon: <UsergroupAddOutlined />,
         label: (
-          <Link to="/mentorship" onClick={closeDrawer}>
-            Community Guide
+          <Link to="/users" onClick={closeDrawer}>
+            Profiles
           </Link>
         ),
       });
-    } else if (user?.user?.role !== "admin") {
-      menuItems.push({
-        key: "help-support",
-        icon: <QuestionCircleOutlined />,
-        label: <span onClick={showModal}>Help & Support</span>,
-      });
+    } else {
+      menuItems.splice(3, 0, 
+        {
+          key: "help-support",
+          icon: <QuestionCircleOutlined />,
+          label: <span onClick={showModal}>Help & Support</span>,
+        },
+        {
+          key: "settings",
+          icon: <SettingOutlined />,
+          label: (
+            <Link to="/settings" onClick={closeDrawer}>
+              Settings
+            </Link>
+          ),
+        }
+      );
     }
     return menuItems;
   };

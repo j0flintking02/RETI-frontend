@@ -13,9 +13,9 @@ const ProductStockStatistics = () => {
 
   // Count products by stock status
   const productCounts = {
-    inStock: products.filter(product => product.stockStatus === 'in_stock').length,
-    outOfStock: products.filter(product => product.stockStatus === 'out_of_stock').length,
-    lowStock: products.filter(product => product.stockStatus === 'low_stock').length,
+    inStock: products.filter(product => product.stockQuantity >= 100).length,
+    outOfStock: products.filter(product => product.stockQuantity === 0).length,
+    lowStock: products.filter(product => product.stockQuantity > 0 && product.stockQuantity < 100).length,
   };
 
   const data = {

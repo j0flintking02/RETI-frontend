@@ -77,9 +77,9 @@ const YouthDashboardPage = () => {
         } : inspiration
       );
       setInspirations(updatedInspirations);
-      await likeInspiration(
+      const data = await likeInspiration(
         inspirationId).unwrap();
-
+      toast.success(data.message);
     } catch (error) {
       setInspirations([...inspirations]);
       toast.error("Failed to update like status");
@@ -324,8 +324,18 @@ const YouthDashboardPage = () => {
                     <p className="text-sm text-gray-600 whitespace-normal break-words flex-1 max-w-[90%] overflow-hidden">
                       {inspiration.content}
                     </p>
-                    <div className="ml-auto">
-                      <LikeOutlined className="text-gray-500 cursor-pointer ml-2" />
+                    <div
+                      className="flex items-center cursor-pointer group"
+                      onClick={() => handleInspirationLike(inspiration.id)}
+                    >
+                      {inspiration.isLiked ? (
+                        <LikeFilled className="text-red-500 mr-1 transition-colors" />
+                      ) : (
+                        <LikeOutlined className="mr-1 text-gray-500 group-hover:text-red-400 transition-colors" />
+                      )}
+                      <span className={`${inspiration.isLiked ? 'text-red-500' : 'text-gray-600'} group-hover:text-red-400`}>
+                        {inspiration.likesCount}
+                      </span>
                     </div>
                   </div>
                   <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
@@ -342,36 +352,6 @@ const YouthDashboardPage = () => {
                         {formatRelativeTime(inspiration.createdAt)}
                       </Tag>
                     </span>
-                    <div
-                      className="flex items-center cursor-pointer group"
-                      onClick={() => handleInspirationLike(inspiration.id)}
-                    >
-                      {inspiration.isLiked ? (
-                        <LikeFilled className="text-red-500 mr-1 transition-colors" />
-                      ) : (
-                        <LikeOutlined className="mr-1 text-gray-500 group-hover:text-red-400 transition-colors" />
-                      )}
-                      <span className={`${inspiration.isLiked ? 'text-red-500' : 'text-gray-600'} group-hover:text-red-400`}>
-                        {inspiration.likesCount}
-                      </span>
-                    </div>
-                    <div className="flex space-x-2">
-                      {user?.user.role === "mentor" && (
-                        <>
-                          <EditOutlined
-                            className="text-blue-500 cursor-pointer"
-                            onClick={() => handleEdit(inspiration)}
-                          />
-                          <DeletePopconfirm
-                            title="Delete"
-                            description="Are you sure to delete this inspiration?"
-                            onConfirm={() => handleDelete(inspiration.id)}
-                            okText="Yes"
-                            cancelText="No"
-                          />
-                        </>
-                      )}
-                    </div>
                   </div>
                 </div>
               ))}
