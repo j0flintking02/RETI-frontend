@@ -156,13 +156,15 @@ const YouthDashboardPage = () => {
             .includes(filters.searchText.toLowerCase())
         : true;
 
-      const matchesMentor = sortCriteria === 'mentor'
-        ? user?.user.role === 'youth'
-          ? selectedMentor
-            ? `${inspiration.mentor.firstName} ${inspiration.mentor.lastName}` === selectedMentor
-            : true
-          : inspiration.mentor.id === user?.user.id
-        : true;
+      const matchesMentor =
+        sortCriteria === "mentor"
+          ? user?.user.role === "youth"
+            ? selectedMentor
+              ? `${inspiration.mentor.firstName} ${inspiration.mentor.lastName}` ===
+                selectedMentor
+              : true
+            : inspiration.mentor.id === user?.user.id
+          : true;
 
       const matchesDate = filters.dateRange
         ? new Date(inspiration.createdAt) >= filters.dateRange[0] &&
@@ -248,25 +250,25 @@ const YouthDashboardPage = () => {
               overlay={
                 <Menu
                   onClick={({ key }) => {
-                    if (key === 'newest' || key === 'oldest') {
+                    if (key === "newest" || key === "oldest") {
                       setSortCriteria(key);
                       setIsSortDropdownVisible(false);
-                    } else if (key === 'mentor') {
-                      setSortCriteria('mentor');
+                    } else if (key === "mentor") {
+                      setSortCriteria("mentor");
                       setIsSortDropdownVisible(false);
                     }
                   }}
                 >
                   <Menu.Item key="newest">Newest First</Menu.Item>
                   <Menu.Item key="oldest">Oldest First</Menu.Item>
-                  {user?.user.role === 'youth' && (
+                  {user?.user.role === "youth" && (
                     <Menu.SubMenu key="mentor" title="By Mentor">
                       {mentorOptions.map((mentor) => (
                         <Menu.Item
                           key={mentor}
                           onClick={() => {
                             setSelectedMentor(mentor);
-                            setSortCriteria('mentor');
+                            setSortCriteria("mentor");
                           }}
                         >
                           {mentor}
@@ -274,25 +276,23 @@ const YouthDashboardPage = () => {
                       ))}
                     </Menu.SubMenu>
                   )}
-                  {user?.user.role === 'mentor' && (
+                  {user?.user.role === "mentor" && (
                     <Menu.Item key="mentor">My Inspirations</Menu.Item>
                   )}
                 </Menu>
               }
               visible={isSortDropdownVisible}
               onVisibleChange={setIsSortDropdownVisible}
-              trigger={['click']}
+              trigger={["click"]}
             >
               <Button>
                 Sort <DownOutlined />
               </Button>
             </Dropdown>
             {user?.user.role === "mentor" && (
-            <Button type="primary" onClick={() => setIsAddModalOpen(true)}>
-              
-              Add Inspiration 
-              
-            </Button>
+              <Button type="primary" onClick={() => setIsAddModalOpen(true)}>
+                Add Inspiration
+              </Button>
             )}
           </div>
           {/* Recent Inspirations */}
@@ -301,38 +301,33 @@ const YouthDashboardPage = () => {
               {filteredInspirations?.map((inspiration) => (
                 <div key={inspiration.id} className="border-b p-3">
                   <div className="flex justify-between items-center">
-                  <p className="text-red-500 font-medium">
-                    {inspiration.title}
-                  </p>
-                  
-                      {user?.user.role === "mentor" && (
-                        <div className="flex space-x-2">
-                          <EditOutlined
-                            className="text-blue-500 cursor-pointer"
-                            onClick={() => handleEdit(inspiration)}
-                          />
-                          <DeletePopconfirm
-                            title="Delete"
-                            description="Are you sure to delete this inspiration?"
-                            onConfirm={() => handleDelete(inspiration.id)}
-                            okText="Yes"
-                            cancelText="No"
-                          />
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex items-center justify-between">
-                    
-                    <p className="text-sm text-gray-600 whitespace-normal break-words flex-1">
-                      {inspiration.content}
-                      </p>
-                      <div className="ml-auto">
-                      <LikeOutlined className="text-gray-500 cursor-pointer ml-2" />
+                    <p className="text-red-500 font-medium">
+                      {inspiration.title}
+                    </p>
+
+                    {user?.user.role === "mentor" && (
+                      <div className="flex space-x-2">
+                        <EditOutlined
+                          className="text-blue-500 cursor-pointer"
+                          onClick={() => handleEdit(inspiration)}
+                        />
+                        <DeletePopconfirm
+                          title="Delete"
+                          description="Are you sure to delete this inspiration?"
+                          onConfirm={() => handleDelete(inspiration.id)}
+                          okText="Yes"
+                          cancelText="No"
+                        />
                       </div>
-                      
-                    
-                   
-                    
+                    )}
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-gray-600 whitespace-normal break-words flex-1 max-w-[90%] overflow-hidden">
+                      {inspiration.content}
+                    </p>
+                    <div className="ml-auto">
+                      <LikeOutlined className="text-gray-500 cursor-pointer ml-2" />
+                    </div>
                   </div>
                   <div className="flex justify-between items-center mt-2 text-sm text-gray-600">
                     <span>
@@ -419,7 +414,7 @@ const YouthDashboardPage = () => {
               onClick={({ key }) => {
                 setSelectedMentor(key);
                 setIsMentorDropdownVisible(false);
-                setSortCriteria('mentor');
+                setSortCriteria("mentor");
               }}
             >
               {mentorOptions.map((mentor) => (
@@ -429,7 +424,7 @@ const YouthDashboardPage = () => {
           }
           visible={isMentorDropdownVisible}
           onVisibleChange={setIsMentorDropdownVisible}
-          trigger={['click']}
+          trigger={["click"]}
         >
           <Button>
             Select Mentor <DownOutlined />

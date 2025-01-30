@@ -4,11 +4,14 @@ import { Button, Card } from "antd";
 import Header from "../../../components/secondary/Header";
 import CustomDashboardLayout from "../../../components/secondary/CustomDashboardPagesLayout";
 import DeletePopconfirm from "../../../components/secondary/CustomDeletePopUp";
-import { useGetMentorInspirationsQuery, useDeleteInspirationMutation } from '../../../services/inspirations';
-import { toast } from 'react-toastify';
+import {
+  useGetMentorInspirationsQuery,
+  useDeleteInspirationMutation,
+} from "../../../services/inspirations";
+import { toast } from "react-toastify";
 import AddInspirationsForm from "../Forms/AddGuidanceForm";
-import { useState } from 'react';
-import MentorshipCalendar from '../../../components/secondary/Calendar';
+import { useState } from "react";
+import MentorshipCalendar from "../../../components/secondary/Calendar";
 
 const meetings = [
   {
@@ -51,9 +54,9 @@ export default function MentorshipDates() {
   const handleDelete = async (id) => {
     try {
       await deleteInspiration(id).unwrap();
-      toast.success('Inspiration deleted successfully');
+      toast.success("Inspiration deleted successfully");
     } catch (error) {
-      toast.error('Failed to delete inspiration');
+      toast.error("Failed to delete inspiration");
     }
   };
 
@@ -62,8 +65,6 @@ export default function MentorshipDates() {
       <Header pageTitle="Community Guidance" />
       <CustomDashboardLayout>
         <Layout>
-          
-
           <AddInspirationsForm
             open={isAddModalOpen}
             onOk={() => setIsAddModalOpen(false)}
@@ -85,7 +86,8 @@ export default function MentorshipDates() {
               <div className="flex items-center justify-between mt-4 sm:mt-0 px-2">
                 <h2 className="text-lg font-semibold">
                   {" "}
-                  Schedule for <time dateTime="2022-01-21">January 21, 2022</time>
+                  Schedule for{" "}
+                  <time dateTime="2022-01-21">January 21, 2022</time>
                 </h2>
               </div>
 
@@ -132,9 +134,13 @@ export default function MentorshipDates() {
               <div className="space-y-4 overflow-y-auto max-h-screen px-4">
                 {inspirationsData?.data?.map((inspiration) => (
                   <div key={inspiration.id} className="border-b p-3">
-                    <p className="text-red-500 font-medium">{inspiration.title}</p>
+                    <p className="text-red-500 font-medium">
+                      {inspiration.title}
+                    </p>
                     <div>
-                      <p className="text-sm text-gray-600">{inspiration.content}</p>
+                      <p className="text-sm text-gray-600">
+                        {inspiration.content}
+                      </p>
                     </div>
                     <div className="flex justify-end space-x-2 mt-2">
                       <EditOutlined
