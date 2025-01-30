@@ -42,12 +42,11 @@ export const inspirationApi = createApi({
             }),
             invalidatesTags: ['Inspirations'],
         }),
-        likeInspiration: mutation<void, { id: number; body: any }>({
-            query: ({ id, body}) => ({
+        likeInspiration: mutation<void,number>({
+            query: (id) => ({
                 url: `inspirations/${id}/like`,
-                method: 'POST',
+                method: 'PUT',
                 headers: getHeaders(),
-                body,
             }),
             invalidatesTags: ['Inspirations'],
         }),
