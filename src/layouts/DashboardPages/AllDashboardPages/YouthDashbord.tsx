@@ -231,14 +231,13 @@ const YouthDashboardPage = () => {
                         >
                           {notification.title}
                         </p>
-                        <p className="text-sm text-gray-600 truncate">
+                        <p className="text-sm text-gray-600 whitespace--normal break-words flex-1 max-w-[80%] overflow-hidden">
                           {notification.message}
                         </p>
                       </div>
-                      <p className="text-xs text-gray-500">
-                        <ClockCircleOutlined />{" "}
-                        {formatRelativeTime(notification.createdAt)}
-                      </p>
+                      <div className="text-xs text-gray-500 whitespace-nowrap">
+                        {formatRelativeTime(notification.createdAt)} <ClockCircleOutlined />
+                      </div>
                     </li>
                   ))}
                 </ul>
