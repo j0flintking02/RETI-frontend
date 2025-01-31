@@ -173,7 +173,7 @@ const ProductDetailsPage = () => {
                     type="primary"
                     onClick={handleSendMessage}
                   >
-                    Message
+                    Start Chat
                   </Button>
                 </div>
               </div>

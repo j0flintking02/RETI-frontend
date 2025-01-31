@@ -83,21 +83,21 @@ const OpportunitiesDetailsPage = () => {
 
   const formattedInitialData = data?.data
     ? {
-        id: data.data.id,
-        title: data.data.title,
-        description: data.data.description,
-        jobType: data.data.jobType,
-        jobCategory: data.data.jobCategory,
-        location: data.data.location,
-        companyName: data.data.companyName,
-        contactEmail: data.data.contactEmail,
-        positions: data.data.positions,
-        experience: data.data.experience,
-        minSalary: data.data.salary.min,
-        maxSalary: data.data.salary.max,
-        applicationDeadline: moment(data.data.applicationDeadline),
-        qualifications: data.data.qualifications || [],
-      }
+      id: data.data.id,
+      title: data.data.title,
+      description: data.data.description,
+      jobType: data.data.jobType,
+      jobCategory: data.data.jobCategory,
+      location: data.data.location,
+      companyName: data.data.companyName,
+      contactEmail: data.data.contactEmail,
+      positions: data.data.positions,
+      experience: data.data.experience,
+      minSalary: data.data.salary.min,
+      maxSalary: data.data.salary.max,
+      applicationDeadline: moment(data.data.applicationDeadline),
+      qualifications: data.data.qualifications || [],
+    }
     : null;
 
   return (
@@ -133,7 +133,7 @@ const OpportunitiesDetailsPage = () => {
 
                   <div className="mb-6">
                     <h4 className="font-semibold text-gray-800">
-                      Application Deadline: {}
+                      Application Deadline: { }
                       <span className="text-gray-600">
                         {new Date(
                           data?.data.applicationDeadline
@@ -230,20 +230,13 @@ const OpportunitiesDetailsPage = () => {
                   <div className="mt-2">
                     {loginDetails().user.role === "youth" && (
                       <Button
-                        className="bg-green-600 text-white hover:bg-green-700 mb-2 "
+                        className="bg-green-600 text-white hover:bg-green-700"
                         type="default"
+                        onClick={handleSendMessage}
                       >
-                        Contact recruiter
+                        Start Chat
                       </Button>
                     )}
-
-                    <Button
-                      className="bg-green-600 text-white hover:bg-green-700"
-                      type="default"
-                      onClick={handleSendMessage}
-                    >
-                      Message recruiter
-                    </Button>
                   </div>
                 </div>
               </div>
