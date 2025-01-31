@@ -9,7 +9,7 @@ import MessagingChatDetails from "../../layouts/DashboardPages/Messaging/Message
 import { loginDetails } from "../../utils";
 import { useGetUserConversationsQuery } from "../../services/conversations";
 import { io } from "socket.io-client";
-import { useProfiles } from '../../hooks/useProfiles';
+import { useProfiles } from "../../hooks/useProfiles";
 import { useEffect, useState } from "react";
 import Loader from "../../layouts/loader";
 
@@ -24,22 +24,28 @@ export default function Chat({ receiverId }) {
   const { profiles, isLoading: profilesLoading } = useProfiles(conversations);
 
   const getReceiverProfile = (conversation) => {
-    const lastMessage = conversation?.messages[conversation?.messages.length - 1];
-    const otherUserId = lastMessage?.senderId === userId ? lastMessage?.receiverId : lastMessage?.senderId;
-    return profiles?.data?.find(p => p.userId === parseInt(otherUserId));
+    const lastMessage =
+      conversation?.messages[conversation?.messages.length - 1];
+    const otherUserId =
+      lastMessage?.senderId === userId
+        ? lastMessage?.receiverId
+        : lastMessage?.senderId;
+    return profiles?.data?.find((p) => p.userId === parseInt(otherUserId));
   };
 
   useEffect(() => {
     if (data) {
       setConversations(data?.data);
     }
-    const newSocket = io(`${import.meta.env.VITE_BASE_URL}`, {
-      query: { token: user.access_token, userId },
-    });
+    if (isChatsVisible) {
+      const newSocket = io(`${import.meta.env.VITE_BASE_URL}`, {
+        query: { token: user.access_token, userId },
+      });
 
-    setSocket(newSocket);
-    return () => newSocket.disconnect();
-  }, [data, user.access_token, userId]);
+      setSocket(newSocket);
+      return () => newSocket.disconnect();
+    }
+  }, [data, isChatsVisible, user.access_token, userId]);
 
   const handleConversationClick = (conversation) => {
     setSelectedConversation(conversation);
@@ -136,10 +142,11 @@ export default function Chat({ receiverId }) {
                         <div>
                           <div className="flex justify-between gap-2">
                             <div
-                              className={`font-bold ${lastMessage?.isRead
-                                ? "text-gray-800"
-                                : "text-blue-600"
-                                }`}
+                              className={`font-bold ${
+                                lastMessage?.isRead
+                                  ? "text-gray-800"
+                                  : "text-blue-600"
+                              }`}
                             >
                               {/* User {conversation?.id} */}
                               {profilesLoading ? (
